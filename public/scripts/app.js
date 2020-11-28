@@ -27,42 +27,24 @@ const markers = [
   },
   {
     latlng: { lat: 43.65774994467593, lng: -79.4002035011423 },
-    itle: 'El Mocambo',
+    title: 'El Mocambo',
     description: "Live Music Venue",
     image_url: "",
     map_id: "",
   },
   {
     latlng: { lat: 43.64926425834702, lng: -79.3959058299788 },
-    itle: 'Horseshoe ave',
+    title: 'Horseshoe ave',
     description: "Live Music Venue",
     image_url: "",
     map_id: "",
   }
 ];
 
-// const calcBounds = (points) => {
-//   const latMIN = (Math.min(...markerPoints.map(point => point.lat)));
-//   const latMAX = (Math.max(...markerPoints.map(point => point.lat)));
-//   const lngMIN = (Math.min(...markerPoints.map(point => point.lng)));
-//   const lngMAX = (Math.max(...markerPoints.map(point => point.lng)));
-//   const bounds = [
-//     {"lat": latMIN,
-//     "lng": lngMIN},
-//     {"lat": latMAX,
-//     "lng": lngMAX}
-//   ];
-//   return bounds;
-// }
-
-
-// const sw = {lat: , lng: }
 
 // Initialize and add the map
 function initMap() {
-  //
-  const center = { lat: 47.570770, lng: -52.680986 };
-  // The map, centered at Uluru
+  //create map
   const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 10,
     mapTypeId: 'hybrid'
@@ -82,13 +64,18 @@ function initMap() {
       console.log(marker.getPosition())
       point = (marker.getPosition());
     });
-  })
-
-
+    //add drag functionality to replace marker position
+    marker.addListener('drag', (e) => {
+      //store tempPosition of marker
+      tempPosition = e.latLng;
+      //update position in database
+      console.log(tempPosition);
+    })
+  });
 
   //creates new marker object on dblclick event
   map.addListener("dblclick", (e) => {
-    console.log('dblclick!')
+    console.log('dblclick!');
     const marker = new google.maps.Marker({
       position: e.latLng,
       map: map,
