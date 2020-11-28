@@ -30,8 +30,10 @@ function load_marker(marker, map, infoWindow) {
   newMarker.title = marker.title;
   newMarker.description = marker.description;
   newMarker.image_url = marker.image_url;
+  newMarker.image_alt_text = marker.image_alt_text;
+
   google.maps.event.addListener(newMarker, 'click', function() {
-      infoWindow.setContent(`<h1>${this.title}</h1><img src=${this.image_url}<p>${this.description}</p>`);
+      infoWindow.setContent(`<h1>${this.title}</h1><img src="${this.image_url}" alt="${this.image_alt_text}"><p>${this.description}</p>`);
       infoWindow.open(this.getMap(), this);
   });
   newMarker.addListener('drag', (e) => {
