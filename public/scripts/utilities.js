@@ -19,3 +19,25 @@ const calcBounds = (markers) => {
   };
   return bounds;
 };
+
+function load_marker(marker, map, infoWindow) {
+  const newMarker = new google.maps.Marker({
+    map,
+    position: marker.latlng,
+    clickable: true,
+    draggable:true
+  });
+  newMarker.title = marker.title;
+  newMarker.description = marker.description;
+  google.maps.event.addListener(newMarker, 'click', function() {
+      infoWindow.content = "<p>hey i'm an info window!</p>";
+      infoWindow.open(this.getMap(), this);
+  });
+  newMarker.addListener('drag', (e) => {
+    //store tempPosition of marker
+    tempPosition = e.latLng;
+    //update position in database
+    console.log(tempPosition);
+  })
+  return newMarker;
+}
