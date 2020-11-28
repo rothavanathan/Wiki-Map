@@ -1,0 +1,16 @@
+body {
+  background-color: #EEE;
+  text-align: center;
+  /* Set the size of the div element that contains the map */
+}
+
+body h1 {
+  color: #244751;
+}
+
+body #map {
+  height: 80vh;
+  /* The height is 400 pixels */
+  width: 100%;
+  /* The width is the width of the web page */
+}
