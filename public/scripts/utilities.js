@@ -29,8 +29,9 @@ function load_marker(marker, map, infoWindow) {
   });
   newMarker.title = marker.title;
   newMarker.description = marker.description;
+  newMarker.image_url = marker.image_url;
   google.maps.event.addListener(newMarker, 'click', function() {
-      infoWindow.content = "<p>hey i'm an info window!</p>";
+      infoWindow.setContent(`<h1>${this.title}</h1><img src=${this.image_url}<p>${this.description}</p>`);
       infoWindow.open(this.getMap(), this);
   });
   newMarker.addListener('drag', (e) => {

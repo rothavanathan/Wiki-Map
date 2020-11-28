@@ -38,7 +38,7 @@ const markers = [
   {
     id: 4,
     latlng: { lat: 43.64926425834702, lng: -79.3959058299788 },
-    title: 'Horseshoe ave',
+    title: 'Horseshoe Tavern',
     description: "Live Music Venue",
     image_url: "",
     map_id: "",
