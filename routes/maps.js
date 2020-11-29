@@ -26,6 +26,24 @@ module.exports = (db) => {
       });
   });
 
+    //show all maps
+    router.get("/drizzysmap", (req, res) => {
+      let query = `
+      SELECT * FROM maps
+      JOIN markers ON maps.id = markers.map_id
+      `;
+      console.log(query);
+      db.query(query)
+        .then(data => {
+          const maps = data.rows;
+          res.json({ maps });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+    });
 
   return router;
 };
