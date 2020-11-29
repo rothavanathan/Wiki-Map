@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/create_map.css" type="text/css" />
+
 
     <!-- Bootstrap template imports-->
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css" type="text/css" >
@@ -19,6 +21,7 @@
     ></script>
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
 
+
   </head>
   <div class="d-flex" id="wrapper">
 
@@ -26,7 +29,7 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">WIKI - MAPS</div>
       <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+        <a href="#" id="create_map" class="list-group-item list-group-item-action bg-light">Create Map</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
@@ -73,7 +76,7 @@
         </div>
       </nav>
 
-      <div id="main-area" class="container-fluid">
+    <div id="main-area" class="container-fluid">
         <h1 class="mt-4">Simple Sidebar</h1>
         <div id="map"></div>
     </div>
@@ -83,9 +86,11 @@
     <h3></h3> -->
 
     <!-- Google Maps API javascript scripts, move to doc.OnReady-->
-    <script type="text/javascript" src="/scripts/utilities.js"></script>
-    <script type="text/javascript" src="/scripts/login_form.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/create_map.js"></script>
+    <script type="text/javascript" src="/scripts/login_form.js"></script>
+    <script type="text/javascript" src="/scripts/utilities.js"></script>
+
 
   </div>
   <!-- /#wrapper -->
