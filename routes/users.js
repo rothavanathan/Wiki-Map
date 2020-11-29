@@ -26,6 +26,7 @@ module.exports = (db) => {
       });
   });
 
+  //add create nad register user route
   router.post('/', (req, res) => {
     const user = req.body;
     user.password = bcrypt.hashSync(user.password, 12);
@@ -99,6 +100,6 @@ module.exports = (db) => {
       })
       .catch(err => console.log(err))
   })
+
   return router;
 };
-
