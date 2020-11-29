@@ -25,7 +25,8 @@ module.exports = (db) => {
 
   //post login request
   router.post("/", (req, res) => {
-    db.query()
+    console.log(req.params);
+    res.send('post route!')
   })
 
 
