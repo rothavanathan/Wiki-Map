@@ -62,6 +62,7 @@ function initMap() {
   map.fitBounds(calcBounds(markers));
 
 
+
   const infoWindow = new google.maps.InfoWindow({
     content: "<p>hey i'm an info window!</p>"
   });
