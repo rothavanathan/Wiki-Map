@@ -7,6 +7,5 @@ CREATE TABLE markers (
   title VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
   image_url VARCHAR(255),
-  image_alt_text VARCHAR(255),
-  isPublic BOOLEAN
+  image_alt_text VARCHAR(255)
 );
