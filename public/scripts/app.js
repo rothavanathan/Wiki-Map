@@ -61,6 +61,7 @@ function initMap() {
   //fits all markers in initial map zoom
   map.fitBounds(calcBounds(markers));
 
+
   const infoWindow = new google.maps.InfoWindow({
     content: "<p>hey i'm an info window!</p>"
   });
@@ -72,8 +73,9 @@ function initMap() {
   });
 
   //creates new marker object on dblclick event
-  map.addListener("dblclick", (e) => {
-    console.log('dblclick!');
+  map.addListener("rightclick", (e) => {
+    console.log('rightclick!');
+    map.setCenter(e.latLng);
     const marker = new google.maps.Marker({
       position: e.latLng,
       map: map,
@@ -87,6 +89,8 @@ function initMap() {
     marker.addListener("click", () => {
       console.log(marker.getPosition())
       point = (marker.getPosition());
+      map.setCenter(point)
+      infoWindow.open(map, marker)
 
     });
 
@@ -95,6 +99,7 @@ function initMap() {
       //store tempPosition of marker
       tempPosition = e.latLng;
       //update position in database
+
       console.log(tempPosition);
     })
   });

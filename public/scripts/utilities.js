@@ -6,6 +6,7 @@
 //   { lat: 47.470770, lng: -52.680986 },
 // ];
 
+// Sets map boundaries based on furthest corners of flags in a map.
 const calcBounds = (markers) => {
   const latMIN = (Math.min(...markers.map(point => point.latlng.lat)));
   const latMAX = (Math.max(...markers.map(point => point.latlng.lat)));
