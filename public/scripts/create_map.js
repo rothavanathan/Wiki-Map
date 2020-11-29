@@ -8,7 +8,7 @@ $("#create_map").on('click', () => {
     <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
     <div id="map" class="viewMap"></div>
 
-  </div>`);
+    </div>`);
 //New map request function
  function newMap() {
     const markers = []
@@ -41,12 +41,6 @@ $("#create_map").on('click', () => {
       markers.push(marker);
       console.log("i listened")
     });
-
-
-    // $("#infoEdit").on('click', () => {
-    //   console.log("clicked info edit")
-    // })
-
   }
 
   //Jquery scripts and events
