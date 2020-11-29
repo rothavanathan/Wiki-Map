@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS markers CASCADE;
+
+CREATE TABLE markers (
+  id SERIAL PRIMARY KEY NOT NULL,
+  map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE,
+  latlng VARCHAR(255) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  image_url VARCHAR(255),
+  image_alt_text VARCHAR(255),
+  isPublic BOOLEAN
+);
