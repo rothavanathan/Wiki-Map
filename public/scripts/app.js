@@ -72,8 +72,8 @@ function initMap() {
   });
 
   //creates new marker object on dblclick event
-  map.addListener("dblclick", (e) => {
-    console.log('dblclick!');
+  map.addListener("rightclick", (e) => {
+    console.log("rightclick");
     const marker = new google.maps.Marker({
       position: e.latLng,
       map: map,
@@ -86,7 +86,10 @@ function initMap() {
 
     marker.addListener("click", () => {
       console.log(marker.getPosition())
-      point = (marker.getPosition());
+      point = marker.getPosition();
+      marker.setPosition(point)
+      infoWindow.open(map, marker)
+
 
     });
 
