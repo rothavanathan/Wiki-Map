@@ -8,20 +8,20 @@ $("#login-button").on('click', () => {
     //clear main-area of child nodes
     .empty()
     //build form
-    .append(`<form id="login-form">`);
+    .append(`<form id="login-form" method="POST" action="api/users">`);
 
     //email input
   $("#login-form")
     .append(`<div class="form-group">`)
-    .append(`<label for="exampleInputEmail1">Email address</label>`)
-    .append(`<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">`)
+    .append(`<label for="email-input">Email address</label>`)
+    .append(`<input name="email" type="email" class="form-control" id="email-input" aria-describedby="emailHelp" placeholder="Enter email">`)
     .append(`<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>`);
 
     //password input
   $("#login-form")
     .append(`<div class="form-group">`)
-    .append(`<label for="exampleInputPassword1">Password</label>`)
-    .append(` <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">`);
+    .append(`<label for="login-password">Password</label>`)
+    .append(` <input name="password" type="password" class="form-control" id="login-password" placeholder="Password">`);
 
   //submit button
   $("#login-form")

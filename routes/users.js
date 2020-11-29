@@ -25,7 +25,10 @@ module.exports = (db) => {
 
   //post login request
   router.post("/", (req, res) => {
-    console.log(req.params);
+    const {email, password} = req.body;
+    console.log(req.body);
+    //check if email and password match database entry
+
     res.send('post route!')
   })
 
