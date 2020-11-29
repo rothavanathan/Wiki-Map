@@ -17,8 +17,7 @@ $("#login-button").on('click', () => {
     console.log(data);
     $.ajax({
       method: "GET",
-      url: "/api/maps/drizzysmap",
-      data
+      url: "/api/maps/drizzysmap"
     }).then(res.rows => {
       res.rows.forEach(row => loadmarkers(row))
       })
