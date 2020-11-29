@@ -6,7 +6,7 @@ CREATE TABLE maps (
   owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   title VARCHAR(255) NOT NULL,
   thumbnail_photo_url VARCHAR(255),
-  isPublic BOOLEAN
+  isPublic BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE map_permissions (
