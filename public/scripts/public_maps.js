@@ -2,6 +2,7 @@
 //clear main div of content
 //display ul of maps
 
+<<<<<<< HEAD
 //build map article for browsing
 const makeMapArticle = (map) => {
   //
@@ -19,6 +20,12 @@ const makeMapArticle = (map) => {
       <span><button>Favorite?</button></span>
     </footer>
   </article>`
+=======
+//build the string
+const makeMapCard = (map) => {
+  //
+  return <li></li>
+>>>>>>> origin/master
 }
 
 const showPublicMaps = () => {
@@ -32,7 +39,11 @@ const showPublicMaps = () => {
     const maps = data.maps;
     $('#main-area').append('<ul id="public-map-list">');
     maps.map(map => {
+<<<<<<< HEAD
       $('#public-map-list').append(makeMapArticle(map));
+=======
+      $('#public-map-list').append(makeMapCard(map));
+>>>>>>> origin/master
     })
   })
 }

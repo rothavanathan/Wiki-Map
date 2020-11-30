@@ -14,7 +14,7 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     let query = `SELECT * FROM maps`;
     console.log(query);
-    db.query(query)
+    return db.query(query)
       .then(data => {
         const maps = data.rows;
         res.json({ maps });
