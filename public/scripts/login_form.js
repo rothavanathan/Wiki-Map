@@ -28,16 +28,19 @@ $("#login-button").on('click', () => {
 
   $("#login-form").on('submit', function(event) {
     event.preventDefault();
-    console.log(`form submitted`);
     const data = $(this).serialize();
-    console.log(data);
     $.ajax({
       method: "POST",
       url: "/api/users/login",
       data
     }).then(res => {
-      console.log(res)
-      })
+      console.log(`user is logged in`)
+    }).catch(err => {
+      //failed login have a pop up that asks user to try again
+      console.log(`error at end of ajax login post request`, err)
+      $("#login-form")
+    .append(`<div class="form-group">whoops! login failed, try again</div>`);
+    })
   });
 });
 
