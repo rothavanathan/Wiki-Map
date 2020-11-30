@@ -7,6 +7,7 @@ CREATE TABLE maps (
   title VARCHAR(255) NOT NULL,
   description VARCHAR(255),
   thumbnail_photo_url VARCHAR(255),
+  thumbnail_alt_text VARCHAR(255),
   isPublic BOOLEAN DEFAULT TRUE
 );
 
