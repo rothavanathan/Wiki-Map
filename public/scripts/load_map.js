@@ -22,7 +22,7 @@ function load_marker(marker, map, infoWindow) {
 
   //info windwow load on click marker event
   google.maps.event.addListener(newMarker, 'click', function() {
-      infoWindow.setContent(`<h1>${this.title}</h1><img src=${this.image_url} alt="${this.image_alt_text}"><p>${this.description}</p>`);
+      infoWindow.setContent(`<h1 class="text-center">${this.title}</h1><img class="rounded mx-auto d-block" width="300px" src=${this.image_url} alt="${this.image_alt_text}"><p class="text-center">${this.description}</p>`);
       infoWindow.open(this.getMap(), this);
   });
 
