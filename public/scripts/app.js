@@ -51,57 +51,7 @@ const markers = [
 
 
 // Initialize and add the map
-function initMap() {
-  //create map
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 10,
-    mapTypeId: 'hybrid'
-  });
 
-  //fits all markers in initial map zoom
-  map.fitBounds(calcBounds(markers));
-
-  const infoWindow = new google.maps.InfoWindow({
-    content: "<p>hey i'm an info window!</p>"
-  });
-
-
-  // initial set up of all the points that are saved with map object
-  markers.map(point => {
-    load_marker(point, map, infoWindow)
-  });
-
-  //creates new marker object on dblclick event
-  map.addListener("rightclick", (e) => {
-    console.log("rightclick");
-    const marker = new google.maps.Marker({
-      position: e.latLng,
-      map: map,
-      draggable: true,
-      clickable: true
-    })
-    //adds new marker to list of markerPoints
-    markers.push(marker);
-    console.log(markers)
-
-    marker.addListener("click", () => {
-      console.log(marker.getPosition())
-      point = marker.getPosition();
-      marker.setPosition(point)
-      infoWindow.open(map, marker)
-
-
-    });
-
-    //add drag functionality to replace marker position
-    marker.addListener('drag', (e) => {
-      //store tempPosition of marker
-      tempPosition = e.latLng;
-      //update position in database
-      console.log(tempPosition);
-    })
-  });
-};
 
 //top right icon home/ profile button functionality
 $("#home-icon").on('click', () => {

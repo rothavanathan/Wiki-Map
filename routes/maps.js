@@ -27,15 +27,16 @@ module.exports = (db) => {
   });
 
     //show all maps
-    router.get("/drizzysmap", (req, res) => {
+    router.get("/:id", (req, res) => {
+      console.log(req.params.id)
       let query = `
       SELECT * FROM maps
       JOIN markers ON maps.id = markers.map_id
+      WHERE markers.map_id = ${req.params.id}
       `;
-      console.log(query);
       db.query(query)
         .then(data => {
-          const maps = data.rows;
+          maps = data.rows;
           res.json({ maps });
         })
         .catch(err => {
