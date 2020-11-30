@@ -65,9 +65,8 @@ module.exports = (db) => {
       SELECT * FROM users
       WHERE users.email = $1`, [email])
     .then(res => {
-      return res.rows[0];
+      return res.rows.length > 0 ? res.rows[0] : null;
     })
-    .catch(err => console.log(err))
   };
 
   const login = (email, passwordInput, database) => {
@@ -79,7 +78,6 @@ module.exports = (db) => {
         return null;
       }
     })
-    .catch(err => console.log(`something wrong with login function: `, err))
   };
 
 
@@ -87,18 +85,21 @@ module.exports = (db) => {
   router.post("/login", (req, res) => {
     const {email, password} = req.body;
 
-    login(email, password, db)
+    return login(email, password, db)
       .then(user => {
-        console.log(`user returned from login:`, user)
         if (!user) {
-          res.send({error: "error"});
+          throw Error;
           return;
         }
+        console.log(`user returned from login:`, user)
         req.session.userId = user.id;
         res.send({user: {name: user.name, email: user.email, id: user.id}});
-      })
-      .catch(err => console.log(err))
+      }).catch(err => {
+        res.sendStatus(401);
+      });
   })
+
+
   return router;
 };
 

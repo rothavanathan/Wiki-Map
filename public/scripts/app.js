@@ -103,3 +103,17 @@ function initMap() {
   });
 };
 
+//top right icon home/ profile button functionality
+$("#home-icon").on('click', () => {
+  //if we have user cookeies load profile page
+  //if no user cookies load logged out user home page
+
+})
+
+//creates template for logged in user
+const userLoggedIn = () => {}
+
+//creates template for public pages only
+const noUserLoggedIn= () => {
+
+}
