@@ -59,7 +59,7 @@ const loadMap = (map) => {
   //clear main-area of child nodes
   $("#main-area")
   .empty()
-  .append(`<h1 class="mt-4">LOAD MAP</h1>
+  .append(`<h1 class="mt-4">${map.title}</h1>
   <div id="map"></div>`);
 
   //build map
