@@ -28,13 +28,12 @@ module.exports = (db) => {
 
     //show all maps
     router.get("/:id", (req, res) => {
-      console.log(req.params.id)
       let query = `
       SELECT * FROM maps
       JOIN markers ON maps.id = markers.map_id
-      WHERE markers.map_id = ${req.params.id}
+      WHERE markers.map_id = $1
       `;
-      db.query(query)
+      db.query(query, [req.params.id])
         .then(data => {
           maps = data.rows;
           res.json({ maps });

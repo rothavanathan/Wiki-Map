@@ -2,6 +2,8 @@
 //clear main div of content
 //display ul of maps
 
+// const { request } = require("express");
+
 //build map article for browsing
 const makeMapCard = (map) => {
   return `
@@ -23,24 +25,32 @@ const showPublicMaps = () => {
     dataType: 'json'
   }).then(data => {
     const maps = data.maps;
+    //populate main area with a title and ul
     $('#main-area').append(`<h1 class="mt-4">Public Maps</h1>
     <ul id="public-map-list">`);
+    //populate ul with articles of all public maps
     maps.map(function(map){
       $('#public-map-list').append(makeMapCard(map))
       $(`#${map.id}`).on('click', (e) => {
-        console.log(`you clicked on a mapPost!`, e);
-        //load a specific map
-        console.log(`map is: `, map);
         loadMap(map)
       });
     })
   })
 }
 
+//check whether session cookie is present
+const isLoggedIn = () => {
+  if (req.session) {
+    console.log(`we got a cookie!`)
+  }
+  return;
+};
+
 $('#public-map').on('click', ()=> {
   $("#main-area")
     //clear main-area of child nodes
     .empty();
+  isLoggedIn();
   showPublicMaps();
 
 });
