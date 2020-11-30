@@ -67,3 +67,7 @@ const userLoggedIn = () => {}
 const noUserLoggedIn= () => {
 
 }
+
+$(document).ready(function() {
+  showPublicMaps();
+})
