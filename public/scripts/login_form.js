@@ -1,11 +1,13 @@
 //select #main-area
 //clear main div of content
+
 //build/ display login form
 const displayLoginForm = () => {
+  //clear main-area of child node
+  clearMainArea();
+
+  //build form
   $("#main-area")
-    //clear main-area of child nodes
-    .empty()
-    //build form
     .append(`<form id="login-form" method="POST" action="api/users">`);
 
     //email input
@@ -61,6 +63,20 @@ const displayLoginForm = () => {
 
 $("#login-button").on('click', () => {
   displayLoginForm();
+});
+
+$("#logout-button").on('click', () => {
+  $.ajax({
+    method: "GET",
+    url: "/api/users/logout",
+  })
+    //succesful logout
+    .then(res => {
+      console.log(res)
+      clearMainArea();
+      showPublicMaps();
+    })
+
 });
 
 module.exports = displayLoginForm;

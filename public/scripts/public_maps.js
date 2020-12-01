@@ -1,4 +1,3 @@
-// const { request } = require("express");
 
 //select #main-area
 //clear main div of content
