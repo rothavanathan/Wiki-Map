@@ -9,12 +9,20 @@ body {
 
   }
 
-
-  /* Set the size of the div element that contains the map */
+  //dont the size of the div element that contains the map */
   #map {
     height: 80vh;
     /* The height is 400 pixels */
     width: 100%;
     /* The width is the width of the web page */
   }
+
+  .mapPost {
+    margin: 2em 1em;
+
+    &:hover {
+      cursor: pointer
+    }
+  }
+
 }

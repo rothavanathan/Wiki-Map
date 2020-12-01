@@ -1,8 +1,7 @@
 //select #main-area
 //clear main div of content
 //build/ display login form
-
-$("#login-button").on('click', () => {
+const displayLoginForm = () => {
   $("#main-area")
     //clear main-area of child nodes
     .empty()
@@ -27,21 +26,36 @@ $("#login-button").on('click', () => {
     .append(`<button type="submit" class="btn btn-primary">Submit</button>`);
 
   $("#login-form").on('submit', function(event) {
+    if ($('.alert')) {
+      $('.alert').hide()
+    }
     event.preventDefault();
     const data = $(this).serialize();
     $.ajax({
       method: "POST",
       url: "/api/users/login",
       data
-    }).then(res => {
-      console.log(res)
+    }).then(user => {
+      console.log(user)
       console.log(`user is logged in`)
     }).catch(err => {
       //failed login have a pop up that asks user to try again
       console.log(`error at end of ajax login post request`, err)
       $("#login-form")
-    .append(`<div class="form-group">whoops! login failed, try again</div>`);
+        .append(`<div class="alert form-group ">whoops! login failed, try again</div>`);
     })
   });
+}
+
+
+$("#login-button").on('click', () => {
+  displayLoginForm();
+
+  // $("#login-form").on('input', () => {
+  //   if ($('.alert')
+  // }
+
+
 });
 
+module.exports = displayLoginForm;
