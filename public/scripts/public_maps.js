@@ -31,6 +31,7 @@ const showPublicMaps = () => {
     //populate ul with articles of all public maps
     maps.map(function(map){
       $('#public-map-list').append(makeMapCard(map))
+      //event listener to load map
       $(`#${map.id}`).on('click', (e) => {
         loadMap(map)
       });

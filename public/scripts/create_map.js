@@ -25,11 +25,11 @@ $("#create_map").on('click', () => {
     <form>
       <div class="form-group">
         <label for="title">Title</label>
-        <input type="text" class="form-control" id="title" name="title" placeholder="Title here...">
+        <input type="text" class="form-control" id="title" name="title" placeholder="Title here..." required>
       </div>
       <div class="form-group">
         <label for="description">Description</label>
-        <textarea class="form-control" id="description" name="description"rows="2"></textarea>
+        <textarea class="form-control" id="description" name="description"rows="2" required></textarea>
       </div>
       <div class="form-group">
         <label for="flagPicture">Add a picture</label>
