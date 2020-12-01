@@ -25,27 +25,36 @@ const displayLoginForm = () => {
   $("#login-form")
     .append(`<button type="submit" class="btn btn-primary">Submit</button>`);
 
+
+  //login form submission
   $("#login-form").on('submit', function(event) {
+
+    event.preventDefault();
+    //hide previous alerts
     if ($('.alert')) {
       $('.alert').hide()
     }
-    event.preventDefault();
+
+    //convert form data and send post request
     const data = $(this).serialize();
     $.ajax({
       method: "POST",
       url: "/api/users/login",
       data
-    }).then(user => {
-      console.log(user)
-      console.log(`user is logged in`)
-      clearMainArea();
-      showPublicMaps();
-    }).catch(err => {
-      //failed login have a pop up that asks user to try again
-      console.log(`error at end of ajax login post request`, err)
-      $("#login-form")
-        .append(`<div class="alert form-group ">whoops! login failed, try again</div>`);
     })
+      //successful login attempt
+      .then(user => {
+        console.log(user)
+        console.log(`user is logged in`)
+        clearMainArea();
+        showPublicMaps();
+      })
+
+      //failed post or login attempt
+      .catch(err => {
+        $("#login-form")
+          .append(`<div class="alert form-group ">whoops! login failed, try again</div>`);
+      })
   });
 }
 
