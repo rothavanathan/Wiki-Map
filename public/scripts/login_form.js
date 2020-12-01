@@ -61,12 +61,6 @@ const displayLoginForm = () => {
 
 $("#login-button").on('click', () => {
   displayLoginForm();
-
-  // $("#login-form").on('input', () => {
-  //   if ($('.alert')
-  // }
-
-
 });
 
 module.exports = displayLoginForm;
