@@ -34,6 +34,7 @@ $("#login-button").on('click', () => {
       url: "/api/users/login",
       data
     }).then(res => {
+      console.log(res)
       console.log(`user is logged in`)
     }).catch(err => {
       //failed login have a pop up that asks user to try again

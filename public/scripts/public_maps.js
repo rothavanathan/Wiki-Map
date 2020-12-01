@@ -38,19 +38,19 @@ const showPublicMaps = () => {
   })
 }
 
-//check whether session cookie is present
-const isLoggedIn = () => {
-  if (req.session) {
-    console.log(`we got a cookie!`)
-  }
-  return;
-};
+// //check whether session cookie is present
+// const isLoggedIn = () => {
+//   if (req.session) {
+//     console.log(`we got a cookie!`)
+//   }
+//   return;
+// };
 
 $('#public-map').on('click', ()=> {
   $("#main-area")
     //clear main-area of child nodes
     .empty();
-  isLoggedIn();
+  // isLoggedIn();
   showPublicMaps();
 
 });
