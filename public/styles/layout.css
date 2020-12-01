@@ -21,3 +21,7 @@ body .mapPost {
 body .mapPost:hover {
   cursor: pointer;
 }
+
+body footer {
+  display: "none";
+}

@@ -9,6 +9,5 @@ const loadProfile = (user)=> {
 
 $(document).ready(() => {
   $('.profileTabs').hide();
-  console.log(document)
   loadProfile();
 });

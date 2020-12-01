@@ -28,18 +28,25 @@ module.exports = (db) => {
 
   //add create nad register user route
   router.post('/', (req, res) => {
-    const user = req.body;
-    user.password = bcrypt.hashSync(user.password, 12);
-    // database.addUser(user)
-    // .then(user => {
-    //   if (!user) {
-    //     res.send({error: "error"});
-    //     return;
-    //   }
-    //   req.session.userId = user.id;
-    //   res.send("🤗");
-    // })
-    // .catch(e => res.send(e));
+    const {handle, email, password, avatar} = req.body;
+    if (isEmailRegistered(email, db)) {
+      return new Error(`That email is taken!`)
+    }
+    const hashedPassword = bcrypt.hashSync(password, 12);
+    return db
+      .query(`
+      INSERT INTO users (handle, email, password, avatar_url)
+      VALUES ($1, $2, $3, $4)
+      `, [handle, email, hashedPassword, avatar])
+    .then(user => {
+      if (!user) {
+        res.send({error: "error"});
+        return;
+      }
+      req.session.userId = user.id;
+      res.send("🤗");
+    })
+    .catch(e => res.send(e));
   });
 
 
