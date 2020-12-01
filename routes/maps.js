@@ -4,7 +4,7 @@
  *   these routes are mounted onto /maps
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
-
+// const displayLoginForm = require('../public/scripts/login_form.js');
 const express = require('express');
 const router  = express.Router();
 
@@ -28,6 +28,10 @@ module.exports = (db) => {
 
   //show list of favourite maps for specific user
   router.get("/fave", (req, res) => {
+    //if no user cookie
+    if (!req.session.userId) {
+      res.redirect('/api/users/login');
+    }
     let query = `
     SELECT * FROM maps
     JOIN map_permissions ON maps.id = map_permissions.map_id
@@ -35,7 +39,6 @@ module.exports = (db) => {
     WHERE map_permissions.isFavorite = true
     AND users.id = $1
     `;
-    console.log(`req.session: `, req.session)
     //db query should use cookies for user id
     db.query(query, [req.session.userId])
       .then(data => {

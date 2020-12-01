@@ -1,8 +1,7 @@
 //select #main-area
 //clear main div of content
 //build/ display login form
-
-$("#login-button").on('click', () => {
+const displayLoginForm = () => {
   $("#main-area")
     //clear main-area of child nodes
     .empty()
@@ -46,7 +45,11 @@ $("#login-button").on('click', () => {
         .append(`<div class="alert form-group ">whoops! login failed, try again</div>`);
     })
   });
+}
 
+
+$("#login-button").on('click', () => {
+  displayLoginForm();
 
   // $("#login-form").on('input', () => {
   //   if ($('.alert')
@@ -55,3 +58,4 @@ $("#login-button").on('click', () => {
 
 });
 
+module.exports = displayLoginForm;
