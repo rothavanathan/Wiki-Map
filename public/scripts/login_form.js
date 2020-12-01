@@ -1,7 +1,7 @@
 //select #main-area
 //clear main div of content
 
-const createFormSubmitListener = () => {
+const createLoginSubmitListener = () => {
   //login form submission
   $("#login-form").on('submit', function(event) {
 
@@ -45,23 +45,95 @@ const displayLoginForm = () => {
   $("#login-form")
     .append(`<div class="form-group">`)
     .append(`<label for="email-input">Email address</label>`)
-    .append(`<input name="email" type="email" class="form-control" id="email-input" aria-describedby="emailHelp" placeholder="Enter email">`)
+    .append(`<input name="email" type="email" class="form-control" id="email-input" aria-describedby="emailHelp" placeholder="Enter email" required>`)
     .append(`<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>`);
 
     //password input
   $("#login-form")
     .append(`<div class="form-group">`)
     .append(`<label for="login-password">Password</label>`)
-    .append(` <input name="password" type="password" class="form-control" id="login-password" placeholder="Password">`);
+    .append(` <input name="password" type="password" class="form-control" id="login-password" placeholder="Password" required>`);
 
   //submit button
   $("#login-form")
     .append(`<button type="submit" class="btn btn-primary">Submit</button>`);
 
-  createFormSubmitListener();
+  createLoginSubmitListener();
 }
 
+const createRegistrationSubmitListener = () => {
+  //login form submission
+  $("#register-form").on('submit', function(event) {
 
+   event.preventDefault();
+   //hide previous alerts
+   if ($('.alert')) {
+     $('.alert').hide()
+   }
+
+   //convert form data and send post request
+   const data = $(this).serialize();
+   $.ajax({
+     method: "POST",
+     url: "/api/users/login",
+     data
+   })
+     //successful login attempt
+     .then(user => {
+       console.log(user)
+       console.log(`user is logged in`)
+       clearMainArea();
+       showPublicMaps();
+     })
+
+     //failed post or login attempt
+     .catch(err => {
+       $("#register-form")
+         .append(`<div class="alert form-group ">whoops! login failed, try again</div>`);
+     })
+ });
+};
+
+//build/ display registration form
+const displayRegistrationForm = () => {
+
+  //build form
+  $("#main-area")
+    .append(`<form id="register-form" method="POST" action="api/users">`);
+
+  //handle input
+  $("#register-form")
+    .append(`<div class="form-group">`)
+    .append(`<label for="handle-input">Email address</label>`)
+    .append(`<input name="handle" type="handle" class="form-control" id="handle-input" placeholder="Enter handle" required>`)
+
+    //email input
+  $("#register-form")
+    .append(`<div class="form-group">`)
+    .append(`<label for="email-input">Email address</label>`)
+    .append(`<input name="email" type="email" class="form-control" id="email-input" aria-describedby="emailHelp" placeholder="Enter email" required>`)
+    .append(`<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>`);
+
+    //password input
+  $("#register-form")
+    .append(`<div class="form-group">`)
+    .append(`<label for="login-password">Password</label>`)
+    .append(` <input name="password" type="password" class="form-control" id="login-password" placeholder="Password" required>`);
+
+    //password input
+    $("#register-form")
+      .append(`<div class="form-group">`)
+      .append(`<label for="login-password">Password</label>`)
+      .append(` <input name="password" type="password" class="form-control" id="login-password" placeholder="Password" required>`);
+
+  //submit button
+  $("#register-form")
+    .append(`<button type="submit" class="btn btn-primary">Submit</button>`);
+
+  createRegistrationSubmitListener();
+}
+
+// LISTENERS FOR NAV BUTTONS
 
 $("#login-button").on('click', () => {
   clearMainArea();
@@ -84,6 +156,7 @@ $("#logout-button").on('click', () => {
 
 $("#register-button").on('click', () => {
   clearMainArea();
+  displayRegistrationForm();
 });
 
 
