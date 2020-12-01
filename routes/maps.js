@@ -30,7 +30,7 @@ module.exports = (db) => {
   router.get("/fave", (req, res) => {
     //if no user cookie
     if (!req.session.userId) {
-      res.redirect('/api/users/login');
+      res.sendStatus(401).send(`401 - Please login for`);
     }
     let query = `
     SELECT * FROM maps

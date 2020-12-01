@@ -1,10 +1,9 @@
+
 //select #main-area
 //clear main div of content
 //display ul of maps
 
-// const { request } = require("express");
-
-//build map article for browsing
+//build map article for map
 const makeMapCard = (map) => {
   return `
     <article class="mapPost" id="${map.id}" style="width: 18rem;">
@@ -18,7 +17,7 @@ const makeMapCard = (map) => {
     </article>`
 };
 
-
+//gets list of all maps and appends #public-map-list in main area
 const showPublicMaps = () => {
   $.ajax({
     url: "/api/maps",
@@ -37,22 +36,36 @@ const showPublicMaps = () => {
       });
     })
   })
-}
+};
 
-// //check whether session cookie is present
-// const isLoggedIn = () => {
-//   if (req.session) {
-//     console.log(`we got a cookie!`)
-//   }
-//   return;
-// };
 
 $('#public-map').on('click', ()=> {
-  $("#main-area")
-    //clear main-area of child nodes
-    .empty();
-  // isLoggedIn();
+  clearMainArea();
   showPublicMaps();
-
 });
 
+//gets list of all maps and appends #fave-map-list in main area
+const showFaveMaps = () => {
+  $.ajax({
+    url: "/api/maps/fave",
+    dataType: 'json'
+  }).then(data => {
+    const maps = data.maps;
+    //populate main area with a title and ul
+    $('#main-area').append(`<h1 class="mt-4 text-center">Fave Maps</h1>
+    <ul class="d-flex flex-row justify-content-around flex-wrap" id="fave-map-list">`);
+    //populate ul with articles of all public maps
+    maps.map(function(map){
+      $('#fave-map-list').append(makeMapCard(map))
+      //event listener to load map
+      $(`#${map.id}`).on('click', (e) => {
+        loadMap(map)
+      });
+    })
+  })
+};
+
+$('#fave-map').on('click', ()=> {
+  clearMainArea();
+  showFaveMaps();
+});

@@ -30,9 +30,15 @@
       <div class="sidebar-heading">WIKI - MAPS</div>
       <div class="list-group list-group-flush">
         <a href="#" id="public-map" class="list-group-item list-group-item-action bg-light">Public Maps</a>
+<<<<<<< HEAD
         <a href="#" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
         <a href="#" class="list-group-item list-group-item-action bg-light profileTabs">MyContributed</a>
         <a href="#" id="create_map" class="list-group-item list-group-item-action bg-light profileTabs">Create New Map</a>
+=======
+        <a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light">MyFaves</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">MyContributed</a>
+        <a href="#" id="create_map" class="list-group-item list-group-item-action bg-light">Create New Map</a>
+>>>>>>> b9620a0e8b63de368577850d5088ae0ed388120e
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -54,10 +60,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Register <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="#" id="register-button">Register <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" id="login-button">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="logout-button">Logout</a>
             </li>
           </ul>
         </div>
@@ -65,21 +74,16 @@
 
     <div id="main-area" class="container-fluid">
 
-    </div>
-    <!-- /#page-content-wrapper -->
-    <!-- <h1>WIKI- MAPS</h1>
-    <h2>Seb, Romesh, Kelvin</h2>
-    <h3></h3> -->
+  </div>
 
     <!-- Google Maps API javascript scripts, move to doc.OnReady-->
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/utilities.js"></script>
     <script type="text/javascript" src="/scripts/create_map.js"></script>
     <script type="text/javascript" src="/scripts/login_form.js"></script>
-    <script type="text/javascript" src="/scripts/utilities.js"></script>
     <script type="text/javascript" src="/scripts/load_map.js"></script>
     <script type="text/javascript" src="/scripts/public_maps.js"></script>
     <script type="text/javascript" src="/scripts/profile.js"></script>
-
 
 
   </div>

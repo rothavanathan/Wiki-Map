@@ -100,5 +100,11 @@ module.exports = (db) => {
       });
   })
 
+  router.get("/logout", (req, res) => {
+    req.session = null;
+    console.log(`logout post route!`);
+    res.send(`logout route`)
+  })
+
   return router;
 };
