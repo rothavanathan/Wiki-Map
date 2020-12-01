@@ -24,6 +24,7 @@ const createLoginSubmitListener = () => {
        console.log(`user is logged in`)
        clearMainArea();
        showPublicMaps();
+      window.location.reload();
      })
 
      //failed post or login attempt
@@ -150,6 +151,7 @@ $("#logout-button").on('click', () => {
       console.log(res)
       clearMainArea();
       showPublicMaps();
+      window.location.reload();
     })
 
 });
@@ -160,4 +162,4 @@ $("#register-button").on('click', () => {
 });
 
 
-module.exports = displayLoginForm;
+// module.exports = displayLoginForm;

@@ -8,7 +8,8 @@ const router  = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    res.render("index");
+
+    res.render("index", {user: req.session.userId});
   });
   return router;
 };
