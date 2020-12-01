@@ -1,10 +1,41 @@
 //select #main-area
 //clear main div of content
 
+const createFormSubmitListener = () => {
+  //login form submission
+  $("#login-form").on('submit', function(event) {
+
+   event.preventDefault();
+   //hide previous alerts
+   if ($('.alert')) {
+     $('.alert').hide()
+   }
+
+   //convert form data and send post request
+   const data = $(this).serialize();
+   $.ajax({
+     method: "POST",
+     url: "/api/users/login",
+     data
+   })
+     //successful login attempt
+     .then(user => {
+       console.log(user)
+       console.log(`user is logged in`)
+       clearMainArea();
+       showPublicMaps();
+     })
+
+     //failed post or login attempt
+     .catch(err => {
+       $("#login-form")
+         .append(`<div class="alert form-group ">whoops! login failed, try again</div>`);
+     })
+ });
+};
+
 //build/ display login form
 const displayLoginForm = () => {
-  //clear main-area of child node
-  clearMainArea();
 
   //build form
   $("#main-area")
@@ -27,41 +58,13 @@ const displayLoginForm = () => {
   $("#login-form")
     .append(`<button type="submit" class="btn btn-primary">Submit</button>`);
 
-
-  //login form submission
-  $("#login-form").on('submit', function(event) {
-
-    event.preventDefault();
-    //hide previous alerts
-    if ($('.alert')) {
-      $('.alert').hide()
-    }
-
-    //convert form data and send post request
-    const data = $(this).serialize();
-    $.ajax({
-      method: "POST",
-      url: "/api/users/login",
-      data
-    })
-      //successful login attempt
-      .then(user => {
-        console.log(user)
-        console.log(`user is logged in`)
-        clearMainArea();
-        showPublicMaps();
-      })
-
-      //failed post or login attempt
-      .catch(err => {
-        $("#login-form")
-          .append(`<div class="alert form-group ">whoops! login failed, try again</div>`);
-      })
-  });
+  createFormSubmitListener();
 }
 
 
+
 $("#login-button").on('click', () => {
+  clearMainArea();
   displayLoginForm();
 });
 
@@ -78,5 +81,10 @@ $("#logout-button").on('click', () => {
     })
 
 });
+
+$("#register-button").on('click', () => {
+  clearMainArea();
+});
+
 
 module.exports = displayLoginForm;
