@@ -48,9 +48,10 @@ const showPublicMaps = () => {
 // };
 
 $('#public-map').on('click', ()=> {
-  $("#main-area")
-    //clear main-area of child nodes
-    .empty();
+  clearMainArea();
+  // $("#main-area")
+  //   //clear main-area of child nodes
+  //   .empty();
   // isLoggedIn();
   showPublicMaps();
 

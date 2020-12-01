@@ -38,6 +38,8 @@ const displayLoginForm = () => {
     }).then(user => {
       console.log(user)
       console.log(`user is logged in`)
+      clearMainArea();
+      showPublicMaps();
     }).catch(err => {
       //failed login have a pop up that asks user to try again
       console.log(`error at end of ajax login post request`, err)

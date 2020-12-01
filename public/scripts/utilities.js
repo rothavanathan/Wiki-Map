@@ -21,4 +21,8 @@ const calcBounds = (markers) => {
   return bounds;
 };
 
-
+const clearMainArea = () => {
+  $("#main-area")
+    //clear main-area of child nodes
+    .empty();
+}
