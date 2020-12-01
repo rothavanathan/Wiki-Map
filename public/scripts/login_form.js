@@ -27,6 +27,9 @@ $("#login-button").on('click', () => {
     .append(`<button type="submit" class="btn btn-primary">Submit</button>`);
 
   $("#login-form").on('submit', function(event) {
+    if ($('.alert')) {
+      $('.alert').hide()
+    }
     event.preventDefault();
     const data = $(this).serialize();
     $.ajax({
@@ -36,18 +39,19 @@ $("#login-button").on('click', () => {
     }).then(user => {
       console.log(user)
       console.log(`user is logged in`)
-      if (user) {
-        //clear main-area of child nodes
-        $("#main-area")
-        .empty();
-        showPublicMaps();
-      }
     }).catch(err => {
       //failed login have a pop up that asks user to try again
       console.log(`error at end of ajax login post request`, err)
       $("#login-form")
-    .append(`<div class="form-group">whoops! login failed, try again</div>`);
+        .append(`<div class="alert form-group ">whoops! login failed, try again</div>`);
     })
   });
+
+
+  // $("#login-form").on('input', () => {
+  //   if ($('.alert')
+  // }
+
+
 });
 
