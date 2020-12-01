@@ -1,7 +1,14 @@
 const loadProfile = (user)=> {
-  $('sidebar-wrapper')
-    .prepend('<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>')
+  $('.sidebar-heading')
+  .append('<div class="avatar"><img src="https://www.flaticon.com/svg/static/icons/svg/147/147144.svg"></div>')
+
+  $('.profileTabs').show();
 }
+// .prepend('<div><img class="https://www.flaticon.com/svg/static/icons/svg/147/147144.svg"></div>')
+// }
+
 $(document).ready(() => {
+  $('.profileTabs').hide();
+  console.log(document)
   loadProfile();
-  });
+});
