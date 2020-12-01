@@ -88,6 +88,7 @@ $("#create_map").on('click', () => {
         infoWindow.close()
         })
 
+
       // $iwForm.on("submit", (event) => {
       //   console.log("deleted")
       //   event.preventDefault();
