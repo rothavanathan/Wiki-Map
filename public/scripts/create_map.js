@@ -40,13 +40,11 @@ $("#create_map").on('click', () => {
         <input type="text" class="form-control" id="pictureAltText" name="img_alt_text" placeholder="Img description here...">
       </div>
       <div class="form-group d-flex justify-content-around">
-      <button type="submit" name="saveFlag" class="btn btn-primary">Submit</button>
-      <button type="delete" name="deleteFlag" class="btn btn-primary">Delete</button>
+      <button type="submit" name="saveFlag" class="saveFlag btn btn-primary">Submit</button>
+      <button type="submit" name="deleteFlag" class="deleteFlag btn btn-primary">Delete</button>
       </div>
     </form>
   `
-
-
   //New map request function
   function newMap() {
     const map = new google.maps.Map(document.getElementById("map"), {
@@ -84,18 +82,20 @@ $("#create_map").on('click', () => {
       }
 
       $iwForm.on("submit", (event) => {
-      event.preventDefault();
-      marker.formData.latlng = marker.getPosition();
-      infoWindow.close()
-      })
-
-      $iwForm.on("delete", (event) => {
-        console.log("deleted")
         event.preventDefault();
-        marker.infoWindow.setMap(null);
-        marker.infoWindow = null;
+        console.log("saving form")
+        marker.formData.latlng = marker.getPosition();
         infoWindow.close()
-      })
+        })
+
+      // $iwForm.on("submit", (event) => {
+      //   console.log("deleted")
+      //   event.preventDefault();
+      //   marker.infoWindow.setMap(null);
+      //   marker.infoWindow = null;
+      //   infoWindow.close()
+      // })
+
 
       $iwForm.find("input, textarea").on("change", (event) => {
         let target = event.target
