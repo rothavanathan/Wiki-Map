@@ -33,9 +33,15 @@ $("#login-button").on('click', () => {
       method: "POST",
       url: "/api/users/login",
       data
-    }).then(res => {
-      console.log(res)
+    }).then(user => {
+      console.log(user)
       console.log(`user is logged in`)
+      if (user) {
+        //clear main-area of child nodes
+        $("#main-area")
+        .empty();
+        showPublicMaps();
+      }
     }).catch(err => {
       //failed login have a pop up that asks user to try again
       console.log(`error at end of ajax login post request`, err)
