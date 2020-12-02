@@ -40,6 +40,10 @@ body .mapPost img {
   height: 25em;
 }
 
+body .hide {
+  display: none;
+}
+
 body footer {
   display: "none";
 }

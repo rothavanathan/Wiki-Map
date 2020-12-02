@@ -80,9 +80,12 @@ $(document).ready(function() {
   // }).then(data => {
     //where do we get info from?
     // removeProfile()
-    clearMainArea();
-    showPublicMaps();
-
+  clearMainArea();
+  showPublicMaps();
+  addLoginListener();
+  addLogoutListener();
+  addRegisterListener();
+  faveMapListener();
   // })
 })
 

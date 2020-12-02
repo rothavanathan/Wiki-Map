@@ -144,29 +144,32 @@ const displayRegistrationForm = () => {
 }
 
 // LISTENERS FOR NAV BUTTONS
+const addLoginListener = () => {
+  $("#login-button").on('click', () => {
+    clearMainArea();
+    displayLoginForm();
+  });
+}
 
-$("#login-button").on('click', () => {
-  clearMainArea();
-  displayLoginForm();
-});
-
-$("#logout-button").on('click', () => {
-  $.ajax({
-    method: "GET",
-    url: "/api/users/logout",
-  })
-    //succesful logout
-    .then(res => {
-
-      clearMainArea();
-      showPublicMaps();
-      removeProfile()
+const addLogoutListener = () => {
+  $("#logout-button").on('click', () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/users/logout",
     })
+      //succesful logout
+      .then(res => {
 
-});
+        clearMainArea();
+        showPublicMaps();
+        removeProfile()
+      })
+  });
+}
 
-$("#register-button").on('click', () => {
-  clearMainArea();
-  displayRegistrationForm();
-});
-
+const addRegisterListener = () => {
+  $("#register-button").on('click', () => {
+    clearMainArea();
+    displayRegistrationForm();
+  });
+}

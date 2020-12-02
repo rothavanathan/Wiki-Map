@@ -15,8 +15,11 @@ module.exports = (db) => {
         JOIN users ON maps.owner_id = users.id
         WHERE maps.isPublic = true`)
         .then(results => {
-          res.render("index", {results})
+          templateVars = results.rows
+          console.log(`data on load without cookie is: `, templateVars)
+          res.render("index", {templateVars})
         })
+        .catch(err => console.log(err))
     } else {
       return db
         .query(`
@@ -26,9 +29,12 @@ module.exports = (db) => {
           WHERE users.id = $1
           GROUP BY map_permissions.id, users.id, maps.id`, [req.session.userId])
         .then(results => {
-          results.userId = req.session.userId
-          res.render("index", {results});
+          templateVars = results.rows
+          templateVars.userId = req.session.userId
+          console.log(`data on load with cookie is: `, templateVars)
+          res.render("index", {templateVars});
         })
+        .catch(err => console.log(err))
     }
   });
   return router;

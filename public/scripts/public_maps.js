@@ -68,7 +68,9 @@ const showFaveMaps = () => {
   })
 };
 
-$('#fave-map').on('click', ()=> {
-  clearMainArea();
-  showFaveMaps();
-});
+const faveMapListener = () =>  {
+  $('#fave-map').on('click', ()=> {
+    clearMainArea();
+    showFaveMaps();
+  });
+}

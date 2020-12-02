@@ -32,13 +32,23 @@
 
 
       <div class="list-group list-group-flush">
+        <% if (templateVars.userId) { %>
+          <div class="avatar">
+            <img src="<%= templateVars[0].avatar_url %>">
+          </div>
+          <span class="handle text-center">
+            <h2><%= templateVars[0].handle %></h2>
+          </span>
+        <% } %>
+
+
         <a href="#" id="public-map" class="list-group-item list-group-item-action bg-light">Public Maps</a>
         <!-- checks for cookies -->
-
-        <a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light profileTabs">MyContributed</a>
-        <a href="#" id="create_map" class="list-group-item list-group-item-action bg-light profileTabs">Create New Map</a>
-
+        <% if (templateVars.userId) { %>
+          <a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
+          <a href="#" class="list-group-item list-group-item-action bg-light profileTabs">MyContributed</a>
+          <a href="#" id="create_map" class="list-group-item list-group-item-action bg-light profileTabs">Create New Map</a>
+        <% } %>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -59,18 +69,19 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-
-            <li class="nav-item active">
-              <a class="nav-link" href="#" id="register-button">Register <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" id="login-button">Login</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#" id="logout-button">Logout</a>
-            </li>
-
+            <% if (!templateVars.userId) { %>
+              <li class="nav-item active logged-out-Tabs">
+                <a class="nav-link " href="#" id="register-button">Register <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item logged-out-Tabs">
+                <a class="nav-link" href="#" id="login-button">Login</a>
+              </li>
+            <% } %>
+            <% if (templateVars.userId) { %>
+              <li class="nav-item">
+                <a class="nav-link profileTabs" href="#" id="logout-button">Logout</a>
+              </li>
+            <% } %>
           </ul>
         </div>
       </nav>
