@@ -91,7 +91,6 @@ const createRegistrationSubmitListener = () => {
 
      //failed registration attempt
       .catch(err => {
-        console.log(err)
         $("#register-form")
           .append(`<div class="alert alert-danger" role="alert">whoops! registration failed, try again</div>`);
         $("#register-form").delegate('input', 'focus', ()=> {

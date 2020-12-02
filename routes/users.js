@@ -36,14 +36,12 @@ module.exports = (db) => {
       SELECT * FROM users
       WHERE users.email = $1`, [email])
     .then(res => {
-      console.log(`In isEmail res.rows is:`, res.rows)
       if (res.rows.length > 0) {
-        return Promise.resolve(true)
+        return Promise.reject(`Regstration failed: email already taken`)
       } else {
-        return Promise.reject(false);
+        return Promise.resolve(`Continue Registration: email isn't taken`);
       }
-    })
-    .catch(err => console.log(err))
+    }).catch(err => (console.log(err)))
   };
 
    //function to check if user handle is in database
@@ -53,14 +51,12 @@ module.exports = (db) => {
       SELECT * FROM users
       WHERE users.handle = $1`, [handle])
     .then(res => {
-      console.log(`In isHandle res.rows is:`, res.rows)
       if (res.rows.length > 0) {
-        return Promise.resolve(true)
+        return Promise.reject(`Regstration failed: handle already taken`)
       } else {
-        return Promise.reject(false);
+        return Promise.resolve(`Continue Registration: handle isn't taken`);
       }
-    })
-    .catch(err => console.log(err))
+    }).catch(err => (console.log(err)))
   };
 
   const getUserWithEmail = (email, database) => {
@@ -90,17 +86,18 @@ module.exports = (db) => {
     //check if email is already taken by another user
     isEmailRegistered(email, db)
       .then(emailExists => {
-        if (emailExists) {
-          res.sendStatus(403).end();
+        if (!emailExists) {
+          res.status(403).send(`email already taken`).end();
+          return
         }
-        console.log(`email is good. let's check the handle`)
         //check if handle is already taken by another user
         isHandleRegistered(handle, db)
           .then(handleExists => {
-            if (handleExists) {
-              res.sendStatus(403).end();;
+            if (!handleExists) {
+              res.status(403).send(`handle already taken`).end();
+              return
             }
-            console.log(`handle is good. let's hash the password and insert into db`)
+          //validation complete hash password and sanitize inputs
             const hashedPassword = bcrypt.hashSync(password, 12);
             return db
           .query(`
@@ -109,11 +106,12 @@ module.exports = (db) => {
             RETURNING *
             `, [handle, email, hashedPassword, avatar])
           .then(queryResult => {
+            //extra check in case nothing is returned from database
             if (!queryResult) {
               res.send({error: "error"});
               return;
             }
-            console.log(queryResult.rows[0])
+
             req.session.userId = queryResult.rows[0].id;
             res.send(queryResult.rows[0])
           }).catch(err => {
