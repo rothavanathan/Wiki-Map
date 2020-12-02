@@ -20,13 +20,13 @@ const createLoginSubmitListener = () => {
      data
    })
      //successful login attempt
-     .then(userInfo => {
+     .then(res => {
        console.log(`user is logged in`)
-       console.log(`userinfo is: `, userInfo)
-       loadProfile(userInfo[0])
+       console.log(`userinfo[0] is: `, res.userInfo[0])
+       loadProfile(res.userInfo[0])
        clearMainArea();
        showPublicMaps();
-      window.location.reload();
+      // window.location.reload();
      })
 
      //failed post or login attempt
