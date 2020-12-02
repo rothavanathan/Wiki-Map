@@ -35,13 +35,24 @@ body {
     margin: 2em 1em;
 
 
-    &:hover {
-      cursor: pointer
-    }
+
 
     img {
       object-fit: cover;
       height: 25em;
+
+      &:hover {
+        cursor: pointer
+      }
+    }
+
+    svg {
+      display: inline;
+      color: black;
+
+      .favorite{
+        width: 2em;
+      }
     }
   }
 
