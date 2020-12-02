@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="/styles/create_map.css" type="text/css" />
 
 
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
     <!-- Bootstrap template imports-->
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css" type="text/css" >
     <link rel="stylesheet" href="/styles/simple-sidebar.css" type="text/css" />
@@ -19,8 +24,6 @@
     src="https://maps.googleapis.com/maps/api/js?key=&callback=&libraries=&v=weekly"
     defer
     ></script>
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-
 
   </head>
   <div class="d-flex" id="wrapper">
@@ -32,7 +35,7 @@
         <a href="#" id="public-map" class="list-group-item list-group-item-action bg-light">Public Maps</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">MyFaves</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">MyContributed</a>
-        <a href="#" id="create_map" class="list-group-item list-group-item-action bg-light">Create New Map</a>
+        <a href="#" id="map_generator" class="list-group-item list-group-item-action bg-light">Map Generator</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -63,7 +66,7 @@
         </div>
       </nav>
 
-    <div id="main-area" class="container-fluid">
+    <div id="main-area" class="overflow-auto container-fluid">
 
     </div>
     <!-- /#page-content-wrapper -->
@@ -73,19 +76,22 @@
 
     <!-- Google Maps API javascript scripts, move to doc.OnReady-->
     <script type="text/javascript" src="/scripts/app.js"></script>
-    <script type="text/javascript" src="/scripts/create_map.js"></script>
+    <script type="text/javascript" src="/scripts/create_new_map.js"></script>
+    <!-- <script type="text/javascript" src="/scripts/create_map.js"></script> -->
     <script type="text/javascript" src="/scripts/login_form.js"></script>
     <script type="text/javascript" src="/scripts/utilities.js"></script>
     <script type="text/javascript" src="/scripts/load_map.js"></script>
     <script type="text/javascript" src="/scripts/public_maps.js"></script>
 
 
+
+
+
   </div>
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 
   <!-- Menu Toggle Script -->
   <script>
