@@ -31,13 +31,22 @@ body .mapPost {
   margin: 2em 1em;
 }
 
-body .mapPost:hover {
-  cursor: pointer;
-}
-
 body .mapPost img {
   object-fit: cover;
   height: 25em;
+}
+
+body .mapPost img:hover {
+  cursor: pointer;
+}
+
+body .mapPost svg {
+  display: inline;
+  color: black;
+}
+
+body .mapPost svg .favorite {
+  width: 2em;
 }
 
 body .hide {
