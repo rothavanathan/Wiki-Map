@@ -22,11 +22,11 @@ const createLoginSubmitListener = () => {
      //successful login attempt
      .then(res => {
        console.log(`user is logged in`)
-       console.log(`userinfo[0] is: `, res.userInfo[0])
+       console.log(`userinfo[0] is: `, res.userInfo)
        loadProfile(res.userInfo[0])
        clearMainArea();
        showPublicMaps();
-      // window.location.reload();
+
      })
 
      //failed post or login attempt
@@ -87,7 +87,7 @@ const createRegistrationSubmitListener = () => {
      //successful registration attempt
       .then(user => {
         console.log(`new registered user: `, user)
-
+        loadProfile(user)
         clearMainArea();
         showPublicMaps();
 
@@ -157,10 +157,10 @@ $("#logout-button").on('click', () => {
   })
     //succesful logout
     .then(res => {
-      console.log(res)
+
       clearMainArea();
       showPublicMaps();
-      window.location.reload();
+      removeProfile()
     })
 
 });

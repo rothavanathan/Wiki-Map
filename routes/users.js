@@ -63,7 +63,7 @@ module.exports = (db) => {
   const getUserWithEmail = (email, database) => {
     return database
     .query(`
-      SELECT * FROM users
+      SELECT users.* FROM users
       JOIN map_permissions as map_permissions ON users.id = map_permissions.user_id
       JOIN maps as maps ON map_permissions.map_id = maps.id
       WHERE users.email = $1
@@ -76,7 +76,6 @@ module.exports = (db) => {
   const login = (email, passwordInput, database) => {
     return getUserWithEmail(email, database)
     .then(rows => {
-      console.log(rows[0].password)
       if (bcrypt.compareSync(passwordInput, rows[0].password)) {
         console.log(`inside login(). password matches`)
         return Promise.resolve(rows);
@@ -143,7 +142,7 @@ module.exports = (db) => {
           throw Error;
           return;
         }
-        console.log(`userInfo returned from login:`, userInfo)
+        console.log(`userInfo to pass to cookies:`, userInfo[0])
         req.session.userId = userInfo[0].id;
         req.session.handle = userInfo[0].handle;
         req.session.avatar = userInfo[0].avatar_url;

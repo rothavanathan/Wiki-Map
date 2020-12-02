@@ -68,12 +68,21 @@ const userLoggedIn = () => {}
 //creates template for public pages only
 const noUserLoggedIn= () => {
 
-
 }
+
+
 //initial page load
 $(document).ready(function() {
-  //landing page
-  showPublicMaps();
+  // //landing page
+  // $.ajax({
+  //   url: "/",
+  //   dataType: 'json'
+  // }).then(data => {
+    //where do we get info from?
+    // removeProfile()
+    clearMainArea();
+    showPublicMaps();
 
+  // })
 })
 
