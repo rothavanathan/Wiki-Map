@@ -88,6 +88,7 @@ const createRegistrationSubmitListener = () => {
 
         clearMainArea();
         showPublicMaps();
+
      })
 
      //failed registration attempt
