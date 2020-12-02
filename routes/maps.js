@@ -14,7 +14,7 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     let query = `
     SELECT * FROM maps
-    JOIN users ON users.id = owner_id
+
     `;
     console.log(query);
     return db.query(query)
