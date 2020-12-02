@@ -9,7 +9,7 @@ const router  = express.Router();
 module.exports = (db) => {
   router.get("/", (req, res) => {
 
-    res.render("index", {user: req.session.userId});
+    res.render("index", {userId: req.session.userId, handle: req.session.handle, avatar: req.session.avatar});
   });
   return router;
 };

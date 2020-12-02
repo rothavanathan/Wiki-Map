@@ -9,6 +9,20 @@ body {
 
   }
 
+  .avatar {
+    width:200px;
+    height:200px;
+    margin: 25px auto;
+    overflow: hidden;
+    border-radius:50%;
+    position: relative;
+    // margin: auto;
+  }
+
+  .handle{
+    position: relative;
+  }
+
   //dont the size of the div element that contains the map */
   #map {
     height: 80vh;

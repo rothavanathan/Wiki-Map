@@ -7,6 +7,19 @@ body h1 {
   color: #244751;
 }
 
+body .avatar {
+  width: 200px;
+  height: 200px;
+  margin: 25px auto;
+  overflow: hidden;
+  border-radius: 50%;
+  position: relative;
+}
+
+body .handle {
+  position: relative;
+}
+
 body #map {
   height: 80vh;
   /* The height is 400 pixels */

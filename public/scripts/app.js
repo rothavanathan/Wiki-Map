@@ -73,7 +73,6 @@ const noUserLoggedIn= () => {
 //initial page load
 $(document).ready(function() {
   //landing page
-  // $('.profileTabs').hide();
   showPublicMaps();
 
 })

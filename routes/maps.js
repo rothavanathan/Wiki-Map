@@ -12,7 +12,10 @@ module.exports = (db) => {
 
   //show list of all maps
   router.get("/", (req, res) => {
-    let query = `SELECT * FROM maps`;
+    let query = `
+    SELECT * FROM maps
+    JOIN users ON users.id = owner_id
+    `;
     console.log(query);
     return db.query(query)
       .then(data => {

@@ -29,13 +29,14 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">WIKI - MAPS</div>
       <!-- checks for cookies -->
-      <% if(user != null) {%>
-      <div class="avatar"><img src="https://www.flaticon.com/svg/static/icons/svg/147/147144.svg"></div>
+      <% if(userId != null) {%>
+      <div class="avatar"><img src="<%- avatar %>"></div>
+      <span class="handle text-center"><h2><%= handle %></h2></span>
       <%}%>
       <div class="list-group list-group-flush">
         <a href="#" id="public-map" class="list-group-item list-group-item-action bg-light">Public Maps</a>
         <!-- checks for cookies -->
-        <% if(user != null) {%>
+        <% if(userId != null) {%>
         <a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
         <a href="#" class="list-group-item list-group-item-action bg-light profileTabs">MyContributed</a>
         <a href="#" id="create_map" class="list-group-item list-group-item-action bg-light profileTabs">Create New Map</a>
@@ -60,15 +61,18 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <% if(!userId) { %>
             <li class="nav-item active">
               <a class="nav-link" href="#" id="register-button">Register <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" id="login-button">Login</a>
             </li>
+            <% } else {%>
             <li class="nav-item">
               <a class="nav-link" href="#" id="logout-button">Logout</a>
             </li>
+            <% } %>
           </ul>
         </div>
       </nav>

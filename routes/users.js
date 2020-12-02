@@ -94,7 +94,9 @@ module.exports = (db) => {
         }
         console.log(`user returned from login:`, user)
         req.session.userId = user.id;
-        res.send({user: {name: user.name, email: user.email, id: user.id}});
+        req.session.handle = user.handle;
+        req.session.avatar = user.avatar_url;
+        res.send({user: {name: user.name, email: user.email, id: user.id, avatar: user.avatar_url}});
       }).catch(err => {
         res.sendStatus(401);
       });

@@ -10,7 +10,8 @@ const makeMapCard = (map) => {
       <div class="card" >
       <img class="card-img-top" src="${map.thumbnail_photo_url}" alt="${map.thumbnail_alt_text}">
         <div class="card-body">
-          <h5 class="card-title text-center">${map.title}: ${map.owner_id}</h5>
+          <h5 class="card-title text-center">${map.title}:</h5>
+          <span><h5 class="card-title text-center">By ${map.handle}</h5></span>
           <p class="card-text">${map.description}</p>
         </div>
       </div>
