@@ -74,4 +74,6 @@ const noUserLoggedIn= () => {
 $(document).ready(function() {
   //landing page
   showPublicMaps();
+
 })
+

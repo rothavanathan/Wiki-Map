@@ -12,7 +12,10 @@ module.exports = (db) => {
 
   //show list of all maps
   router.get("/", (req, res) => {
-    let query = `SELECT * FROM maps`;
+    let query = `
+    SELECT * FROM maps
+
+    `;
     console.log(query);
     return db.query(query)
       .then(data => {
@@ -30,7 +33,7 @@ module.exports = (db) => {
   router.get("/fave", (req, res) => {
     //if no user cookie
     if (!req.session.userId) {
-      res.redirect('/api/users/login');
+      res.sendStatus(401).send(`401 - Please login for`);
     }
     let query = `
     SELECT * FROM maps

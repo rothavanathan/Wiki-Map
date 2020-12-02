@@ -28,11 +28,19 @@
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">WIKI - MAPS</div>
+      <!-- checks for cookies -->
+      <% if(userId != null) {%>
+      <div class="avatar"><img src="<%- avatar %>"></div>
+      <span class="handle text-center"><h2><%= handle %></h2></span>
+      <%}%>
       <div class="list-group list-group-flush">
         <a href="#" id="public-map" class="list-group-item list-group-item-action bg-light">Public Maps</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">MyFaves</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">MyContributed</a>
-        <a href="#" id="create_map" class="list-group-item list-group-item-action bg-light">Create New Map</a>
+        <!-- checks for cookies -->
+        <% if(userId != null) {%>
+        <a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light profileTabs">MyContributed</a>
+        <a href="#" id="create_map" class="list-group-item list-group-item-action bg-light profileTabs">Create New Map</a>
+        <%}%>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -44,7 +52,7 @@
         <button class="btn btn-primary" id="menu-toggle">Menu</button>
 
         <div id="home-icon" class="navbar-text ml-4">
-          WIKI - MAPS
+          Wiki- Maps
         </div>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,12 +61,18 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <% if(!userId) { %>
             <li class="nav-item active">
-              <a class="nav-link" href="#">Register <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="#" id="register-button">Register <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" id="login-button">Login</a>
             </li>
+            <% } else {%>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="logout-button">Logout</a>
+            </li>
+            <% } %>
           </ul>
         </div>
       </nav>
@@ -66,20 +80,17 @@
     <div id="main-area" class="container-fluid">
 
     </div>
-    <!-- /#page-content-wrapper -->
-    <!-- <h1>WIKI- MAPS</h1>
-    <h2>Seb, Romesh, Kelvin</h2>
-    <h3></h3> -->
 
     <!-- Google Maps API javascript scripts, move to doc.OnReady-->
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/utilities.js"></script>
+    <script type="text/javascript" src="/scripts/profile.js"></script>
     <script type="text/javascript" src="/scripts/create_map.js"></script>
     <script type="text/javascript" src="/scripts/login_form.js"></script>
-    <script type="text/javascript" src="/scripts/utilities.js"></script>
     <script type="text/javascript" src="/scripts/load_map.js"></script>
     <script type="text/javascript" src="/scripts/public_maps.js"></script>
 
-
+    <footer><a href="https://icons8.com/icon/23460/circled-user-male-skin-type-6"></a></footer>
   </div>
   <!-- /#wrapper -->
 
@@ -94,6 +105,7 @@
       $("#wrapper").toggleClass("toggled");
     });
   </script>
+
 
 </body>
 </html>
