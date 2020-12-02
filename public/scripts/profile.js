@@ -9,12 +9,6 @@ const loadProfile = (user)=> {
 
   // $('.profileTabs').show();
 }
-<<<<<<< HEAD
-
-// $(document).ready(() => {
-//   $('.profileTabs').hide();
-// });
-=======
 // .prepend('<div><img class="https://www.flaticon.com/svg/static/icons/svg/147/147144.svg"></div>')
 // }
 
@@ -22,4 +16,3 @@ $(document).ready(() => {
   $('.profileTabs').hide();
   loadProfile();
 });
->>>>>>> feature/moving-routes

@@ -167,8 +167,3 @@ $("#register-button").on('click', () => {
   displayRegistrationForm();
 });
 
-<<<<<<< HEAD
-
-// module.exports = displayLoginForm;
-=======
->>>>>>> feature/moving-routes
