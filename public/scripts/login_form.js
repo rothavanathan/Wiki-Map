@@ -28,11 +28,14 @@ const createLoginSubmitListener = () => {
      })
 
      //failed post or login attempt
-     .catch(err => {
-       $("#login-form")
-         .append(`<div class="alert form-group ">whoops! login failed, try again</div>`);
-     })
- });
+    .catch(err => {
+      $("#login-form")
+        .append(`<div class="alert alert-danger" role="alert">whoops! login failed, try again</div>`);
+      $("#login-form").delegate('input', 'focus', ()=> {
+        $('.alert').hide()
+      })
+     });
+  });
 };
 
 //build/ display login form
@@ -66,33 +69,36 @@ const createRegistrationSubmitListener = () => {
   //login form submission
   $("#register-form").on('submit', function(event) {
 
-   event.preventDefault();
-   //hide previous alerts
-   if ($('.alert')) {
-     $('.alert').hide()
-   }
+    event.preventDefault();
+    //hide previous alerts
+    if ($('.alert')) {
+      $('.alert').hide()
+    }
 
-   //convert form data and send post request
-   const data = $(this).serialize();
-   $.ajax({
-     method: "POST",
-     url: "/api/users/login",
-     data
-   })
-     //successful login attempt
-     .then(user => {
-       console.log(user)
-       console.log(`user is logged in`)
-       clearMainArea();
-       showPublicMaps();
+    //convert form data and send post request
+    const data = $(this).serialize();
+    $.ajax({
+      method: "POST",
+      url: "/api/users/",
+      data
+    })
+     //successful registration attempt
+      .then(user => {
+        console.log(`new registered user: `, user)
+
+        clearMainArea();
+        showPublicMaps();
      })
 
-     //failed post or login attempt
-     .catch(err => {
-       $("#register-form")
-         .append(`<div class="alert form-group ">whoops! login failed, try again</div>`);
-     })
- });
+     //failed registration attempt
+      .catch(err => {
+        $("#register-form")
+          .append(`<div class="alert alert-danger" role="alert">whoops! registration failed, try again</div>`);
+        $("#register-form").delegate('input', 'focus', ()=> {
+          $('.alert').hide()
+        })
+      });
+  });
 };
 
 //build/ display registration form
@@ -105,8 +111,8 @@ const displayRegistrationForm = () => {
   //handle input
   $("#register-form")
     .append(`<div class="form-group">`)
-    .append(`<label for="handle-input">Email address</label>`)
-    .append(`<input name="handle" type="handle" class="form-control" id="handle-input" placeholder="Enter handle" required>`)
+    .append(`<label for="handle-input">Pick your handle</label>`)
+    .append(`<input name="handle" class="form-control" id="handle-input" placeholder="Enter handle" required>`)
 
     //email input
   $("#register-form")
@@ -118,14 +124,14 @@ const displayRegistrationForm = () => {
     //password input
   $("#register-form")
     .append(`<div class="form-group">`)
-    .append(`<label for="login-password">Password</label>`)
-    .append(` <input name="password" type="password" class="form-control" id="login-password" placeholder="Password" required>`);
+    .append(`<label for="register-password">Password</label>`)
+    .append(` <input name="password" type="password" class="form-control" id="register-password" placeholder="Password" required>`);
 
-    //password input
+    //avatar input
     $("#register-form")
       .append(`<div class="form-group">`)
-      .append(`<label for="login-password">Password</label>`)
-      .append(` <input name="password" type="password" class="form-control" id="login-password" placeholder="Password" required>`);
+      .append(`<label for="avatar">Avatar</label>`)
+      .append(` <input name="avatar" class="form-control" id="avatar" placeholder="Image URL">`);
 
   //submit button
   $("#register-form")
@@ -161,5 +167,8 @@ $("#register-button").on('click', () => {
   displayRegistrationForm();
 });
 
+<<<<<<< HEAD
 
 // module.exports = displayLoginForm;
+=======
+>>>>>>> feature/moving-routes
