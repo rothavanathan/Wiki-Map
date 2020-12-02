@@ -29,18 +29,35 @@ module.exports = (db) => {
 
 
 
-  //function to check if user is in database
+  //function to check if user email is in database
   const isEmailRegistered = (email, database) => {
     return database
     .query(`
       SELECT * FROM users
-      WHERE email = $1`, [email])
+      WHERE users.email = $1`, [email])
     .then(res => {
-      console.log(`inside isEmailregistered. res is:`, res)
+      console.log(`In isEmail res.rows is:`, res.rows)
       if (res.rows.length > 0) {
         return Promise.resolve(true)
       } else {
-        return Promise.resolve(false);
+        return Promise.reject(false);
+      }
+    })
+    .catch(err => console.log(err))
+  };
+
+   //function to check if user handle is in database
+   const isHandleRegistered = (handle, database) => {
+    return database
+    .query(`
+      SELECT * FROM users
+      WHERE users.handle = $1`, [handle])
+    .then(res => {
+      console.log(`In isHandle res.rows is:`, res.rows)
+      if (res.rows.length > 0) {
+        return Promise.resolve(true)
+      } else {
+        return Promise.reject(false);
       }
     })
     .catch(err => console.log(err))
@@ -52,7 +69,7 @@ module.exports = (db) => {
       SELECT * FROM users
       WHERE users.email = $1`, [email])
     .then(res => {
-      return res.rows.length > 0 ? Promise.resolve(res.rows[0]) : Promise.reject(`no user with that`);
+      return res.rows.length > 0 ? Promise.resolve(res.rows[0]) : Promise.reject(`no user with that email`);
     })
   };
 
@@ -67,33 +84,45 @@ module.exports = (db) => {
     })
   };
 
-  //add create nad register user route
+  //add create/register user route
   router.post('/', (req, res) => {
     const {handle, email, password, avatar} = req.body;
+    //check if email is already taken by another user
     isEmailRegistered(email, db)
       .then(emailExists => {
         if (emailExists) {
-          res.sendStatus(403);
+          res.sendStatus(403).end();
         }
-        const hashedPassword = bcrypt.hashSync(password, 12);
-        return db
-      .query(`
-        INSERT INTO users (handle, email, password, avatar_url)
-        VALUES ($1, $2, $3, $4)
-        RETURNING *
-        `, [handle, email, hashedPassword, avatar])
-      .then(queryResult => {
-        if (!queryResult) {
-        res.send({error: "error"});
-        return;
-        }
-        console.log(queryResult.rows[0])
-        req.session.userId = queryResult.rows[0].id;
-        res.sendStatus(200);})
-      .catch(err => {
-        console.log(err)
-        res.sendStatus(500)});
-      });
+        console.log(`email is good. let's check the handle`)
+        //check if handle is already taken by another user
+        isHandleRegistered(handle, db)
+          .then(handleExists => {
+            if (handleExists) {
+              res.sendStatus(403).end();;
+            }
+            console.log(`handle is good. let's hash the password and insert into db`)
+            const hashedPassword = bcrypt.hashSync(password, 12);
+            return db
+          .query(`
+            INSERT INTO users (handle, email, password, avatar_url)
+            VALUES ($1, $2, $3, $4)
+            RETURNING *
+            `, [handle, email, hashedPassword, avatar])
+          .then(queryResult => {
+            if (!queryResult) {
+              res.send({error: "error"});
+              return;
+            }
+            console.log(queryResult.rows[0])
+            req.session.userId = queryResult.rows[0].id;
+            res.send(queryResult.rows[0])
+          }).catch(err => {
+            console.log(err)
+            res.sendStatus(500)});
+          });
+      })
+
+
   });
 
 
@@ -123,4 +152,4 @@ module.exports = (db) => {
   })
 
   return router;
-};
+}

@@ -83,7 +83,7 @@ const createRegistrationSubmitListener = () => {
     })
      //successful registration attempt
       .then(user => {
-        console.log(user)
+        console.log(`new registered user: `, user)
 
         clearMainArea();
         showPublicMaps();
