@@ -34,8 +34,14 @@ body {
   .mapPost {
     margin: 2em 1em;
 
+
     &:hover {
       cursor: pointer
+    }
+
+    img {
+      object-fit: cover;
+      height: 25em;
     }
   }
 

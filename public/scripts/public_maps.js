@@ -7,7 +7,7 @@
 const makeMapCard = (map) => {
   return `
     <article class="mapPost" id="${map.id}" style="width: 18rem;">
-      <div class="card" >
+      <div class="card h-100" >
       <img class="card-img-top" src="${map.thumbnail_photo_url}" alt="${map.thumbnail_alt_text}">
         <div class="card-body">
           <h5 class="card-title text-center">${map.title}:</h5>

@@ -35,6 +35,11 @@ body .mapPost:hover {
   cursor: pointer;
 }
 
+body .mapPost img {
+  object-fit: cover;
+  height: 25em;
+}
+
 body footer {
   display: "none";
 }
