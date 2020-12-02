@@ -1,6 +1,7 @@
 //select #main-area
 //clear main div of content
 
+//handles Login Form submission and returns user information, map_permissions, and map info
 const createLoginSubmitListener = () => {
   //login form submission
   $("#login-form").on('submit', function(event) {
@@ -19,9 +20,10 @@ const createLoginSubmitListener = () => {
      data
    })
      //successful login attempt
-     .then(user => {
-       console.log(user)
+     .then(userInfo => {
        console.log(`user is logged in`)
+       console.log(`userinfo is: `, userInfo)
+       loadProfile(userInfo[0])
        clearMainArea();
        showPublicMaps();
       window.location.reload();

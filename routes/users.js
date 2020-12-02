@@ -144,9 +144,9 @@ module.exports = (db) => {
           return;
         }
         console.log(`userInfo returned from login:`, userInfo)
-        req.session.userId = userInfo[0].users.id;
-        req.session.handle = userInfo[0].users.handle;
-        req.session.avatar = userInfo[0].users.avatar_url;
+        req.session.userId = userInfo[0].id;
+        req.session.handle = userInfo[0].handle;
+        req.session.avatar = userInfo[0].avatar_url;
         res.send({userInfo});
       }).catch(err => {
         res.sendStatus(401)
