@@ -1,3 +1,5 @@
+
+
 // $(() => {
 //   $.ajax({
 //     method: "GET",
@@ -70,6 +72,15 @@ const noUserLoggedIn= () => {
 
 }
 
+// Constructs listener events for Create and Saving Map functionality.
+const addMapGenListener = () => {
+  $("#create_new_map").on('click', () => {
+    showMapDetailForm()
+    $("#generate_map").on('click', () => {
+      displayNewMap();
+  })
+  })
+}
 
 //initial page load
 $(document).ready(function() {

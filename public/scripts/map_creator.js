@@ -1,8 +1,3 @@
-const newMarkers = []
-const newMap = []
-const mapAuthentication = {}
-let mapId
-
 const showMapDetailForm = () => {
   $("#main-area")
   //clear main-area of child nodes
@@ -31,11 +26,17 @@ const showMapDetailForm = () => {
 </div>
 </form>
 
-<div class="form-group">
-<label class="form-check-label d-flex justify-content-center" for="privateToggle">
- Make Map Private
-</label>
-<input class="form-control" type="checkbox" id="privateToggle" value="option1" aria-label="...">
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="exampleRadios" id="public" value="true" checked>
+  <label class="form-check-label" for="exampleRadios1">
+    Public Map
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="exampleRadios" id="private" value="false">
+  <label class="form-check-label" for="exampleRadios2">
+    Private Map
+  </label>
 </div>
 
 <hr/>
@@ -60,12 +61,32 @@ const showMapDetailForm = () => {
 </form>
 `);
 
+$('.form-check input').on('change', function() {
+  console.log(mapFormData.isPublic)
+  mapFormData.isPublic = $('input[name=exampleRadios]:checked', '.form-check').val();
+  console.log(mapFormData.isPublic)
+});
+// $(".form-check input[type='radio']:checked").val();
+
+// $(".form-check").find("value").on("click", (event) => {
+//   console.log(event.value)
+// })
+// $("#privateToggle").on("click", () => {
+//   mapFormData.isPublic ? mapFormData.isPublic = false : mapFormData.isPublic = true
+//   console.log(mapFormData.isPublic)
+//   })
+
+
 //Functions to set initial Map Details
 $("#setupButton").hide()
+$("#generate_map").attr("disabled", true)
 
 $("#mapSetup").on("submit", (event) => {
   event.preventDefault();
   $("#setupButton").attr("disabled", true);
+  $("#generate_map").attr("disabled", false);
+  $("#generate_map").css("background-color", "#4d90fe")
+  $("#generate_map").css("color", "#fff")
   console.log("Saved Form Data")
   insertMap(mapFormData)
   })
@@ -79,8 +100,11 @@ const insertMap = (mapFormData) => {
     })
 }
 
+$("#mapSetup").find("textarea").on("change", (event) => {
+  $("#setupButton").show()
+})
+
 $("#mapSetup").find("input, textarea").on("change", (event) => {
-    $("#setupButton").show()
   let key = event.target.name
   console.log(key)
   console.log(event.target.name, event.target.value)
@@ -89,7 +113,11 @@ $("#mapSetup").find("input, textarea").on("change", (event) => {
 
 let chosenUser
 
-//Map permission functions
+// Map permission functions
+
+// Container for storing User Handles and IDs for Authenticate User function
+const mapAuthentication = {}
+
 $("#authenticUsers").on("submit", (event) => {
   let finalUser;
   event.preventDefault();
@@ -117,10 +145,7 @@ $("#handleList").on("change", (event) => {
   console.log(chosenUser)
 })
 
-$("#privateToggle").on("click", () => {
-mapFormData.isPublic ? mapFormData.isPublic = false : mapFormData.isPublic = true
-console.log(mapFormData.isPublic)
-})
+
 
 const mapFormData = {
   title: "",
@@ -137,29 +162,30 @@ const fetchUserHandleList = () => {
     url: "/api/users",
     dataType: 'json'
   }).then(data => {
-    let fetchedUsers = data.users;
-    let cUser = data.currentUser
-    console.log("currentUser", cUser)
-    // console.log(data.users)
-    for (let user in fetchedUsers) {
-      mapAuthentication[fetchedUsers[user].id] = fetchedUsers[user].handle
-      if (fetchedUsers[user].id !== cUser) {
-      userHandles.push(fetchedUsers[user].handle)
+    console.log
+      let fetchedUsers = data.users;
+      let cUser = data.currentUser
+      console.log("currentUser", cUser)
+      // console.log(data.users)
+      for (let user in fetchedUsers) {
+        mapAuthentication[fetchedUsers[user].id] = fetchedUsers[user].handle
+        if (fetchedUsers[user].id !== cUser) {
+        userHandles.push(fetchedUsers[user].handle)
+        }
       }
-    }
-    return generateHandleList(userHandles);
-  })
-}
+      return generateHandleList(userHandles);
+    })
+  }
 
-const generateHandleList = (userHandles) => {
+  const generateHandleList = (userHandles) => {
   userHandles.forEach((handle) => {
     $("#handleList").append(`
   <option>${handle}</option>
   `);
   })
-}
+  }
 
-fetchUserHandleList()
+  fetchUserHandleList()
 }
 
 const displayNewMap = () => {
@@ -170,8 +196,16 @@ const displayNewMap = () => {
     .append(`
   <h1 class="mt-4">Create Map <span class="float-right"> <button id="saveMap" type="submit" class="btn btn-light">Save Map</button></span></h1>
   <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
+  <input
+      id="pac-input"
+      class="controls"
+      type="text"
+      placeholder="Search Box"
+    />
   <div id="map" class="viewMap"></div>
   </div>`);
+
+  const newMarkers = []
 
   $("#saveMap").on("click", (event) => {
     const savedMarkers = []
@@ -241,6 +275,15 @@ const displayNewMap = () => {
       mapTypeId: 'hybrid'
     });
 
+  // Create the search box and link it to the UI element.
+  const input = document.getElementById("pac-input");
+  const searchBox = new google.maps.places.SearchBox(input);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener("bounds_changed", () => {
+    searchBox.setBounds(map.getBounds());
+  });
+
     map.addListener("rightclick", (event) => {
       console.log("map right click!")
       const marker = new google.maps.Marker({
@@ -306,16 +349,6 @@ const displayNewMap = () => {
   //Call newMap and initialize the map
   newMap();
 }
-
-const addMapGenListener = () => {
-  $("#create_new_map").on('click', () => {
-    showMapDetailForm()
-    $("#generate_map").on('click', () => {
-      displayNewMap();
-  })
-  })
-}
-
 
 
 
