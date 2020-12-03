@@ -170,32 +170,3 @@ module.exports = (db) => {
       })
 
     })
-
-  //load specific map
-  router.get("/:id", (req, res) => {
-    let query = `
-    SELECT * FROM maps
-    JOIN markers ON maps.id = markers.map_id
-    WHERE markers.map_id = $1
-    `;
-    db.query(query, [req.params.id])
-      .then(mapD => {
-        maps = mapD.rows;
-        res.json({ maps });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-
-
-  return router;
-};
-
-// const query2 = `
-//     INSERT INTO map_permissions (user_id, map_id, isAuthenticated)
-//     VALUES ($1, $2, $3)
-//     RETURNING id
-//     `;
