@@ -51,14 +51,15 @@ module.exports = (db) => {
     //we do have cookies
     } else {
       let query = `
-      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor FROM maps
-      JOIN users ON maps.owner_id = users.id
+      SELECT maps.id as map_id, owner_id as map_owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic,  map_permissions.* FROM maps
       JOIN map_permissions ON map_permissions.map_id = maps.id
-      WHERE maps.isPublic = true
-      GROUP BY maps.id, users.handle, map_permissions.isFavorite, users.avatar_url, map_permissions.isAuthenticated, map_permissions.isContributor
+      WHERE map_permissions.user_id = 2 OR maps.isPublic = true
+      GROUP BY maps.id, map_permissions.id, map_permissions.map_id
       `;
+      users.handle as owner_handle , users.avatar_url,
+      JOIN users ON maps.owner_id = users.id
 
-      return db.query(query)
+      return db.query(query, [])
         .then(data => {
           const maps = data.rows;
           res.json({ maps });

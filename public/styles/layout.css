@@ -40,13 +40,8 @@ body .mapPost img:hover {
   cursor: pointer;
 }
 
-body .mapPost svg {
-  display: inline;
-  color: black;
-}
-
-body .mapPost svg .favorite {
-  width: 2em;
+body .mapPost i {
+  color: coral;
 }
 
 body .hide {
