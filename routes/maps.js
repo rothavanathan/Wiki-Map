@@ -62,7 +62,7 @@ module.exports = (db) => {
       return db.query(query)
         .then(data1 => {
           let query = `
-          SELECT maps.id, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor, map_permissions.map_id FROM maps
+          SELECT maps.id, map_permissions.user_id, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor, map_permissions.map_id FROM maps
           JOIN users ON maps.owner_id = users.id
           JOIN map_permissions ON map_permissions.map_id = maps.id
           WHERE map_permissions.user_id = $1
@@ -110,7 +110,7 @@ module.exports = (db) => {
       return db.query(query)
         .then(data1 => {
           let query = `
-          SELECT maps.id, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor, map_permissions.map_id FROM maps
+          SELECT maps.id, map_permissions.user_id, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor, map_permissions.map_id FROM maps
           JOIN users ON maps.owner_id = users.id
           JOIN map_permissions ON map_permissions.map_id = maps.id
           WHERE map_permissions.user_id = $1 AND map_permissions.isFavorite = true
@@ -192,13 +192,14 @@ module.exports = (db) => {
     })
   })
   router.post("/permissions/update", (req,res) => {
-    console.log(req.body)
-    const query = `
-    INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
-    VALUES ($1, $2, $3, $4, $5)
-    `
-    const params = [map_id, user_id, null, true, null]
-    db.query(query, params)
+    console.log(`req.body is:`, req.body)
+    console.log(`in permissions update route`, req.body.permissions.isfavorite)
+    db.query(`
+    UPDATE map_permissions
+    SET isFavorite = $1
+    WHERE map_permissions.user_id = $2 AND map_permissions.map_id = $3
+    RETURNING *
+    `, [req.body.permissions.isfavorite, req.body.permissions.user_id, req.body.id])
     .then(data => {
       res.json({data})
     })

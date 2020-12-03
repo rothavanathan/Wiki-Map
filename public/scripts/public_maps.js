@@ -20,16 +20,21 @@ const makeMapCard = (map, list) => {
   </article>`)
 
   $(`#${map.id} i`).on('click', () => {
-    console.log(`isfavorite was: `, map.permissions.isFavorite)
+
     const data = map;
-    data.permissions.isFavorite = map.permissions.isFavorite ? false : true;
-    console.log(`isfavorite is now: `, data.permissions.isFavorite)
+    if (map.permissions.isfavorite) {
+      data.permissions.isfavorite = false;
+      $(`#${map.id} i`).removeClass(`fas`).addClass(`far`);
+    } else {
+      data.permissions.isfavorite = true;
+      $(`#${map.id} i`).removeClass(`far`).addClass(`fas`);
+    }
     $.ajax({
       data,
       url: `/api/maps/permissions/update`,
       method: 'POST'
     }).then(data => {
-      console.log(data)
+      console.log(`isFavorite changed`, data.data.rows[0].map_id, data.data.rows[0].isfavorite)
     }).catch(err => console.log(err))
   })
 };
