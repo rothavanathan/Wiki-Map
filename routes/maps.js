@@ -155,7 +155,6 @@ module.exports = (db) => {
       INSERT INTO markers (map_id, latlng, title, description, image_url, image_alt_text)
       VALUES ($1, $2, $3, $4, $5, $6)
       `;
-
       let queryPromises = req.body.map((markerInfo) => {
         const params = [map_id, markerInfo.latlng, markerInfo.title, markerInfo.description, markerInfo.image_url, markerInfo.image_alt_text]
         return db.query(query, params)
