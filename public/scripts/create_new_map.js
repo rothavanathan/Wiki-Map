@@ -13,6 +13,7 @@ $("#map_generator").on('click', () => {
 
 <form id="mapSetup">
   <h1 class="mt-4">Map setup <span class="float-right"> <button id="generate_map" type="submit" class="btn btn-light">Generate Map</button></span></h1>
+  <label for="mapSetup">Please add a Title and Description</label>
   <div class="form-group">
     <label for="mapTitle">Map Title</label>
     <input type="text" class="form-control" id="mapTitle" name="title" placeholder="Map Title here..." required>
@@ -39,9 +40,8 @@ $("#map_generator").on('click', () => {
   </div>
 
   <hr/>
-    <div class="form-group d-flex justify-content-between">
-      <button form="mapSetup" class="btn-save btn btn-primary">Set Map Details</button>
-      <a class="btn btn-primary" data-toggle="collapse" href="#privateCollapse" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Add Users to Map</a>
+    <div class="form-group d-flex justify-content-center">
+      <button id="setupButton" form="mapSetup" class="btn-save btn btn-primary" data-toggle="collapse" href="#privateCollapse"">Set Map Details</button>
     </div>
 
   <form id="authenticUsers">
@@ -61,9 +61,12 @@ $("#map_generator").on('click', () => {
   </form>
 `);
 
+//Functions to set initial Map Details
+$("#setupButton").hide()
 
   $("#mapSetup").on("submit", (event) => {
     event.preventDefault();
+    $("#setupButton").attr("disabled", true);
     console.log("Saved Form Data")
     insertMap(mapFormData)
     })
@@ -77,8 +80,13 @@ $("#map_generator").on('click', () => {
       })
   }
 
+
+
+
   $("#mapSetup").find("input, textarea").on("change", (event) => {
+      $("#setupButton").show()
     let key = event.target.name
+    console.log(key)
     console.log(event.target.name, event.target.value)
     mapFormData[key] = event.target.value
   })
