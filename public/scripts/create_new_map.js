@@ -1,7 +1,7 @@
 const newMarkers = []
 const newMap = []
 const mapAuthentication = {}
-let preUser = ""
+let mapId
 
 
 $("#map_generator").on('click', () => {
@@ -68,44 +68,48 @@ $("#map_generator").on('click', () => {
     insertMap(mapFormData)
     })
 
+  const insertMap = (mapFormData) => {
+      console.log("this is the data", mapFormData)
+      $.ajax({
+        method: "POST",
+        url: "/api/maps/save",
+        data: mapFormData
+      })
+  }
+
   $("#mapSetup").find("input, textarea").on("change", (event) => {
     let key = event.target.name
     console.log(event.target.name, event.target.value)
     mapFormData[key] = event.target.value
   })
 
+  let chosenUser
+
   $("#authenticUsers").on("submit", (event) => {
-  let finalUser = ""
+  let finalUser;
   event.preventDefault();
   for(let key in mapAuthentication) {
-    if(mapAuthentication[key] === preUser){
+    if(mapAuthentication[key] === chosenUser){
       finalUser = key;
+      console.log(finalUser)
     }
+    authorizeUser(finalUser)
   }
-  return authorizeUser(finalUser)
 })
 
-const insertMap = (mapFormData) => {
-  console.log("this is the data", mapFormData)
+const authorizeUser = (finalUser) => {
+  const user_id = finalUser
+  console.log("user id is", user_id)
   $.ajax({
     method: "POST",
-    url: "/api/maps/save",
-    mapFormData
+    url: "/api/maps/permissions",
+    data: {key: user_id},
   })
-  .then(map_id => {
-    console.log(map_id)
-
-  })
-
-}
-
-const authorizeUser = (finalUser) => {
-  return
 }
 
   $("#handleList").on("change", (event) => {
-    preAuthenticateUser = event.target.value
-    console.log(preAuthenticateUser)
+    chosenUser = event.target.value
+    console.log(chosenUser)
   })
 
   $("#privateToggle").on("click", () => {
@@ -129,13 +133,14 @@ const authorizeUser = (finalUser) => {
       dataType: 'json'
     }).then(data => {
       let fetchedUsers = data.users;
+      let cUser = data.currentUser
+      console.log("currentUser", cUser)
       // console.log(data.users)
       for (let user in fetchedUsers) {
         mapAuthentication[fetchedUsers[user].id] = fetchedUsers[user].handle
-        // mapAuthentication.push(fetchedUsers[user].id, fetchedUsers[user].handle)
-        // if (fetchedUsers[user].handle !== currentUser) {
+        if (fetchedUsers[user].id !== cUser) {
         userHandles.push(fetchedUsers[user].handle)
-        // }
+        }
       }
       return generateHandleList(userHandles);
     })
@@ -149,15 +154,8 @@ const authorizeUser = (finalUser) => {
     })
   }
 
-console.log(mapAuthentication)
-
-
-
   fetchUserHandleList()
 
-  const mapBuilder = () => {
-
-  }
 
   $("#generate_map").on('click', () => {
     $("#main-area")
@@ -173,18 +171,38 @@ console.log(mapAuthentication)
     $("#saveMap").on("click", (event) => {
       const savedMarkers = []
       event.preventDefault;
-      console.log("Attempting to save map...")
+      console.log("to save this map")
       if (newMarkers.length >= 1) {
         newMarkers.forEach((marker) => {
           if (marker.formData.description && marker.formData.title) {
             savedMarkers.push(marker)
-            console.log(marker.formData.description, marker.formData.title)
           }
         })
-        console.log("You've saved your map!")
-        console.log(savedMarkers)
-      } else (console.log("Error saving: Please add at least one flag to save your map"))
+        saveMarkers(savedMarkers)
+      } else {
+        console.log("Error saving: Please add at least one flag to save your map")
+      }
     })
+
+    const saveMarkers = (savedMarkers) => {
+      console.log("this is being called", savedMarkers)
+      const markerSQL = []
+      for (let marker of savedMarkers) {
+        markerSQL.push({
+          ...marker.formData,
+          latlng: JSON.stringify(marker.formData.latlng)
+        })
+      }
+      $.ajax({
+        method: "POST",
+        url: "/api/maps/markers",
+        data: JSON.stringify(markerSQL),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8"
+      })
+      console.log(markerSQL)
+
+    }
 
     const contentString = `
       <form>
@@ -252,16 +270,6 @@ console.log(mapAuthentication)
           marker.formData.latlng = marker.getPosition();
           infoWindow.close()
         })
-
-
-        // $iwForm.on("submit", (event) => {
-        //   console.log("deleted")
-        //   event.preventDefault();
-        //   marker.infoWindow.setMap(null);
-        //   marker.infoWindow = null;
-        //   infoWindow.close()
-        // })
-
 
         $iwForm.find("input, textarea").on("change", (event) => {
           let target = event.target

@@ -15,6 +15,10 @@ VALUES (3, 'Drizzys Clubs', 'Drakes personal hot spots for a night out in the 6'
 -- maps_permissions table seeds
 
   --user.id 1: TINY_EMPEROR's favorite maps (3, 4)
+INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
+VALUES (1, 1, false, true, false);
+INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
+VALUES (1, 2, false, true, false);
 
 INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
 VALUES (1, 3, true, true, false);
@@ -31,4 +35,21 @@ INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isCon
 VALUES (2, 2, false, true, true);
 
 INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
+VALUES (2, 3, false, true, true);
+
+INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
 VALUES (2, 4, true, false, false);
+
+--user.id 2: Ground Control's favorite maps (1, 4)
+
+INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
+VALUES (3, 1, false, true, true);
+
+INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
+VALUES (3, 2, false, true, true);
+
+INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
+VALUES (3, 3, false, true, true);
+
+INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
+VALUES (3, 4, false, false, false);
