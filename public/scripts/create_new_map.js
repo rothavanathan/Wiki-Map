@@ -1,6 +1,8 @@
 const newMarkers = []
 const newMap = []
-const mapAuthentication = []
+const mapAuthentication = {}
+let preUser = ""
+
 
 $("#map_generator").on('click', () => {
   $("#main-area")
@@ -52,19 +54,19 @@ $("#map_generator").on('click', () => {
       </select>
       <hr/>
       <div class="form-group d-flex justify-content-center">
-      <button type="submit" class="btn-save btn btn-primary btn-sm">Save</button>
+      <button form="authenticUsers" type="submit" class="btn-save btn btn-primary btn-sm">Save</button>
       <input class="form-control" type="text" placeholder="Save your selected Users" readonly>
       </div>
     </div>
   </form>
 `);
 
+
   $("#mapSetup").on("submit", (event) => {
     event.preventDefault();
-    newMap.push(mapFormData)
     console.log("Saved Form Data")
+    insertMap(mapFormData)
     })
-
 
   $("#mapSetup").find("input, textarea").on("change", (event) => {
     let key = event.target.name
@@ -72,9 +74,38 @@ $("#map_generator").on('click', () => {
     mapFormData[key] = event.target.value
   })
 
-  $("#handleList").on("submit", (event) => {
+  $("#authenticUsers").on("submit", (event) => {
+  let finalUser = ""
   event.preventDefault();
-  console.log(event.target.value)
+  for(let key in mapAuthentication) {
+    if(mapAuthentication[key] === preUser){
+      finalUser = key;
+    }
+  }
+  return authorizeUser(finalUser)
+})
+
+const insertMap = (mapFormData) => {
+  console.log("this is the data", mapFormData)
+  $.ajax({
+    method: "POST",
+    url: "/api/maps/save",
+    mapFormData
+  })
+  .then(map_id => {
+    console.log(map_id)
+
+  })
+
+}
+
+const authorizeUser = (finalUser) => {
+  return
+}
+
+  $("#handleList").on("change", (event) => {
+    preAuthenticateUser = event.target.value
+    console.log(preAuthenticateUser)
   })
 
   $("#privateToggle").on("click", () => {
@@ -100,6 +131,8 @@ $("#map_generator").on('click', () => {
       let fetchedUsers = data.users;
       // console.log(data.users)
       for (let user in fetchedUsers) {
+        mapAuthentication[fetchedUsers[user].id] = fetchedUsers[user].handle
+        // mapAuthentication.push(fetchedUsers[user].id, fetchedUsers[user].handle)
         // if (fetchedUsers[user].handle !== currentUser) {
         userHandles.push(fetchedUsers[user].handle)
         // }
@@ -116,7 +149,7 @@ $("#map_generator").on('click', () => {
     })
   }
 
-
+console.log(mapAuthentication)
 
 
 
