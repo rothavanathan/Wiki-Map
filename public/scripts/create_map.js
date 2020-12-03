@@ -1,5 +1,5 @@
 const newMarkers = []
-$("#create_map").on('click', () => {
+$("#generate_map").on('click', () => {
   $("#main-area")
   //clear main-area of child nodes
   .empty()

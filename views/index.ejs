@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="/styles/create_map.css" type="text/css" />
 
 
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
     <!-- Bootstrap template imports-->
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css" type="text/css" >
     <link rel="stylesheet" href="/styles/simple-sidebar.css" type="text/css" />
@@ -23,8 +28,6 @@
     src="https://maps.googleapis.com/maps/api/js?key=&callback=&libraries=&v=weekly"
     defer
     ></script>
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-
 
   </head>
   <div class="d-flex" id="wrapper">
@@ -90,7 +93,7 @@
         </div>
       </nav>
 
-    <div id="main-area" class="container-fluid">
+    <div id="main-area" class="overflow-auto container-fluid">
 
     </div>
 
@@ -104,12 +107,14 @@
     <script type="text/javascript" src="/scripts/app.js"></script>
 
 
+
+
+
   </div>
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 
   <!-- Menu Toggle Script -->
   <script>
