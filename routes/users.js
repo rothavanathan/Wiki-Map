@@ -60,22 +60,28 @@ module.exports = (db) => {
     }).catch(err => (console.log(err)))
   };
 
+  //should return users profile info, map permissions, and maps they own
   const getUserWithEmail = (email, database) => {
     return database
     .query(`
-      SELECT * FROM users
-      WHERE users.email = $1`, [email])
+      SELECT users.* FROM users
+      JOIN map_permissions as map_permissions ON users.id = map_permissions.user_id
+      JOIN maps as maps ON map_permissions.map_id = maps.id
+      WHERE users.email = $1
+      GROUP BY map_permissions.id, users.id, maps.id`, [email])
     .then(res => {
-      return res.rows.length > 0 ? Promise.resolve(res.rows[0]) : Promise.reject(`no user with that email`);
+      return res.rows.length > 0 ? Promise.resolve(res.rows) : Promise.reject(`no user with that email`);
     })
   };
 
   const login = (email, passwordInput, database) => {
     return getUserWithEmail(email, database)
-    .then(user => {
-      if (bcrypt.compareSync(passwordInput, user.password)) {
-        return Promise.resolve(user);
+    .then(rows => {
+      if (bcrypt.compareSync(passwordInput, rows[0].password)) {
+        console.log(`inside login(). password matches`)
+        return Promise.resolve(rows);
       } else {
+        console.log(`inside login(). password does not match`)
         return Promise.reject(null);
       }
     })
@@ -131,16 +137,17 @@ module.exports = (db) => {
     const {email, password} = req.body;
 
     return login(email, password, db)
-      .then(user => {
-        if (!user) {
+      .then(userInfo => {
+        console.log(`userInfo returned from login(): `, userInfo )
+        if (!userInfo) {
           throw Error;
           return;
         }
-        console.log(`user returned from login:`, user)
-        req.session.userId = user.id;
-        req.session.handle = user.handle;
-        req.session.avatar = user.avatar_url;
-        res.send({user: {name: user.name, email: user.email, id: user.id, avatar: user.avatar_url}});
+        console.log(`userInfo to pass to cookies:`, userInfo[0])
+        req.session.userId = userInfo[0].id;
+        req.session.handle = userInfo[0].handle;
+        req.session.avatar = userInfo[0].avatar_url;
+        res.send({userInfo});
       }).catch(err => {
         res.sendStatus(401)
       });

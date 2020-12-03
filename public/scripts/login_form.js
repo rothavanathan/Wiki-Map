@@ -1,6 +1,7 @@
 //select #main-area
 //clear main div of content
 
+//handles Login Form submission and returns user information, map_permissions, and map info
 const createLoginSubmitListener = () => {
   //login form submission
   $("#login-form").on('submit', function(event) {
@@ -19,12 +20,13 @@ const createLoginSubmitListener = () => {
      data
    })
      //successful login attempt
-     .then(user => {
-       console.log(user)
+     .then(res => {
        console.log(`user is logged in`)
+       console.log(`userinfo[0] is: `, res.userInfo)
+       loadProfile(res.userInfo[0])
        clearMainArea();
        showPublicMaps();
-      window.location.reload();
+
      })
 
      //failed post or login attempt
@@ -85,7 +87,7 @@ const createRegistrationSubmitListener = () => {
      //successful registration attempt
       .then(user => {
         console.log(`new registered user: `, user)
-
+        loadProfile(user)
         clearMainArea();
         showPublicMaps();
 
@@ -142,29 +144,32 @@ const displayRegistrationForm = () => {
 }
 
 // LISTENERS FOR NAV BUTTONS
+const addLoginListener = () => {
+  $("#login-button").on('click', () => {
+    clearMainArea();
+    displayLoginForm();
+  });
+}
 
-$("#login-button").on('click', () => {
-  clearMainArea();
-  displayLoginForm();
-});
-
-$("#logout-button").on('click', () => {
-  $.ajax({
-    method: "GET",
-    url: "/api/users/logout",
-  })
-    //succesful logout
-    .then(res => {
-      console.log(res)
-      clearMainArea();
-      showPublicMaps();
-      window.location.reload();
+const addLogoutListener = () => {
+  $("#logout-button").on('click', () => {
+    $.ajax({
+      method: "GET",
+      url: "/api/users/logout",
     })
+      //succesful logout
+      .then(res => {
 
-});
+        clearMainArea();
+        showPublicMaps();
+        removeProfile()
+      })
+  });
+}
 
-$("#register-button").on('click', () => {
-  clearMainArea();
-  displayRegistrationForm();
-});
-
+const addRegisterListener = () => {
+  $("#register-button").on('click', () => {
+    clearMainArea();
+    displayRegistrationForm();
+  });
+}

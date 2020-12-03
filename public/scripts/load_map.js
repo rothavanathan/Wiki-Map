@@ -43,11 +43,12 @@ const getMarkersForMap = (map) => {
     dataType: 'json'
   }).then(data => {
     const markers = data.maps;
-    $('#main-area').append(`<h1 class="mt-4">map's markers</h1>
-    <ul id="marker-list">`);
-    markers.map(function(marker){
-      $('#marker-list').append(`<li>${marker.title}</li>`)
-    })
+    // $('#main-area').append(`<h1 class="mt-4">map's markers</h1>
+    // <ul id="marker-list">`);
+    // //displays list of map markers
+    // markers.map(function(marker){
+    //   $('#marker-list').append(`<li>${marker.title}</li>`)
+    // })
     return markers;
 
   })
@@ -57,9 +58,11 @@ const getMarkersForMap = (map) => {
 //pass function a map.id and load the map
 const loadMap = (map) => {
   //clear main-area of child nodes
+  console.log(map);
   $("#main-area")
   .empty()
   .append(`<h1 class="mt-4 text-center">${map.title}</h1>
+  <h2 class="mt-4 text-center">${map.owner_handle}</h2>
   <div id="map"></div>`);
 
   //build map

@@ -28,19 +28,66 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  //show list of all maps
+  router.get("/public", (req, res) => {
+    //if we don't have cookies
+    if (!req.session.userId) {
+      let query = `
+      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url FROM maps
+      JOIN users ON maps.owner_id = users.id
+      WHERE maps.isPublic = true
+      `;
+      console.log(query);
+      return db.query(query)
+        .then(data => {
+          const maps = data.rows;
+          res.json({ maps });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+    //we do have cookies
+    } else {
+      let query = `
+      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor FROM maps
+      JOIN users ON maps.owner_id = users.id
+      JOIN map_permissions ON map_permissions.map_id = maps.id
+      WHERE maps.isPublic = true
+      GROUP BY maps.id, users.handle, map_permissions.isFavorite, users.avatar_url, map_permissions.isAuthenticated, map_permissions.isContributor
+      `;
+
+      return db.query(query)
+        .then(data => {
+          const maps = data.rows;
+          res.json({ maps });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+
+
+
+    }
+
+  });
 
   //show list of favourite maps for specific user
   router.get("/fave", (req, res) => {
     //if no user cookie
     if (!req.session.userId) {
-      res.sendStatus(401).send(`401 - Please login for`);
+      res.sendStatus(401).send(`401 - Please login for fave maps`);
     }
     let query = `
-    SELECT * FROM maps
+    SELECT maps.id, maps.owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, A.handle, A.avatar_url, map_permissions.user_id, map_permissions.map_id, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor, B.handle as owner_handle FROM maps
     JOIN map_permissions ON maps.id = map_permissions.map_id
-    JOIN users ON map_permissions.user_id = users.id
+    JOIN users A ON map_permissions.user_id = A.id
+    JOIN users B ON maps.owner_id = B.id
     WHERE map_permissions.isFavorite = true
-    AND users.id = $1
+    AND map_permissions.user_id = $1
     `;
     //db query should use cookies for user id
     db.query(query, [req.session.userId])
