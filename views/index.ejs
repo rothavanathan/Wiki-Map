@@ -20,6 +20,10 @@
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css" type="text/css" >
     <link rel="stylesheet" href="/styles/simple-sidebar.css" type="text/css" />
 
+
+
+    <script src="https://kit.fontawesome.com/192259f29d.js" crossorigin="anonymous"></script>
+
     <script
     src="https://maps.googleapis.com/maps/api/js?key=&callback=&libraries=&v=weekly"
     defer
@@ -30,7 +34,7 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">WIKI - MAPS</div>
+      <div class="sidebar-heading"><i class="fas fa-globe"></i> WIKI - MAPS </div>
       <!-- checks for cookies -->
 
 
@@ -50,7 +54,7 @@
         <% if (templateVars.userId) { %>
           <a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
           <a href="#" class="list-group-item list-group-item-action bg-light profileTabs">MyContributed</a>
-          <a href="#" id="map_generator" class="list-group-item list-group-item-action bg-light profileTabs">Map Generator</a>
+          <a href="#" id="create_new_map" class="list-group-item list-group-item-action bg-light profileTabs">Generate Map</a>
         <% } %>
       </div>
     </div>
@@ -97,12 +101,15 @@
     <script type="text/javascript" src="/scripts/load_map.js"></script>
     <script type="text/javascript" src="/scripts/public_maps.js"></script>
     <script type="text/javascript" src="/scripts/utilities.js"></script>
-    <script type="text/javascript" src="/scripts/profile.js"></script>
     <script type="text/javascript" src="/scripts/create_new_map.js"></script>
+    <script type="text/javascript" src="/scripts/profile.js"></script>
     <script type="text/javascript" src="/scripts/login_form.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
 
-    <footer><a href="https://icons8.com/icon/23460/circled-user-male-skin-type-6"></a></footer>
+
+
+
+
   </div>
   <!-- /#wrapper -->
 
