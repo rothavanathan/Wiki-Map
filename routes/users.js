@@ -14,10 +14,11 @@ module.exports = (db) => {
 
   //display all users from database
   router.get("/", (req, res) => {
+    const currentUser = req.session.userId
     db.query(`SELECT * FROM users;`)
       .then(data => {
         const users = data.rows;
-        res.json({ users });
+        res.json({ users, currentUser });
       })
       .catch(err => {
         res
