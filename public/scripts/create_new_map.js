@@ -306,8 +306,6 @@ const displayNewMap = () => {
   newMap();
 }
 
-
-
 const addMapGenListener = () => {
   $("#create_new_map").on('click', () => {
     showMapDetailForm()
