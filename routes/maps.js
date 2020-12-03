@@ -51,10 +51,11 @@ module.exports = (db) => {
     //we do have cookies
     } else {
       let query = `
-      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, A.handle as owner_handle , A.avatar_url, map_permissions.isFavorite FROM maps
-      LEFT JOIN users A ON maps.owner_id = A.id
-      LEFT JOIN map_permissions ON map_permissions.map_id = maps.id
+      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor FROM maps
+      JOIN users ON maps.owner_id = users.id
+      JOIN map_permissions ON map_permissions.map_id = maps.id
       WHERE maps.isPublic = true
+      GROUP BY maps.id, users.handle, map_permissions.isFavorite, users.avatar_url, map_permissions.isAuthenticated, map_permissions.isContributor
       `;
 
       return db.query(query)
