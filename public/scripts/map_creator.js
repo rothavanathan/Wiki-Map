@@ -13,7 +13,7 @@ const showMapDetailForm = () => {
   </div>
   <div class="form-group">
     <label for="mapDescription">Map Description</label>
-    <textarea class="form-control" id="mapDescription" rows="2" name="description" placeholder="Tell people about   your map..." disabled></textarea>
+    <textarea class="form-control" id="mapDescription" rows="2" name="description" placeholder="Tell people about your map..." disabled></textarea>
   </div>
   <div class="form-group">
     <label for="thumbnail_photo_url">Map thumbnail photo </label>
