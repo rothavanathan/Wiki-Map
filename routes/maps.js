@@ -134,10 +134,10 @@ module.exports = (db) => {
       const user_id = req.body.key;
       console.log("mapId is", map_id, "user is", user_id, typeof user_id)
       const query = `
-      INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO map_permissions (user_id, map_id, isAuthenticated)
+      VALUES ($1, $2, $3)
       `
-      const params = [map_id, user_id, null, true, null]
+      const params = [user_id, map_id, true]
       db.query(query, params)
       .then(data => {
         res.json({data})

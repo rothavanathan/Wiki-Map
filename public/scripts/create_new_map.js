@@ -89,16 +89,17 @@ $("#mapSetup").find("input, textarea").on("change", (event) => {
 
 let chosenUser
 
+//Map permission functions
 $("#authenticUsers").on("submit", (event) => {
-let finalUser;
-event.preventDefault();
-for(let key in mapAuthentication) {
+  let finalUser;
+  event.preventDefault();
+  for(let key in mapAuthentication) {
   if(mapAuthentication[key] === chosenUser){
     finalUser = key;
     console.log(finalUser)
+    }
   }
   authorizeUser(finalUser)
-}
 })
 
 const authorizeUser = (finalUser) => {
