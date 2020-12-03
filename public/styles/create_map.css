@@ -12,36 +12,10 @@
   position:absolute;
   }
 
-  /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-#map {
-  height: 100%;
-}
-
-/* Optional: Makes the sample page fill the window. */
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 #description {
   font-family: Roboto;
   font-size: 15px;
   font-weight: 300;
-}
-
-/* #infowindow-content .title {
-  font-weight: bold;
-} */
-
-#infowindow-content {
-  display: none;
-}
-
-#map #infowindow-content {
-  display: inline;
 }
 
 .pac-card {
@@ -86,15 +60,4 @@ body {
   border-color: #4d90fe;
 }
 
-#title {
-  color: #fff;
-  background-color: #4d90fe;
-  font-size: 15px;
-  font-weight: 250;
-  padding: 6px 12px;
-}
-
-#target {
-  width: 345px;
-}
 

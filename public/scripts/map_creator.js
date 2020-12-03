@@ -2,189 +2,185 @@ const showMapDetailForm = () => {
   $("#main-area")
   //clear main-area of child nodes
   .empty()
-  //Add create Map onto main
+  //Add create Create Map HTML onto main
   .append(`
+  <form id="mapSetup">
+  <h1 class="mt-4">Map setup <span class="float-right"> <button id="generate_map" type="submit" class="btn btn-light">Generate Map</button></span></h1>
+  <label for="mapSetup">Please add a Title and Description</label>
+  <div class="form-group">
+    <label for="mapTitle">Map Title</label>
+    <input type="text" class="form-control" id="mapTitle" name="title" placeholder="Map Title here..." required>
+  </div>
+  <div class="form-group">
+    <label for="mapDescription">Map Description</label>
+    <textarea class="form-control" id="mapDescription" rows="2" name="description" placeholder="Tell people about   your map..." disabled></textarea>
+  </div>
+  <div class="form-group">
+    <label for="thumbnail_photo_url">Map thumbnail photo </label>
+    <input type="text" class="form-control" id="thumbnail_photo_url" name="thumbnail_photo_url" placeholder="Thumbnail url...">
+  </div>
+  <div class="form-group">
+    <label for="alternateThumbText">Alternate thumbnail description</label>
+    <input type="text" class="form-control" id="alternateThumbText" name="thumbnail_alt_text" placeholder="Short description here...">
+  </div>
+  </form>
 
-<form id="mapSetup">
-<h1 class="mt-4">Map setup <span class="float-right"> <button id="generate_map" type="submit" class="btn btn-light">Generate Map</button></span></h1>
-<label for="mapSetup">Please add a Title and Description</label>
-<div class="form-group">
-  <label for="mapTitle">Map Title</label>
-  <input type="text" class="form-control" id="mapTitle" name="title" placeholder="Map Title here..." required>
-</div>
-<div class="form-group">
-  <label for="mapDescription">Map Description</label>
-  <textarea class="form-control" id="mapDescription" rows="2" name="description" placeholder="Tell people about   your map..."></textarea>
-</div>
-<div class="form-group">
-  <label for="thumbnail_photo_url">Map thumbnail photo </label>
-  <input type="text" class="form-control" id="thumbnail_photo_url" name="thumbnail_photo_url" placeholder="Thumbnail url...">
-</div>
-<div class="form-group">
-  <label for="alternateThumbText">Alternate thumbnail description</label>
-  <input type="text" class="form-control" id="alternateThumbText" name="thumbnail_alt_text" placeholder="Short description here...">
-</div>
-</form>
-
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="exampleRadios" id="public" value="true" checked>
-  <label class="form-check-label" for="exampleRadios1">
-    Public Map
-  </label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="exampleRadios" id="private" value="false">
-  <label class="form-check-label" for="exampleRadios2">
-    Private Map
-  </label>
-</div>
-
-<hr/>
-  <div class="form-group d-flex justify-content-center">
-    <button id="setupButton" form="mapSetup" class="btn-save btn btn-primary" data-toggle="collapse" href="#privateCollapse"">Set Map Details</button>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="exampleRadios" id="public" value="true" checked>
+    <label class="form-check-label" for="exampleRadios1">
+      Public Map
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="exampleRadios" id="private" value="false">
+    <label class="form-check-label" for="exampleRadios2">
+      Private Map
+    </label>
   </div>
 
-<form id="authenticUsers">
-  <div class="form-group collapse" id="privateCollapse">
-    <hr/>
-    <input class="form-control" type="text" placeholder="Choose which users you'd like to authorize on your Private Map" readonly>
-    <div class="form-group">
-    <label for="handleList">Authenticate other Users on your Map</label>
-    <select class="form-control" id="handleList">
-    </select>
-    <hr/>
+  <hr/>
     <div class="form-group d-flex justify-content-center">
-    <button form="authenticUsers" type="submit" class="btn-save btn btn-primary btn-sm">Save</button>
-    <input class="form-control" type="text" placeholder="Save your selected Users" readonly>
+      <button id="setupButton" form="mapSetup" class="btn-save btn btn-primary" data-toggle="collapse" href="#privateCollapse"">Set Map Details</button>
     </div>
-  </div>
-</form>
-`);
 
-$('.form-check input').on('change', function() {
-  console.log(mapFormData.isPublic)
-  mapFormData.isPublic = $('input[name=exampleRadios]:checked', '.form-check').val();
-  console.log(mapFormData.isPublic)
-});
-// $(".form-check input[type='radio']:checked").val();
+  <form id="authenticUsers">
+    <div class="form-group collapse" id="privateCollapse">
+      <hr/>
+      <input class="form-control" type="text" placeholder="Choose which users you'd like to authorize on your Private Map" readonly>
+      <div class="form-group">
+      <label for="handleList">Authenticate other Users on your Map</label>
+      <select class="form-control" id="handleList">
+      </select>
+      <hr/>
 
-// $(".form-check").find("value").on("click", (event) => {
-//   console.log(event.value)
-// })
-// $("#privateToggle").on("click", () => {
-//   mapFormData.isPublic ? mapFormData.isPublic = false : mapFormData.isPublic = true
-//   console.log(mapFormData.isPublic)
-//   })
+      <div class="form-group d-flex justify-content-center">
+      <button form="authenticUsers" type="submit" class="btn-save btn btn-primary btn-sm">Save</button>
+      <input class="form-control" type="text" placeholder="Save your selected Users" readonly>
+      </div>
+    </div>
+  </form>
+  `);
 
+  // Set the privacy status of the Map
+  $('.form-check input').on('change', function() {
+    mapFormData.isPublic = $('input[name=exampleRadios]:checked', '.form-check').val();
+  });
 
-//Functions to set initial Map Details
-$("#setupButton").hide()
-$("#generate_map").attr("disabled", true)
+  //Functions and JQUERY to set initial Map Details
 
-$("#mapSetup").on("submit", (event) => {
-  event.preventDefault();
-  $("#setupButton").attr("disabled", true);
-  $("#generate_map").attr("disabled", false);
-  $("#generate_map").css("background-color", "#4d90fe")
-  $("#generate_map").css("color", "#fff")
-  console.log("Saved Form Data")
-  insertMap(mapFormData)
+  $("#setupButton").hide()
+  $("#generate_map").attr("disabled", true)
+
+  $("#mapSetup").find("input").on("change", (event) => {
+    $("#mapSetup").find("textarea").attr("disabled", false)
   })
 
-const insertMap = (mapFormData) => {
+  $("#mapSetup").find("textarea").on("change", (event) => {
+    $("#setupButton").show()
+  })
+
+  $("#mapSetup").find("input, textarea").on("change", (event) => {
+    let key = event.target.name
+    console.log(key)
+    console.log(event.target.name, event.target.value)
+    mapFormData[key] = event.target.value
+  })
+
+  $("#mapSetup").on("submit", (event) => {
+    event.preventDefault();
+    $("#setupButton").attr("disabled", true);
+    $("#generate_map").attr("disabled", false);
+    $("#generate_map").css("background-color", "#4d90fe")
+    $("#generate_map").css("color", "#fff")
+    console.log("Saved Form Data")
+    insertMap(mapFormData)
+  })
+
+  //Creates map in Database
+
+  const insertMap = (mapFormData) => {
     console.log("this is the data", mapFormData)
     $.ajax({
       method: "POST",
       url: "/api/maps/save",
       data: mapFormData
     })
-}
+  }
 
-$("#mapSetup").find("textarea").on("change", (event) => {
-  $("#setupButton").show()
-})
+  // Map permission functions
 
-$("#mapSetup").find("input, textarea").on("change", (event) => {
-  let key = event.target.name
-  console.log(key)
-  console.log(event.target.name, event.target.value)
-  mapFormData[key] = event.target.value
-})
+  // Containers for storing permission related data
+  const mapAuthentication = {};
+  let chosenUser;
 
-let chosenUser
+  //Sends key and handle of chosen user to Authorize user function
+  $("#authenticUsers").on("submit", (event) => {
+    let finalUser;
+    event.preventDefault();
+    for(let key in mapAuthentication) {
+    if(mapAuthentication[key] === chosenUser){
+      finalUser = key;
+      console.log(finalUser)
+      }
+    }
+    authorizeUser(finalUser, chosenUser)
+  })
 
-// Map permission functions
+  $("#handleList").on("change", (event) => {
+    chosenUser = event.target.value
+  })
 
-// Container for storing User Handles and IDs for Authenticate User function
-const mapAuthentication = {}
-
-$("#authenticUsers").on("submit", (event) => {
-  let finalUser;
-  event.preventDefault();
-  for(let key in mapAuthentication) {
-  if(mapAuthentication[key] === chosenUser){
-    finalUser = key;
-    console.log(finalUser)
+  //Inserts User into DB as authorized user for Map
+  const authorizeUser = (finalUser, chosenUser) => {
+    const user_id = finalUser
+    if(user_id === undefined){
+      $(alert("Please select a user to submit"))
+    } else if (user_id) {
+      $.ajax({
+        method: "POST",
+        url: "/api/maps/permissions",
+        data: {key: user_id},
+      })
+    $(alert(`${chosenUser} has been authenticated`))
     }
   }
-  authorizeUser(finalUser)
-})
 
-const authorizeUser = (finalUser) => {
-const user_id = finalUser
-console.log("user id is", user_id)
-$.ajax({
-  method: "POST",
-  url: "/api/maps/permissions",
-  data: {key: user_id},
-})
-}
+  const mapFormData = {
+    title: "",
+    description: "",
+    thumbnail_photo_url: "",
+    thumbnail_alt_text: "",
+    isPublic: true
+  }
 
-$("#handleList").on("change", (event) => {
-  chosenUser = event.target.value
-  console.log(chosenUser)
-})
-
-
-
-const mapFormData = {
-  title: "",
-  description: "",
-  thumbnail_photo_url: "",
-  thumbnail_alt_text: "",
-  isPublic: true
-}
-
-const fetchUserHandleList = () => {
-  // const currentUser = sessionStorage.getItem("handle")
-  const userHandles = []
-  $.ajax({
-    url: "/api/users",
-    dataType: 'json'
-  }).then(data => {
-    console.log
-      let fetchedUsers = data.users;
-      let cUser = data.currentUser
-      console.log("currentUser", cUser)
-      // console.log(data.users)
-      for (let user in fetchedUsers) {
-        mapAuthentication[fetchedUsers[user].id] = fetchedUsers[user].handle
-        if (fetchedUsers[user].id !== cUser) {
-        userHandles.push(fetchedUsers[user].handle)
+  // Retrieves user info and send to generateHandleList
+  const fetchUserHandleList = () => {
+    const userHandles = []
+    $.ajax({
+      url: "/api/users",
+      dataType: 'json'
+    }).then(data => {
+        let fetchedUsers = data.users;
+        let cUser = data.currentUser
+        for (let user in fetchedUsers) {
+          mapAuthentication[fetchedUsers[user].id] = fetchedUsers[user].handle
+          if (fetchedUsers[user].id !== cUser) {
+          userHandles.push(fetchedUsers[user].handle)
+          }
         }
-      }
-      return generateHandleList(userHandles);
+        return generateHandleList(userHandles);
+      })
+    }
+
+  const generateHandleList = (userHandles) => {
+    userHandles.forEach((handle) => {
+      $("#handleList").append(`
+      <option>${handle}</option>
+      `);
     })
   }
 
-  const generateHandleList = (userHandles) => {
-  userHandles.forEach((handle) => {
-    $("#handleList").append(`
-  <option>${handle}</option>
-  `);
-  })
-  }
-
+  //Grabs User and Handles for list population
   fetchUserHandleList()
 }
 
@@ -194,23 +190,19 @@ const displayNewMap = () => {
     .empty()
     //Add create Map onto main
     .append(`
-  <h1 class="mt-4">Create Map <span class="float-right"> <button id="saveMap" type="submit" class="btn btn-light">Save Map</button></span></h1>
-  <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
-  <input
-      id="pac-input"
-      class="controls"
-      type="text"
-      placeholder="Search Box"
-    />
-  <div id="map" class="viewMap"></div>
-  </div>`);
+    <h1 class="mt-4 d-flex justify-content-between">Create Map  <button id="saveMap" type="submit" class="btn btn-light">Save Map</button></h1>
+    <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
+      <input id="pac-input" class="controls" type="text" placeholder="Search Box"/>
+      <div id="map" class="viewMap"></div>
+    </div>`);
 
+  // Containers for data
   const newMarkers = []
 
+  //Gathers all non-empty markers from new Markers and sends to saveMarkers
   $("#saveMap").on("click", (event) => {
     const savedMarkers = []
     event.preventDefault;
-    console.log("to save this map")
     if (newMarkers.length >= 1) {
       newMarkers.forEach((marker) => {
         if (marker.formData.description && marker.formData.title) {
@@ -218,13 +210,13 @@ const displayNewMap = () => {
         }
       })
       saveMarkers(savedMarkers)
-    } else {
-      console.log("Error saving: Please add at least one flag to save your map")
+    } else if (newMarkers.length < 1) {
+      $(alert("Error saving: Please add at least one flag to save your map"))
     }
   })
 
+  //Sends map markers to DB
   const saveMarkers = (savedMarkers) => {
-    console.log("this is being called", savedMarkers)
     const markerSQL = []
     for (let marker of savedMarkers) {
       markerSQL.push({
@@ -239,7 +231,7 @@ const displayNewMap = () => {
       dataType: "json",
       contentType: "application/json; charset=utf-8"
     })
-    console.log(markerSQL)
+    console.log("sending this obj to DB", markerSQL)
 
   }
 
@@ -263,7 +255,7 @@ const displayNewMap = () => {
       </div>
       <div class="form-group d-flex justify-content-around">
       <button type="submit" name="saveFlag" class="saveFlag btn btn-primary">Submit</button>
-      <button type="submit" name="deleteFlag" class="deleteFlag btn btn-primary">Delete</button>
+      <button type="button" name="deleteFlag" class="deleteFlag btn btn-primary">Delete</button>
       </div>
     </form>
   `
@@ -275,15 +267,16 @@ const displayNewMap = () => {
       mapTypeId: 'hybrid'
     });
 
-  // Create the search box and link it to the UI element.
-  const input = document.getElementById("pac-input");
-  const searchBox = new google.maps.places.SearchBox(input);
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-  // Bias the SearchBox results towards current map's viewport.
-  map.addListener("bounds_changed", () => {
-    searchBox.setBounds(map.getBounds());
-  });
+    // Create the search box and link it to the UI element.
+    const input = document.getElementById("pac-input");
+    const searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener("bounds_changed", () => {
+      searchBox.setBounds(map.getBounds());
+    });
 
+    //Listening event to generate marker on rightclick
     map.addListener("rightclick", (event) => {
       console.log("map right click!")
       const marker = new google.maps.Marker({
@@ -292,8 +285,8 @@ const displayNewMap = () => {
         draggable: true,
         clickable: true
       })
-
       map.setCenter(event.latLng);
+      //Make content string Jquery element so it can have listening event attached
       const $iwForm = $(contentString);
 
       const infoWindow = new google.maps.InfoWindow({
@@ -302,6 +295,7 @@ const displayNewMap = () => {
       });
 
       infoWindow.open(map, marker)
+
       marker.infoWindow = infoWindow;
 
       marker.formData = {
@@ -320,14 +314,13 @@ const displayNewMap = () => {
       })
 
 
-      // $iwForm.on("submit", (event) => {
-      //   console.log("deleted")
-      //   event.preventDefault();
-      //   marker.infoWindow.setMap(null);
-      //   marker.infoWindow = null;
-      //   infoWindow.close()
-      // })
-
+      $iwForm.find("[type='button']").on("click", (event) => {
+        console.log("deleted")
+        event.preventDefault();
+        marker.infoWindow.setMap(null);
+        marker.infoWindow = null;
+        infoWindow.close()
+      })
 
       $iwForm.find("input, textarea").on("change", (event) => {
         let target = event.target
