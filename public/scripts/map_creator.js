@@ -46,7 +46,7 @@ const showMapDetailForm = () => {
   <form id="authenticUsers">
     <div class="form-group collapse" id="privateCollapse">
       <hr/>
-      <input class="form-control" type="text" placeholder="Choose which users you'd like to authorize on your Private Map" readonly>
+      <input class="form-control" type="text" placeholder="Choose which users you'd like to authorize on your Map" readonly>
       <div class="form-group">
       <label for="handleList">Authenticate other Users on your Map</label>
       <select class="form-control" id="handleList">
@@ -231,6 +231,10 @@ const displayNewMap = () => {
       dataType: "json",
       contentType: "application/json; charset=utf-8"
     })
+    .then(() => {
+      clearMainArea();
+      showPublicMaps();
+    })
     console.log("sending this obj to DB", markerSQL)
 
   }
@@ -318,7 +322,7 @@ const displayNewMap = () => {
         console.log("deleted")
         event.preventDefault();
         marker.infoWindow.setMap(null);
-        marker.infoWindow = null;
+        marker.infoWindow.setContent
         infoWindow.close()
       })
 
