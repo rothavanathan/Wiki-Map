@@ -3,7 +3,6 @@
 //clear main div of content
 //display ul of maps
 
-const { makeArray } = require("jquery");
 
 //build map article for map
 
