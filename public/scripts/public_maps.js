@@ -3,7 +3,6 @@
 //clear main div of content
 //display ul of maps
 
-// const { makeArray } = require("jquery");
 
 //build map article for map
 const makeMapCard = (map, list) => {
@@ -12,7 +11,7 @@ const makeMapCard = (map, list) => {
     <div class="card h-100" >
     <img class="card-img-top" src="${map.thumbnail_photo_url}" alt="${map.thumbnail_alt_text}">
       <div class="card-body">
-          <i class="${map.isfavorite ? 'fas' : 'far'} fa-heart ${map.isfavorite ? 'favorite' : ''}"></i>
+          <i class="${map.permissions.isfavorite ? 'fas' : 'far'} fa-heart ${map.permissions.isfavorite ? 'favorite' : ''}"></i>
         <h5 class="card-title text-center">${map.title}</h5>
         <span><h5 class="card-title text-center">${map.owner_handle}</h5></span>
         <p class="card-text">${map.description}</p>
@@ -28,22 +27,23 @@ const showPublicMaps = () => {
     url: "/api/maps/public",
     dataType: 'json'
   }).then(data => {
-    const maps = data.maps;
+    console.log(data)
+    const maps = data.publicMaps;
     //populate main area with a title and ul
     $('#main-area').append(`<h1 class="mt-4 text-center">Public Maps</h1>
     <ul class="d-flex flex-row justify-content-around flex-wrap" id="public-map-list">`);
     //populate ul with articles of all public maps
     maps.map(function(map){
-
+      console.log(`map is: `,map);
       (makeMapCard(map, 'public-map-list'));
       //event listener to load map
       $(`#${map.id} img`).on('click', (e) => {
         loadMap(map)
       });
 
-      $(`#${map.id} svg`).on('click', () => {
+      $(`#${map.id} i`).on('click', () => {
         //toggle isFavorite in UI and in database
-        $(`#${map.id} svg`).toggleClass('favorite')
+        $(`#${map.id} i`).toggleClass('favorite')
       })
 
     })
@@ -62,8 +62,9 @@ const showFaveMaps = () => {
     url: "/api/maps/fave",
     dataType: 'json'
   }).then(data => {
-    const maps = data.maps;
-    console.log(maps)
+
+    console.log(data)
+    const maps = data.faveMaps;
     //populate main area with a title and ul
     $('#main-area').append(`<h1 class="mt-4 text-center">Fave Maps</h1>
     <ul class="d-flex flex-row justify-content-around flex-wrap" id="fave-map-list">`);

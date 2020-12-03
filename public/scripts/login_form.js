@@ -22,7 +22,7 @@ const createLoginSubmitListener = () => {
      //successful login attempt
      .then(res => {
        console.log(`user is logged in`)
-       console.log(`userinfo[0] is: `, res.userInfo)
+       console.log(`userinfo[0] is: `, res.userInfo[0])
        loadProfile(res.userInfo[0])
        clearMainArea();
        showPublicMaps();
