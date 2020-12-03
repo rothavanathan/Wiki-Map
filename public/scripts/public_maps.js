@@ -3,6 +3,8 @@
 //clear main div of content
 //display ul of maps
 
+//build map article for map
+
 
 //build map article for map
 const makeMapCard = (map, list) => {
