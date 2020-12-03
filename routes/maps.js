@@ -30,22 +30,48 @@ module.exports = (db) => {
   });
   //show list of all maps
   router.get("/public", (req, res) => {
-    let query = `
-    SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url FROM maps
-    JOIN users ON maps.owner_id = users.id
-    WHERE maps.isPublic = true
-    `;
-    console.log(query);
-    return db.query(query)
-      .then(data => {
-        const maps = data.rows;
-        res.json({ maps });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
+    //if we don't have cookies
+    if (!req.session.userId) {
+      let query = `
+      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url FROM maps
+      JOIN users ON maps.owner_id = users.id
+      WHERE maps.isPublic = true
+      `;
+      console.log(query);
+      return db.query(query)
+        .then(data => {
+          const maps = data.rows;
+          res.json({ maps });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+    //we do have cookies
+    } else {
+      let query = `
+      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, A.handle as owner_handle , A.avatar_url, map_permissions.isFavorite FROM maps
+      LEFT JOIN users A ON maps.owner_id = A.id
+      LEFT JOIN map_permissions ON map_permissions.map_id = maps.id
+      WHERE maps.isPublic = true
+      `;
+
+      return db.query(query)
+        .then(data => {
+          const maps = data.rows;
+          res.json({ maps });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+
+
+
+    }
+
   });
 
   //show list of favourite maps for specific user

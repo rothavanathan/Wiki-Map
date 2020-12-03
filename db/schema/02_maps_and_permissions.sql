@@ -15,7 +15,7 @@ CREATE TABLE map_permissions (
   id SERIAL PRIMARY KEY NOT NULL,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   map_id INTEGER REFERENCES maps(id) ON DELETE CASCADE,
-  isFavorite BOOLEAN,
-  isAuthenticated BOOLEAN,
-  isContributor BOOLEAN
+  isFavorite BOOLEAN DEFAULT FALSE,
+  isAuthenticated BOOLEAN DEFAULT FALSE,
+  isContributor BOOLEAN DEFAULT FALSE
 );
