@@ -74,6 +74,9 @@ module.exports = (db) => {
           //check if mapIds are same and join data
           for (const map of publicMaps) {
             map.permissions = {
+              isFavorite: false,
+              isAuthenticated: false,
+              isContributor: false
             }
             for (const map_permissions of users_map_permissions) {
               if (map.id === map_permissions.map_id) {
@@ -121,6 +124,9 @@ module.exports = (db) => {
             console.log(users_map_permissions)
             for (const map of maps) {
               map.permissions = {
+                isFavorite: false,
+                isAuthenticated: false,
+                isContributor: false
               }
               for (const map_permissions of users_map_permissions) {
                 if (map.id === map_permissions.map_id) {
@@ -172,6 +178,21 @@ module.exports = (db) => {
     const map_id = req.session.mapId.id;
     const user_id = req.body.key;
     console.log("mapId is", map_id, "user is", user_id, typeof user_id)
+    const query = `
+    INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
+    VALUES ($1, $2, $3, $4, $5)
+    `
+    const params = [map_id, user_id, null, true, null]
+    db.query(query, params)
+    .then(data => {
+      res.json({data})
+    })
+    .catch(err => {
+      res.json({err})
+    })
+  })
+  router.post("/permissions/update", (req,res) => {
+    console.log(req.body)
     const query = `
     INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
     VALUES ($1, $2, $3, $4, $5)

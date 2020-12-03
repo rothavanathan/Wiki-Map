@@ -19,6 +19,19 @@ const makeMapCard = (map, list) => {
     </div>
   </article>`)
 
+  $(`#${map.id} i`).on('click', () => {
+    console.log(`isfavorite was: `, map.permissions.isFavorite)
+    const data = map;
+    data.permissions.isFavorite = map.permissions.isFavorite ? false : true;
+    console.log(`isfavorite is now: `, data.permissions.isFavorite)
+    $.ajax({
+      data,
+      url: `/api/maps/permissions/update`,
+      method: 'POST'
+    }).then(data => {
+      console.log(data)
+    }).catch(err => console.log(err))
+  })
 };
 
 //gets list of all maps and appends #public-map-list in main area
@@ -34,7 +47,6 @@ const showPublicMaps = () => {
     <ul class="d-flex flex-row justify-content-around flex-wrap" id="public-map-list">`);
     //populate ul with articles of all public maps
     maps.map(function(map){
-      console.log(`map is: `,map);
       (makeMapCard(map, 'public-map-list'));
       //event listener to load map
       $(`#${map.id} img`).on('click', (e) => {
@@ -72,7 +84,7 @@ const showFaveMaps = () => {
     maps.map(function(map){
       makeMapCard(map, 'fave-map-list')
       //event listener to load map
-      $(`#${map.id}`).on('click', (e) => {
+      $(`#${map.id} img`).on('click', (e) => {
         loadMap(map)
       });
     })
