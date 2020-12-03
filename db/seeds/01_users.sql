@@ -6,5 +6,5 @@ INSERT INTO users (handle, email, password, avatar_url)
 VALUES ('Ground Control', 'houstonwehaveaproblem@gmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.', 'https://www.flaticon.com/svg/static/icons/svg/147/147144.svg');
 
 INSERT INTO users (handle, email, password, avatar_url)
-VALUES ('Drake', 'drake@gmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.', '');
+VALUES ('Drake', 'drake@gmail.com', '$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.', 'https://images.pexels.com/photos/660266/pexels-photo-660266.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
 

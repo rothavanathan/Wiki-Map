@@ -28,6 +28,8 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+
   //show list of all maps
   router.get("/public", (req, res) => {
     //if we don't have cookies
@@ -37,11 +39,14 @@ module.exports = (db) => {
       JOIN users ON maps.owner_id = users.id
       WHERE maps.isPublic = true
       `;
-      console.log(query);
       return db.query(query)
         .then(data => {
-          const maps = data.rows;
-          res.json({ maps });
+          const publicMaps = data.rows;
+          for (const map of publicMaps) {
+            map.permissions = {
+            }
+          }
+          res.json({ publicMaps });
         })
         .catch(err => {
           res
@@ -50,23 +55,46 @@ module.exports = (db) => {
         });
     //we do have cookies
     } else {
+      //select all public maps
       let query = `
-      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor FROM maps
+      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url FROM maps
       JOIN users ON maps.owner_id = users.id
-      JOIN map_permissions ON map_permissions.map_id = maps.id
       WHERE maps.isPublic = true
-      GROUP BY maps.id, users.handle, map_permissions.isFavorite, users.avatar_url, map_permissions.isAuthenticated, map_permissions.isContributor
       `;
       return db.query(query)
-        .then(data => {
-          const maps = data.rows;
-          res.json({ maps });
+        .then(data1 => {
+          let query = `
+          SELECT maps.id, map_permissions.user_id, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor, map_permissions.map_id FROM maps
+          JOIN users ON maps.owner_id = users.id
+          JOIN map_permissions ON map_permissions.map_id = maps.id
+          WHERE map_permissions.user_id = $1
+          `;
+          db.query(query, [req.session.userId] )
+        .then(data2 => {
+          const publicMaps = data1.rows;
+          const users_map_permissions = data2.rows;
+          //check if mapIds are same and join data
+          for (const map of publicMaps) {
+            map.permissions = {
+              isFavorite: false,
+              isAuthenticated: false,
+              isContributor: false
+            }
+            for (const map_permissions of users_map_permissions) {
+              if (map.id === map_permissions.map_id) {
+                map.permissions = {...map_permissions}
+              }
+            }
+
+          }
+          res.json({ publicMaps });
         })
         .catch(err => {
           res
             .status(500)
             .json({ error: err.message });
         });
+      })
     }
   });
 
@@ -77,86 +105,112 @@ module.exports = (db) => {
       res.sendStatus(401).send(`401 - Please login for fave maps`);
     }
     let query = `
-    SELECT maps.id, maps.owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, A.handle, A.avatar_url, map_permissions.user_id, map_permissions.map_id, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor, B.handle as owner_handle FROM maps
-    JOIN map_permissions ON maps.id = map_permissions.map_id
-    JOIN users A ON map_permissions.user_id = A.id
-    JOIN users B ON maps.owner_id = B.id
-    WHERE map_permissions.isFavorite = true
-    AND map_permissions.user_id = $1
+      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url FROM maps
+      JOIN users ON maps.owner_id = users.id
+      WHERE maps.isPublic = true
+      `;
+      return db.query(query)
+        .then(data1 => {
+          let query = `
+          SELECT maps.id, map_permissions.user_id, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor, map_permissions.map_id FROM maps
+          JOIN users ON maps.owner_id = users.id
+          JOIN map_permissions ON map_permissions.map_id = maps.id
+          WHERE map_permissions.user_id = $1 AND map_permissions.isFavorite = true
+          `;
+          db.query(query, [req.session.userId] )
+          .then(data2 => {
+            const maps = data1.rows;
+            const users_map_permissions = data2.rows;
+            const faveMaps = [];
+
+            //merge data
+            for (const map of maps) {
+              map.permissions = {
+                isFavorite: false,
+                isAuthenticated: false,
+                isContributor: false
+              }
+              for (const map_permissions of users_map_permissions) {
+                if (map.id === map_permissions.map_id) {
+                  map.permissions = {...map_permissions}
+                  faveMaps.push(map);
+                }
+              }
+            }
+
+
+            res.json({ faveMaps });
+          })
+          .catch(err => {
+            res
+              .status(500)
+              .json({ error: err.message });
+          });
+      })
+  })
+
+  router.post("/save", (req, res) => {
+    // console.log("this happened")
+    const owner_id = req.session.userId;
+    // console.log("owner_id", owner_id)
+    // console.log("this is req.body", req.body)
+    const mapData = req.body;
+    // console.log(mapData)
+    // res.send(mapFormData)
+    const query = `
+    INSERT INTO maps (owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING id
     `;
-    //db query should use cookies for user id
-    db.query(query, [req.session.userId])
-      .then(mapD => {
-        maps = mapD.rows;
-        res.json({ maps });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
+    const params = [owner_id, mapData.title, mapData.description, mapData.thumbnail_photo_url, mapData.thumbnail_alt_text, mapData.isPublic];
+    db.query(query, params)
+    .then(data => {
+      req.session.mapId = data.rows[0]
+      console.log("my session map", req.session.mapId.id)
+      res.send(data.rows[0])
+    })
+    .catch(err => {
+      console.log(err)
+      res.json({err})
     });
-
-    router.post("/save", (req, res) => {
-      const owner_id = req.session.userId;
-      const mapData = req.body;
-      const query = `
-      INSERT INTO maps (owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING id
-      `;
-      const params = [owner_id, mapData.title, mapData.description, mapData.thumbnail_photo_url, mapData.thumbnail_alt_text, mapData.isPublic];
-      db.query(query, params)
-      .then(data => {
-        req.session.mapId = data.rows[0]
-        console.log("my session map", req.session.mapId.id)
-        res.send(data.rows[0])
-      })
-      .catch(err => {
-        console.log(err)
-        res.json({err})
-      });
-
+  })
+  router.post("/permissions", (req,res) => {
+    const map_id = req.session.mapId.id;
+    const user_id = req.body.key;
+    console.log("mapId is", map_id, "user is", user_id, typeof user_id)
+    const query = `
+    INSERT INTO map_permissions (user_id, map_id, isAuthenticated)
+    VALUES ($1, $2, $3)
+    `
+    const params = [user_id, map_id, true]
+    db.query(query, params)
+    .then(data => {
+      res.json({data})
     })
-
-    router.post("/permissions", (req,res) => {
-      const map_id = req.session.mapId.id;
-      const user_id = req.body.key;
-      console.log("mapId is", map_id, "user is", user_id, typeof user_id)
-      const query = `
-      INSERT INTO map_permissions (user_id, map_id, isAuthenticated)
-      VALUES ($1, $2, $3)
-      `
-      const params = [user_id, map_id, true]
-      db.query(query, params)
-      .then(data => {
-        res.json({data})
-      })
-      .catch(err => {
-        res.json({err})
-      })
+    .catch(err => {
+      res.json({err})
     })
-
-    router.post("/markers", (req, res) => {
-      const map_id = req.session.mapId.id;
-      const query = `
-      INSERT INTO markers (map_id, latlng, title, description, image_url, image_alt_text)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      `;
-      let queryPromises = req.body.map((markerInfo) => {
-        const params = [map_id, markerInfo.latlng, markerInfo.title, markerInfo.description, markerInfo.image_url, markerInfo.image_alt_text]
-        return db.query(query, params)
-      })
-      Promise.all(queryPromises)
-      .then(data => {
-        console.log(data)
-        res.json({data})
-      })
-      .catch(err => {
-        console.log(err)
-        res.json({err})
-      })
+  })
+  router.post("/markers", (req, res) => {
+    const map_id = req.session.mapId.id;
+    const query = `
+    INSERT INTO markers (map_id, latlng, title, description, image_url, image_alt_text)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    `;
+    let queryPromises = req.body.map((markerInfo) => {
+      const params = [map_id, markerInfo.latlng, markerInfo.title, markerInfo.description, markerInfo.image_url, markerInfo.image_alt_text]
+      return db.query(query, params)
     })
+    Promise.all(queryPromises)
+    .then(data => {
+      console.log(data)
+      res.json({data})
+    })
+    .catch(err => {
+      console.log(err)
+      res.json({err})
+    })
+  })
 
   //load specific map
   router.get("/:id", (req, res) => {
@@ -177,12 +231,6 @@ module.exports = (db) => {
       });
   });
 
-
   return router;
-};
 
-// const query2 = `
-//     INSERT INTO map_permissions (user_id, map_id, isAuthenticated)
-//     VALUES ($1, $2, $3)
-//     RETURNING id
-//     `;
+}
