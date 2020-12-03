@@ -172,65 +172,74 @@ module.exports = (db) => {
       res.json({err})
     });
 
-  })
+    router.post("/save", (req, res) => {
+      // console.log("this happened")
+      const owner_id = req.session.userId;
+      // console.log("owner_id", owner_id)
+      // console.log("this is req.body", req.body)
+      const mapData = req.body;
+      // console.log(mapData)
+      // res.send(mapFormData)
+      const query = `
+      INSERT INTO maps (owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING id
+      `;
+      const params = [owner_id, mapData.title, mapData.description, mapData.thumbnail_photo_url, mapData.thumbnail_alt_text, mapData.isPublic];
+      db.query(query, params)
+      .then(data => {
+        req.session.mapId = data.rows[0]
+        console.log("my session map", req.session.mapId.id)
+        res.send(data.rows[0])
+      })
+      .catch(err => {
+        console.log(err)
+        res.json({err})
+      });
 
-  router.post("/permissions", (req,res) => {
-    const map_id = req.session.mapId.id;
-    const user_id = req.body.key;
-    console.log("mapId is", map_id, "user is", user_id, typeof user_id)
-    const query = `
-    INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
-    VALUES ($1, $2, $3, $4, $5)
-    `
-    const params = [map_id, user_id, null, true, null]
-    db.query(query, params)
-    .then(data => {
-      res.json({data})
-    })
-    .catch(err => {
-      res.json({err})
-    })
-  })
-  router.post("/permissions/update", (req,res) => {
-    console.log(`req.body is:`, req.body)
-    console.log(`in permissions update route`, req.body.permissions.isfavorite)
-    db.query(`
-    UPDATE map_permissions
-    SET isFavorite = $1
-    WHERE map_permissions.user_id = $2 AND map_permissions.map_id = $3
-    RETURNING *
-    `, [req.body.permissions.isfavorite, req.body.permissions.user_id, req.body.id])
-    .then(data => {
-      res.json({data})
-    })
-    .catch(err => {
-      res.json({err})
-    })
-  })
-
-  router.post("/markers", (req, res) => {
-    const map_id = req.session.mapId.id;
-    // const markerInfo = req.body[0];
-    // console.log(markerInfo)
-    const query = `
-    INSERT INTO markers (map_id, latlng, title, description, image_url, image_alt_text)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    `;
-    let queryPromises = req.body.map((markerInfo) => {
-      const params = [map_id, markerInfo.latlng, markerInfo.title, markerInfo.description, markerInfo.image_url, markerInfo.image_alt_text]
-      return db.query(query, params)
-    })
-    Promise.all(queryPromises)
-    .then(data => {
-      console.log(data)
-      res.json({data})
-    })
-    .catch(err => {
-      console.log(err)
-      res.json({err})
     })
 
-  })
+    router.post("/permissions", (req,res) => {
+      const map_id = req.session.mapId.id;
+      const user_id = req.body.key;
+      console.log("mapId is", map_id, "user is", user_id, typeof user_id)
+      const query = `
+      INSERT INTO map_permissions (user_id, map_id, isAuthenticated)
+      VALUES ($1, $2, $3)
+      `
+      const params = [user_id, map_id, true]
+      db.query(query, params)
+      .then(data => {
+        res.json({data})
+      })
+      .catch(err => {
+        res.json({err})
+      })
+    })
+
+    router.post("/markers", (req, res) => {
+      const map_id = req.session.mapId.id;
+      // const markerInfo = req.body[0];
+      // console.log(markerInfo)
+      const query = `
+      INSERT INTO markers (map_id, latlng, title, description, image_url, image_alt_text)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      `;
+      let queryPromises = req.body.map((markerInfo) => {
+        const params = [map_id, markerInfo.latlng, markerInfo.title, markerInfo.description, markerInfo.image_url, markerInfo.image_alt_text]
+        return db.query(query, params)
+      })
+      Promise.all(queryPromises)
+      .then(data => {
+        console.log(data)
+        res.json({data})
+      })
+      .catch(err => {
+        console.log(err)
+        res.json({err})
+      })
+
+    })
 
   //load specific map
   router.get("/:id", (req, res) => {
@@ -251,34 +260,6 @@ module.exports = (db) => {
       });
   });
 
-  router.post("/save", (req, res) => {
-    console.log("this happened")
-    const owner_id = req.session.userId;
-    console.log("owner_id", owner_id)
-    console.log("this is req.body", req.body)
-    const mapData = req.body;
-    console.log(mapData)
-    // res.send(mapFormData)
-    const query1 = `
-    INSERT INTO maps (owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    RETURNING id
-    `;
-
-    const params1 = [owner_id, mapData.title, mapData.description, mapData.thumbnail_photo_url, mapData.thumbnail_alt_text, mapData.isPublic];
-    db.query(query1, params1)
-    .then(data => {
-      map_id = data.rows[0]
-      // console.log(mapD.rows)
-      res.send(map_id)
-      // map_id = data.rows[0].id
-      // const params = [mapData.user_id, map_id, true];
-    })
-    .catch(err => {
-      console.log(err)
-    });
-
-  })
 
   return router;
 };

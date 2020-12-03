@@ -15,7 +15,7 @@ const loadProfile = (userInfo)=> {
   //shows logged in menu items
   $('.list-group').append(`<a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
   <a href="#" class="list-group-item list-group-item-action bg-light profileTabs">MyContributed</a>
-  <a href="#" id="create_map" class="list-group-item list-group-item-action bg-light profileTabs">Create New Map</a>`)
+  <a href="#" id="create_new_map" class="list-group-item list-group-item-action bg-light profileTabs">Map Generator</a>`)
 
 
 
@@ -24,6 +24,7 @@ const loadProfile = (userInfo)=> {
   $('#navbarSupportedContent > ul').append(` <li class="nav-item">
   <a class="nav-link profileTabs" href="#" id="logout-button">Logout</a>
 </li>`)
+  addMapGenListener();
   addLogoutListener();
   faveMapListener();
   return;

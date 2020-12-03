@@ -82,6 +82,7 @@ $(document).ready(function() {
     // removeProfile()
   clearMainArea();
   showPublicMaps();
+  addMapGenListener();
   addLoginListener();
   addLogoutListener();
   addRegisterListener();

@@ -5,9 +5,6 @@
 
 
 //build map article for map
-
-
-//build map article for map
 const makeMapCard = (map, list) => {
   $(`#${list}`).append(`
   <article class="mapPost" id="${map.id}"  style="width: 18rem;">
