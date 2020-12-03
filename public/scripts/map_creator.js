@@ -71,11 +71,11 @@ const showMapDetailForm = () => {
   $("#setupButton").hide()
   $("#generate_map").attr("disabled", true)
 
-  $("#mapSetup").find("input").on("change", (event) => {
+  $("#mapSetup").find("input").on("change", () => {
     $("#mapSetup").find("textarea").attr("disabled", false)
   })
 
-  $("#mapSetup").find("textarea").on("change", (event) => {
+  $("#mapSetup").find("textarea").on("change", () => {
     $("#setupButton").show()
   })
 
@@ -257,9 +257,8 @@ const displayNewMap = () => {
         <label for="pictureAltText">Alternate img Text</label>
         <input type="text" class="form-control" id="pictureAltText" name="img_alt_text" placeholder="Img description here...">
       </div>
-      <div class="form-group d-flex justify-content-around">
+      <div class="form-group d-flex justify-content-center">
       <button type="submit" name="saveFlag" class="saveFlag btn btn-primary">Submit</button>
-      <button type="button" name="deleteFlag" class="deleteFlag btn btn-primary">Delete</button>
       </div>
     </form>
   `
@@ -270,6 +269,7 @@ const displayNewMap = () => {
       zoom: 15,
       mapTypeId: 'hybrid'
     });
+
 
     // Create the search box and link it to the UI element.
     const input = document.getElementById("pac-input");
@@ -317,14 +317,15 @@ const displayNewMap = () => {
         infoWindow.close()
       })
 
-
-      $iwForm.find("[type='button']").on("click", (event) => {
-        console.log("deleted")
-        event.preventDefault();
-        marker.infoWindow.setMap(null);
-        marker.infoWindow.setContent
-        infoWindow.close()
-      })
+      //Delete button (needs re-working)
+      // <button type="button" name="deleteFlag" class="deleteFlag btn btn-primary">Delete</button>
+      // $iwForm.find("[type='button']").on("click", (event) => {
+      //   console.log(event.target)
+      //   event.preventDefault();
+      //   $(this.infoWindow.setMap(null));
+      //   $(this.infoWindow.setContent(null))
+      //   infoWindow.close()
+      // })
 
       $iwForm.find("input, textarea").on("change", (event) => {
         let target = event.target
