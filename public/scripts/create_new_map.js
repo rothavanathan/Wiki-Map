@@ -271,16 +271,6 @@ const authorizeUser = (finalUser) => {
           infoWindow.close()
         })
 
-
-        // $iwForm.on("submit", (event) => {
-        //   console.log("deleted")
-        //   event.preventDefault();
-        //   marker.infoWindow.setMap(null);
-        //   marker.infoWindow = null;
-        //   infoWindow.close()
-        // })
-
-
         $iwForm.find("input, textarea").on("change", (event) => {
           let target = event.target
           marker.formData[target.name] = target.value;
