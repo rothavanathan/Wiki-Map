@@ -12,7 +12,7 @@ const makeMapCard = (map, list) => {
       </div>
     </div>
   </article>`);
-  if (map.permissions.id){
+  if (map.permissions.id) {
     faveButtonListener(map);
   }
 };
@@ -32,10 +32,10 @@ const faveButtonListener = (map) => {
       data,
       url: `/api/maps/permissions/update`,
       method: 'POST'
-    }).catch(err => console.log(err))
-  })
+    }).catch(err => console.log(err));
+  });
 
-}
+};
 
 //gets list of all maps and appends #public-map-list in main area
 const showPublicMaps = () => {
@@ -48,20 +48,20 @@ const showPublicMaps = () => {
     $('#main-area').append(`<h1 class="mt-4 text-center">Public Maps</h1>
     <ul class="d-flex flex-row justify-content-around flex-wrap" id="public-map-list">`);
     //populate ul with articles of all public maps
-    maps.map(function(map){
+    maps.map(function(map) {
       (makeMapCard(map, 'public-map-list'));
       //event listener to load map
       $(`#${map.id} img`).on('click', (e) => {
-        loadMap(map)
+        loadMap(map);
       });
 
       $(`#${map.id} i`).on('click', () => {
         //toggle isFavorite in UI and in database
-        $(`#${map.id} i`).toggleClass('favorite')
-      })
+        $(`#${map.id} i`).toggleClass('favorite');
+      });
 
-    })
-  })
+    });
+  });
 };
 
 //listener for menu item
@@ -70,7 +70,7 @@ const publicMapListener = () => {
     clearMainArea();
     showPublicMaps();
   });
-}
+};
 
 //gets list of all maps and appends #fave-map-list in main area
 const showFaveMaps = () => {
@@ -83,14 +83,14 @@ const showFaveMaps = () => {
     $('#main-area').append(`<h1 class="mt-4 text-center">Fave Maps</h1>
     <ul class="d-flex flex-row justify-content-around flex-wrap" id="fave-map-list">`);
     //populate ul with articles of all public maps
-    maps.map(function(map){
-      makeMapCard(map, 'fave-map-list')
+    maps.map(function(map) {
+      makeMapCard(map, 'fave-map-list');
       //event listener to load map
       $(`#${map.id} img`).on('click', (e) => {
-        loadMap(map)
+        loadMap(map);
       });
-    })
-  })
+    });
+  });
 };
 
 //listener for menu item
@@ -99,7 +99,7 @@ const faveMapListener = () =>  {
     clearMainArea();
     showFaveMaps();
   });
-}
+};
 
 //ajax request and grab all maps that current user owns or is authenticated on
 const showMyMaps = () => {
@@ -112,31 +112,31 @@ const showMyMaps = () => {
     $('#main-area').append(`<h1 class="mt-4 text-center">My Maps</h1>
     <ul class="d-flex flex-row justify-content-around flex-wrap" id="my-map-list">`);
     //populate ul with articles of all public maps
-    maps.map(function(map){
-      makeMapCard(map, 'my-map-list')
+    maps.map(function(map) {
+      makeMapCard(map, 'my-map-list');
       //event listener to load map
       $(`#${map.id} img`).on('click', (e) => {
-        loadMap(map)
+        loadMap(map);
       });
-    })
-  })
+    });
+  });
 
-}
+};
 
 //listener for menu item
 const myMapsListener = () =>  {
   $('#contributions-map').on('click', ()=> {
-    clearMainArea()
+    clearMainArea();
     showMyMaps();
   });
-}
+};
 
 const addMapGenListener = () => {
   $("#create_new_map").on('click', () => {
-    showMapDetailForm()
+    showMapDetailForm();
     $("#generate_map").on('click', () => {
       displayNewMap();
-  })
-  })
-}
+    });
+  });
+};
 

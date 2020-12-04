@@ -22,7 +22,7 @@ const loadProfile = (userInfo)=> {
   faveMapListener();
   myMapsListener();
   return;
-}
+};
 
 const removeProfile = () => {
   $('.avatar').remove();
@@ -40,10 +40,10 @@ const removeProfile = () => {
   </li>
   <li class="nav-item logged-out-Tabs">
     <a class="nav-link" href="#" id="login-button">Login</a>
-  </li>`)
+  </li>`);
 
   addLoginListener();
 
   addRegisterListener();
-  return
-}
+  return;
+};

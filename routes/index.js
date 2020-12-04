@@ -15,10 +15,10 @@ module.exports = (db) => {
         JOIN users ON maps.owner_id = users.id
         WHERE maps.isPublic = true`)
         .then(results => {
-          templateVars = results.rows
-          res.render("index", {templateVars})
+          templateVars = results.rows;
+          res.render("index", {templateVars});
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
     } else {
       return db
         .query(`
@@ -28,11 +28,11 @@ module.exports = (db) => {
           WHERE users.id = $1
           GROUP BY map_permissions.id, users.id, maps.id`, [req.session.userId])
         .then(results => {
-          templateVars = results.rows
-          templateVars.userId = req.session.userId
+          templateVars = results.rows;
+          templateVars.userId = req.session.userId;
           res.render("index", {templateVars});
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
     }
   });
   return router;

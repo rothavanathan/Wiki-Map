@@ -14,7 +14,7 @@ module.exports = (db) => {
 
   //display all users from database
   router.get("/", (req, res) => {
-    const currentUser = req.session.userId
+    const currentUser = req.session.userId;
     db.query(`SELECT * FROM users;`)
       .then(data => {
         const users = data.rows;
@@ -33,56 +33,56 @@ module.exports = (db) => {
   //function to check if user email is in database
   const isEmailRegistered = (email, database) => {
     return database
-    .query(`
+      .query(`
       SELECT * FROM users
       WHERE users.email = $1`, [email])
-    .then(res => {
-      if (res.rows.length > 0) {
-        return Promise.reject(`Regstration failed: email already taken`)
-      } else {
-        return Promise.resolve(`Continue Registration: email isn't taken`);
-      }
-    }).catch(err => (console.log(err)))
+      .then(res => {
+        if (res.rows.length > 0) {
+          return Promise.reject(`Regstration failed: email already taken`);
+        } else {
+          return Promise.resolve(`Continue Registration: email isn't taken`);
+        }
+      }).catch(err => (console.log(err)));
   };
 
-   //function to check if user handle is in database
-   const isHandleRegistered = (handle, database) => {
+  //function to check if user handle is in database
+  const isHandleRegistered = (handle, database) => {
     return database
-    .query(`
+      .query(`
       SELECT * FROM users
       WHERE users.handle = $1`, [handle])
-    .then(res => {
-      if (res.rows.length > 0) {
-        return Promise.reject(`Regstration failed: handle already taken`)
-      } else {
-        return Promise.resolve(`Continue Registration: handle isn't taken`);
-      }
-    }).catch(err => (console.log(err)))
+      .then(res => {
+        if (res.rows.length > 0) {
+          return Promise.reject(`Regstration failed: handle already taken`);
+        } else {
+          return Promise.resolve(`Continue Registration: handle isn't taken`);
+        }
+      }).catch(err => (console.log(err)));
   };
 
   //should return users profile info, map permissions, and maps they own
   const getUserWithEmail = (email, database) => {
     return database
-    .query(`
+      .query(`
       SELECT users.* FROM users
       JOIN map_permissions as map_permissions ON users.id = map_permissions.user_id
       JOIN maps as maps ON map_permissions.map_id = maps.id
       WHERE users.email = $1
       GROUP BY map_permissions.id, users.id, maps.id`, [email])
-    .then(res => {
-      return res.rows.length > 0 ? Promise.resolve(res.rows) : Promise.reject(`no user with that email`);
-    })
+      .then(res => {
+        return res.rows.length > 0 ? Promise.resolve(res.rows) : Promise.reject(`no user with that email`);
+      });
   };
 
   const login = (email, passwordInput, database) => {
     return getUserWithEmail(email, database)
-    .then(rows => {
-      if (bcrypt.compareSync(passwordInput, rows[0].password)) {
-        return Promise.resolve(rows);
-      } else {
-        return Promise.reject(null);
-      }
-    })
+      .then(rows => {
+        if (bcrypt.compareSync(passwordInput, rows[0].password)) {
+          return Promise.resolve(rows);
+        } else {
+          return Promise.reject(null);
+        }
+      });
   };
 
   //add create/register user route
@@ -93,37 +93,38 @@ module.exports = (db) => {
       .then(emailExists => {
         if (!emailExists) {
           res.status(403).send(`email already taken`).end();
-          return
+          return;
         }
         //check if handle is already taken by another user
         isHandleRegistered(handle, db)
           .then(handleExists => {
             if (!handleExists) {
               res.status(403).send(`handle already taken`).end();
-              return
+              return;
             }
-          //validation complete hash password and sanitize inputs
+            //validation complete hash password and sanitize inputs
             const hashedPassword = bcrypt.hashSync(password, 12);
             return db
-          .query(`
+              .query(`
             INSERT INTO users (handle, email, password, avatar_url)
             VALUES ($1, $2, $3, $4)
             RETURNING *
             `, [handle, email, hashedPassword, avatar])
-          .then(queryResult => {
-            //extra check in case nothing is returned from database
-            if (!queryResult) {
-              res.send({error: "error"});
-              return;
-            }
+              .then(queryResult => {
+                //extra check in case nothing is returned from database
+                if (!queryResult) {
+                  res.send({error: "error"});
+                  return;
+                }
 
-            req.session.userId = queryResult.rows[0].id;
-            res.send(queryResult.rows[0])
-          }).catch(err => {
-            console.log(err)
-            res.sendStatus(500)});
+                req.session.userId = queryResult.rows[0].id;
+                res.send(queryResult.rows[0]);
+              }).catch(err => {
+                console.log(err);
+                res.sendStatus(500);
+              });
           });
-      })
+      });
 
 
   });
@@ -137,22 +138,21 @@ module.exports = (db) => {
     return login(email, password, db)
       .then(userInfo => {
         if (!userInfo) {
-          throw Error;
-          return;
+          res.sendStatus(404);
         }
         req.session.userId = userInfo[0].id;
         req.session.handle = userInfo[0].handle;
         req.session.avatar = userInfo[0].avatar_url;
         res.send({userInfo});
       }).catch(err => {
-        res.sendStatus(401)
+        res.sendStatus(401);
       });
-  })
+  });
 
   router.get("/logout", (req, res) => {
     req.session = null;
-    res.send(`logout route`)
-  })
+    res.send(`logout route`);
+  });
 
   return router;
-}
+};

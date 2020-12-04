@@ -25,4 +25,4 @@ const clearMainArea = () => {
   $("#main-area")
     //clear main-area of child nodes
     .empty();
-}
+};

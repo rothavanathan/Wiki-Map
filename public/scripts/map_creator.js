@@ -1,9 +1,9 @@
 const showMapDetailForm = () => {
   $("#main-area")
   //clear main-area of child nodes
-  .empty()
+    .empty()
   //Add create Create Map HTML onto main
-  .append(`
+    .append(`
   <form id="mapSetup">
   <h1 class="mt-4">Map setup <span class="float-right"> <button id="generate_map" type="submit" class="btn btn-light">Generate Map</button></span></h1>
   <label for="mapSetup">Please add a Title and Description</label>
@@ -68,30 +68,30 @@ const showMapDetailForm = () => {
 
   //Functions and JQUERY to set initial Map Details
 
-  $("#setupButton").hide()
-  $("#generate_map").attr("disabled", true)
+  $("#setupButton").hide();
+  $("#generate_map").attr("disabled", true);
 
   $("#mapSetup").find("input").on("change", () => {
-    $("#mapSetup").find("textarea").attr("disabled", false)
-  })
+    $("#mapSetup").find("textarea").attr("disabled", false);
+  });
 
   $("#mapSetup").find("textarea").on("change", () => {
-    $("#setupButton").show()
-  })
+    $("#setupButton").show();
+  });
 
   $("#mapSetup").find("input, textarea").on("change", (event) => {
-    let key = event.target.name
-    mapFormData[key] = event.target.value
-  })
+    let key = event.target.name;
+    mapFormData[key] = event.target.value;
+  });
 
   $("#mapSetup").on("submit", (event) => {
     event.preventDefault();
     $("#setupButton").attr("disabled", true);
     $("#generate_map").attr("disabled", false);
-    $("#generate_map").css("background-color", "#4d90fe")
-    $("#generate_map").css("color", "#fff")
-    insertMap(mapFormData)
-  })
+    $("#generate_map").css("background-color", "#4d90fe");
+    $("#generate_map").css("color", "#fff");
+    insertMap(mapFormData);
+  });
 
   //Creates map in Database
 
@@ -100,8 +100,8 @@ const showMapDetailForm = () => {
       method: "POST",
       url: "/api/maps/save",
       data: mapFormData
-    })
-  }
+    });
+  };
 
   // Map permission functions
 
@@ -113,33 +113,33 @@ const showMapDetailForm = () => {
   $("#authenticUsers").on("submit", (event) => {
     let finalUser;
     event.preventDefault();
-    for(let key in mapAuthentication) {
-    if(mapAuthentication[key] === chosenUser){
-      finalUser = key;
+    for (let key in mapAuthentication) {
+      if (mapAuthentication[key] === chosenUser) {
+        finalUser = key;
 
       }
     }
-    authorizeUser(finalUser, chosenUser)
-  })
+    authorizeUser(finalUser, chosenUser);
+  });
 
   $("#handleList").on("change", (event) => {
-    chosenUser = event.target.value
-  })
+    chosenUser = event.target.value;
+  });
 
   //Inserts User into DB as authorized user for Map
   const authorizeUser = (finalUser, chosenUser) => {
-    const user_id = finalUser
-    if(user_id === undefined){
-      $(alert("Please select a user to submit"))
+    const user_id = finalUser;
+    if (user_id === undefined) {
+      $(alert("Please select a user to submit"));
     } else if (user_id) {
       $.ajax({
         method: "POST",
         url: "/api/maps/permissions",
         data: {key: user_id},
-      })
-    $(alert(`${chosenUser} has been authenticated`))
+      });
+      $(alert(`${chosenUser} has been authenticated`));
     }
-  }
+  };
 
   const mapFormData = {
     title: "",
@@ -147,38 +147,38 @@ const showMapDetailForm = () => {
     thumbnail_photo_url: "",
     thumbnail_alt_text: "",
     isPublic: true
-  }
+  };
 
   // Retrieves user info and send to generateHandleList
   const fetchUserHandleList = () => {
-    const userHandles = []
+    const userHandles = [];
     $.ajax({
       url: "/api/users",
       dataType: 'json'
     }).then(data => {
-        let fetchedUsers = data.users;
-        let cUser = data.currentUser
-        for (let user in fetchedUsers) {
-          mapAuthentication[fetchedUsers[user].id] = fetchedUsers[user].handle
-          if (fetchedUsers[user].id !== cUser) {
-          userHandles.push(fetchedUsers[user].handle)
-          }
+      let fetchedUsers = data.users;
+      let cUser = data.currentUser;
+      for (let user in fetchedUsers) {
+        mapAuthentication[fetchedUsers[user].id] = fetchedUsers[user].handle;
+        if (fetchedUsers[user].id !== cUser) {
+          userHandles.push(fetchedUsers[user].handle);
         }
-        return generateHandleList(userHandles);
-      })
-    }
+      }
+      return generateHandleList(userHandles);
+    });
+  };
 
   const generateHandleList = (userHandles) => {
     userHandles.forEach((handle) => {
       $("#handleList").append(`
       <option>${handle}</option>
       `);
-    })
-  }
+    });
+  };
 
   //Grabs User and Handles for list population
-  fetchUserHandleList()
-}
+  fetchUserHandleList();
+};
 
 const displayNewMap = () => {
   $("#main-area")
@@ -193,32 +193,32 @@ const displayNewMap = () => {
     </div>`);
 
   // Containers for data
-  const newMarkers = []
+  const newMarkers = [];
 
   //Gathers all non-empty markers from new Markers and sends to saveMarkers
   $("#saveMap").on("click", (event) => {
-    const savedMarkers = []
+    const savedMarkers = [];
     event.preventDefault;
     if (newMarkers.length >= 1) {
       newMarkers.forEach((marker) => {
         if (marker.formData.description && marker.formData.title) {
-          savedMarkers.push(marker)
+          savedMarkers.push(marker);
         }
-      })
-      saveMarkers(savedMarkers)
+      });
+      saveMarkers(savedMarkers);
     } else if (newMarkers.length < 1) {
-      $(alert("Error saving: Please add at least one flag to save your map"))
+      $(alert("Error saving: Please add at least one flag to save your map"));
     }
-  })
+  });
 
   //Sends map markers to DB
   const saveMarkers = (savedMarkers) => {
-    const markerSQL = []
+    const markerSQL = [];
     for (let marker of savedMarkers) {
       markerSQL.push({
         ...marker.formData,
         latlng: JSON.stringify(marker.formData.latlng)
-      })
+      });
     }
     $.ajax({
       method: "POST",
@@ -227,12 +227,12 @@ const displayNewMap = () => {
       dataType: "json",
       contentType: "application/json; charset=utf-8"
     })
-    .then(() => {
-      clearMainArea();
-      showPublicMaps();
-    })
+      .then(() => {
+        clearMainArea();
+        showPublicMaps();
+      });
 
-  }
+  };
 
   const contentString = `
     <form>
@@ -256,7 +256,7 @@ const displayNewMap = () => {
       <button type="submit" name="saveFlag" class="saveFlag btn btn-secondary">Submit</button>
       </div>
     </form>
-  `
+  `;
   //New map request function
   function newMap() {
     const map = new google.maps.Map(document.getElementById("map"), {
@@ -282,7 +282,7 @@ const displayNewMap = () => {
         map,
         draggable: true,
         clickable: true
-      })
+      });
       map.setCenter(event.latLng);
       //Make content string Jquery element so it can have listening event attached
       const $iwForm = $(contentString);
@@ -292,7 +292,7 @@ const displayNewMap = () => {
         content: $iwForm[0],
       });
 
-      infoWindow.open(map, marker)
+      infoWindow.open(map, marker);
 
       marker.infoWindow = infoWindow;
 
@@ -302,13 +302,13 @@ const displayNewMap = () => {
         description: "",
         image_url: "",
         image_alt_text: "",
-      }
+      };
 
       $iwForm.on("submit", (event) => {
         event.preventDefault();
         marker.formData.latlng = marker.getPosition();
-        infoWindow.close()
-      })
+        infoWindow.close();
+      });
 
       //Delete button (needs re-working)
       // <button type="button" name="deleteFlag" class="deleteFlag btn btn-info">Delete</button>
@@ -321,22 +321,22 @@ const displayNewMap = () => {
       // })
 
       $iwForm.find("input, textarea").on("change", (event) => {
-        let target = event.target
+        let target = event.target;
         marker.formData[target.name] = target.value;
-      })
+      });
 
       marker.addListener("click", (e) => {
         map.setCenter(e.latLng);
-        infoWindow.open(map, marker)
-        let markerSpot = marker.getPosition()
+        infoWindow.open(map, marker);
+        let markerSpot = marker.getPosition();
       });
 
       newMarkers.push(marker);
     });
-  };
+  }
   //Call newMap and initialize the map
   newMap();
-}
+};
 
 
 

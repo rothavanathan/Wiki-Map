@@ -6,35 +6,35 @@ const createLoginSubmitListener = () => {
   //login form submission
   $("#login-form").on('submit', function(event) {
 
-   event.preventDefault();
-   //hide previous alerts
-   if ($('.alert')) {
-     $('.alert').hide()
-   }
+    event.preventDefault();
+    //hide previous alerts
+    if ($('.alert')) {
+      $('.alert').hide();
+    }
 
-   //convert form data and send post request
-   const data = $(this).serialize();
-   $.ajax({
-     method: "POST",
-     url: "/api/users/login",
-     data
-   })
-     //successful login attempt
-     .then(res => {
-       loadProfile(res.userInfo[0])
-       clearMainArea();
-       showPublicMaps();
+    //convert form data and send post request
+    const data = $(this).serialize();
+    $.ajax({
+      method: "POST",
+      url: "/api/users/login",
+      data
+    })
+    //successful login attempt
+      .then(res => {
+        loadProfile(res.userInfo[0]);
+        clearMainArea();
+        showPublicMaps();
 
-     })
-
-     //failed post or login attempt
-    .catch(err => {
-      $("#login-form")
-        .append(`<div class="alert alert-danger" role="alert">whoops! login failed, try again</div>`);
-      $("#login-form").delegate('input', 'focus', ()=> {
-        $('.alert').hide()
       })
-     });
+
+    //failed post or login attempt
+      .catch(err => {
+        $("#login-form")
+          .append(`<div class="alert alert-danger" role="alert">whoops! login failed, try again</div>`);
+        $("#login-form").delegate('input', 'focus', ()=> {
+          $('.alert').hide();
+        });
+      });
   });
 };
 
@@ -45,14 +45,14 @@ const displayLoginForm = () => {
   $("#main-area")
     .append(`<form id="login-form" method="POST" action="api/users">`);
 
-    //email input
+  //email input
   $("#login-form")
     .append(`<div class="form-group">`)
     .append(`<label for="email-input">Email address</label>`)
     .append(`<input name="email" type="email" class="form-control" id="email-input" aria-describedby="emailHelp" placeholder="Enter email" required>`)
     .append(`<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>`);
 
-    //password input
+  //password input
   $("#login-form")
     .append(`<div class="form-group">`)
     .append(`<label for="login-password">Password</label>`)
@@ -63,7 +63,7 @@ const displayLoginForm = () => {
     .append(`<button type="submit" class="btn btn-secondary mt-4">Submit</button>`);
 
   createLoginSubmitListener();
-}
+};
 
 const createRegistrationSubmitListener = () => {
   //login form submission
@@ -72,7 +72,7 @@ const createRegistrationSubmitListener = () => {
     event.preventDefault();
     //hide previous alerts
     if ($('.alert')) {
-      $('.alert').hide()
+      $('.alert').hide();
     }
 
     //convert form data and send post request
@@ -82,21 +82,21 @@ const createRegistrationSubmitListener = () => {
       url: "/api/users/",
       data
     })
-     //successful registration attempt
+    //successful registration attempt
       .then(user => {
-        loadProfile(user)
+        loadProfile(user);
         clearMainArea();
         showPublicMaps();
 
-     })
+      })
 
-     //failed registration attempt
+    //failed registration attempt
       .catch(err => {
         $("#register-form")
           .append(`<div class="alert alert-danger" role="alert">whoops! registration failed, try again</div>`);
         $("#register-form").delegate('input', 'focus', ()=> {
-          $('.alert').hide()
-        })
+          $('.alert').hide();
+        });
       });
   });
 };
@@ -112,33 +112,33 @@ const displayRegistrationForm = () => {
   $("#register-form")
     .append(`<div class="form-group">`)
     .append(`<label for="handle-input">Pick your handle</label>`)
-    .append(`<input name="handle" class="form-control" id="handle-input" placeholder="Enter handle" required>`)
+    .append(`<input name="handle" class="form-control" id="handle-input" placeholder="Enter handle" required>`);
 
-    //email input
+  //email input
   $("#register-form")
     .append(`<div class="form-group">`)
     .append(`<label for="email-input">Email address</label>`)
     .append(`<input name="email" type="email" class="form-control" id="email-input" aria-describedby="emailHelp" placeholder="Enter email" required>`)
     .append(`<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>`);
 
-    //password input
+  //password input
   $("#register-form")
     .append(`<div class="form-group">`)
     .append(`<label for="register-password">Password</label>`)
     .append(` <input name="password" type="password" class="form-control" id="register-password" placeholder="Password" required>`);
 
-    //avatar input
-    $("#register-form")
-      .append(`<div class="form-group">`)
-      .append(`<label for="avatar">Avatar</label>`)
-      .append(` <input name="avatar" class="form-control" id="avatar" placeholder="Image URL">`);
+  //avatar input
+  $("#register-form")
+    .append(`<div class="form-group">`)
+    .append(`<label for="avatar">Avatar</label>`)
+    .append(` <input name="avatar" class="form-control" id="avatar" placeholder="Image URL">`);
 
   //submit button
   $("#register-form")
     .append(`<button type="submit" class="btn btn-secondary mt-4">Submit</button>`);
 
   createRegistrationSubmitListener();
-}
+};
 
 // LISTENERS FOR NAV BUTTONS
 const addLoginListener = () => {
@@ -146,7 +146,7 @@ const addLoginListener = () => {
     clearMainArea();
     displayLoginForm();
   });
-}
+};
 
 const addLogoutListener = () => {
   $("#logout-button").on('click', () => {
@@ -159,14 +159,14 @@ const addLogoutListener = () => {
 
         clearMainArea();
         showPublicMaps();
-        removeProfile()
-      })
+        removeProfile();
+      });
   });
-}
+};
 
 const addRegisterListener = () => {
   $("#register-button").on('click', () => {
     clearMainArea();
     displayRegistrationForm();
   });
-}
+};
