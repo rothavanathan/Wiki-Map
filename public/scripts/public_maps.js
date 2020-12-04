@@ -11,8 +11,11 @@ const makeMapCard = (map, list) => {
         <p class="card-text">${map.description}</p>
       </div>
     </div>
-  </article>`)
+  </article>`);
+  faveButtonListener(map);
+};
 
+const faveButtonListener = (map) => {
   $(`#${map.id} i`).on('click', () => {
 
     const data = map;
@@ -31,7 +34,8 @@ const makeMapCard = (map, list) => {
       console.log(`isFavorite changed`, data.data.rows[0].map_id, data.data.rows[0].isfavorite)
     }).catch(err => console.log(err))
   })
-};
+
+}
 
 //gets list of all maps and appends #public-map-list in main area
 const showPublicMaps = () => {
