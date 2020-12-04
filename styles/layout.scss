@@ -37,8 +37,12 @@ body {
 
   .mapPost {
     margin: 2em 1em;
+    opacity: 0.95;
+    transition-duration: 100ms;
     &:hover{
-      box-shadow: 7px 7px 8px 3px rgba(31, 30, 30, 0.233);
+      box-shadow: 3px 3px 8px 3px rgba(31, 30, 30, 0.073);
+      opacity: 1;
+      transition-duration: 100ms;
       }
 
 
