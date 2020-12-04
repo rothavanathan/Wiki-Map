@@ -12,7 +12,9 @@ const makeMapCard = (map, list) => {
       </div>
     </div>
   </article>`);
-  faveButtonListener(map);
+  if (map.permissions.id){
+    faveButtonListener(map);
+  }
 };
 
 const faveButtonListener = (map) => {
