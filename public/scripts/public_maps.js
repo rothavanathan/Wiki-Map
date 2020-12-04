@@ -1,9 +1,3 @@
-
-//select #main-area
-//clear main div of content
-//display ul of maps
-
-
 //build map article for map
 const makeMapCard = (map, list) => {
   $(`#${list}`).append(`
@@ -67,11 +61,13 @@ const showPublicMaps = () => {
   })
 };
 
-
-$('#public-map').on('click', ()=> {
-  clearMainArea();
-  showPublicMaps();
-});
+//listener for menu item
+const publicMapListener = () => {
+  $('#public-map').on('click', ()=> {
+    clearMainArea();
+    showPublicMaps();
+  });
+}
 
 //gets list of all maps and appends #fave-map-list in main area
 const showFaveMaps = () => {
@@ -96,9 +92,53 @@ const showFaveMaps = () => {
   })
 };
 
+//listener for menu item
 const faveMapListener = () =>  {
   $('#fave-map').on('click', ()=> {
     clearMainArea();
     showFaveMaps();
   });
 }
+
+//ajax request and grab all maps that current user owns or is authenticated on
+const showMyMaps = () => {
+  $.ajax({
+    url: "/api/maps/contributed",
+    dataType: 'json'
+  }).then(data => {
+
+    console.log(data)
+    const maps = data.uniqueMaps;
+    //populate main area with a title and ul
+    $('#main-area').append(`<h1 class="mt-4 text-center">My Maps</h1>
+    <ul class="d-flex flex-row justify-content-around flex-wrap" id="my-map-list">`);
+    //populate ul with articles of all public maps
+    maps.map(function(map){
+      makeMapCard(map, 'my-map-list')
+      //event listener to load map
+      $(`#${map.id} img`).on('click', (e) => {
+        loadMap(map)
+      });
+    })
+  })
+
+}
+
+//listener for menu item
+const myMapsListener = () =>  {
+  $('#contributions-map').on('click', ()=> {
+    console.log(`clicked the my contribution button`)
+    clearMainArea()
+    showMyMaps();
+  });
+}
+
+const addMapGenListener = () => {
+  $("#create_new_map").on('click', () => {
+    showMapDetailForm()
+    $("#generate_map").on('click', () => {
+      displayNewMap();
+  })
+  })
+}
+

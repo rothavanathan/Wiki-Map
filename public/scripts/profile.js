@@ -14,8 +14,8 @@ const loadProfile = (userInfo)=> {
 
   //shows logged in menu items
   $('.list-group').append(`<a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
-  <a href="#" class="list-group-item list-group-item-action bg-light profileTabs">MyContributed</a>
-  <a href="#" id="create_new_map" class="list-group-item list-group-item-action bg-light profileTabs">Map Generator</a>`)
+  <a href="#" id="contributions-map" class="list-group-item list-group-item-action bg-light profileTabs">MyMaps</a>
+  <a href="#" id="create_new_map" class="list-group-item list-group-item-action bg-light profileTabs">MapGenerator</a>`)
 
 
 
@@ -27,6 +27,7 @@ const loadProfile = (userInfo)=> {
   addMapGenListener();
   addLogoutListener();
   faveMapListener();
+  myMapsListener();
   return;
 }
 
@@ -49,6 +50,7 @@ const removeProfile = () => {
   </li>`)
 
   addLoginListener();
+
   addRegisterListener();
   return
 }
