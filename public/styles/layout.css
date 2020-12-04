@@ -35,6 +35,10 @@ body .mapPost {
   margin: 2em 1em;
 }
 
+body .mapPost:hover {
+  box-shadow: 7px 7px 8px 3px rgba(31, 30, 30, 0.233);
+}
+
 body .mapPost img {
   object-fit: cover;
   height: 25em;
@@ -54,4 +58,14 @@ body .hide {
 
 body footer {
   display: "none";
+}
+
+#main-area ul {
+  padding-left: 0;
+}
+
+.fa-heart {
+  font-size: 1.5em;
+  float: right;
+  margin-left: 10;
 }

@@ -7,8 +7,8 @@ const makeMapCard = (map, list) => {
       <div class="card-body">
           <i class="${map.permissions.isfavorite ? 'fas' : 'far'} fa-heart ${map.permissions.isfavorite ? 'favorite' : ''}"></i>
         <h5 class="card-title text-center">${map.title}</h5>
-        <span><h5 class="card-title text-center">${map.owner_handle}</h5></span>
-        <p class="card-text">${map.description}</p>
+        <span><h6 class="card-title text-center">${map.owner_handle}</h6></span>
+        <p class="card-text text-center">${map.description}</p>
       </div>
     </div>
   </article>`);

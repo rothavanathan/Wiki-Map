@@ -40,13 +40,13 @@ VALUES (2, 3, false, true, true);
 INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
 VALUES (2, 4, true, false, false);
 
---user.id 2: Ground Control's favorite maps (1, 4)
+--user.id 3: Drake's favorite maps (1, 4)
 
 INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
-VALUES (3, 1, false, true, true);
+VALUES (3, 1, false, false, false);
 
 INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
-VALUES (3, 2, false, true, true);
+VALUES (3, 2, false, false, false);
 
 INSERT INTO map_permissions (user_id, map_id, isFavorite, isAuthenticated, isContributor)
 VALUES (3, 3, false, true, true);
