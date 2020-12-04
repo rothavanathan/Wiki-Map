@@ -257,6 +257,24 @@ module.exports = (db) => {
     })
   })
 
+  router.post("/permissions/update", (req,res) => {
+    console.log(`req.body is:`, req.body)
+    console.log(`in permissions update route`, req.body.permissions.isfavorite)
+    db.query(`
+    UPDATE map_permissions
+    SET isFavorite = $1
+    WHERE map_permissions.user_id = $2 AND map_permissions.map_id = $3
+    RETURNING *
+    `, [req.body.permissions.isfavorite, req.body.permissions.user_id, req.body.id])
+    .then(data => {
+      res.json({data})
+    })
+    .catch(err => {
+      res.json({err})
+    })
+  })
+
+
   router.post("/markers", (req, res) => {
     const map_id = req.session.mapId.id;
     const query = `
