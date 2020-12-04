@@ -1,11 +1,7 @@
-//select #main-area
-//clear main div of content
-//load new map
-
 
 //get markers from map
 function load_marker(marker, map, infoWindow) {
-  console.log(JSON.parse(marker.latlng));
+
   const newMarker = new google.maps.Marker({
     map,
     position: JSON.parse(marker.latlng),
@@ -30,8 +26,6 @@ function load_marker(marker, map, infoWindow) {
   newMarker.addListener('drag', (e) => {
     //store tempPosition of marker
     tempPosition = e.latLng;
-    //update position in database
-    console.log(tempPosition);
   })
   return newMarker;
 }
@@ -58,7 +52,6 @@ const getMarkersForMap = (map) => {
 //pass function a map.id and load the map
 const loadMap = (map) => {
   //clear main-area of child nodes
-  console.log(map);
   $("#main-area")
   .empty()
   .append(`<h1 class="mt-4 text-center">${map.title}</h1>
@@ -87,46 +80,6 @@ const loadMap = (map) => {
     });
 
 
-  // //fits all markers in initial map zoom
-
-
-
-
-
-  // // initial set up of all the points that are saved with map object
-  // markers.map(point => {
-  //   load_marker(point, mapObject, infoWindow)
-  // });
-
-  // //creates new marker object on dblclick event
-  // mapObject.addListener("rightclick", (e) => {
-  //   console.log("rightclick");
-  //   const marker = new google.maps.Marker({
-  //     position: e.latLng,
-  //     map: mapObject,
-  //     draggable: true,
-  //     clickable: true
-  //   })
-  //   //adds new marker to list of markerPoints
-  //   markers.push(marker);
-  //   console.log(markers)
-
-  //   marker.addListener("click", () => {
-  //     console.log(marker.getPosition())
-  //     point = marker.getPosition();
-  //     marker.setPosition(point)
-  //     infoWindow.open(map, marker)
-
-
-  //   });
-
-  //   //add drag functionality to replace marker position
-  //   marker.addListener('drag', (e) => {
-  //     //store tempPosition of marker
-  //     tempPosition = e.latLng;
-  //     //update position in database
-  //     console.log(tempPosition);
-  //   })
 
 };
 

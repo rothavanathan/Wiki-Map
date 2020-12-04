@@ -32,8 +32,6 @@ const faveButtonListener = (map) => {
       data,
       url: `/api/maps/permissions/update`,
       method: 'POST'
-    }).then(data => {
-      console.log(`isFavorite changed`, data.data.rows[0].map_id, data.data.rows[0].isfavorite)
     }).catch(err => console.log(err))
   })
 
@@ -45,7 +43,6 @@ const showPublicMaps = () => {
     url: "/api/maps/public",
     dataType: 'json'
   }).then(data => {
-    console.log(data)
     const maps = data.publicMaps;
     //populate main area with a title and ul
     $('#main-area').append(`<h1 class="mt-4 text-center">Public Maps</h1>
@@ -81,8 +78,6 @@ const showFaveMaps = () => {
     url: "/api/maps/fave",
     dataType: 'json'
   }).then(data => {
-
-    console.log(data)
     const maps = data.faveMaps;
     //populate main area with a title and ul
     $('#main-area').append(`<h1 class="mt-4 text-center">Fave Maps</h1>
@@ -112,8 +107,6 @@ const showMyMaps = () => {
     url: "/api/maps/contributed",
     dataType: 'json'
   }).then(data => {
-
-    console.log(data)
     const maps = data.uniqueMaps;
     //populate main area with a title and ul
     $('#main-area').append(`<h1 class="mt-4 text-center">My Maps</h1>
@@ -133,7 +126,6 @@ const showMyMaps = () => {
 //listener for menu item
 const myMapsListener = () =>  {
   $('#contributions-map').on('click', ()=> {
-    console.log(`clicked the my contribution button`)
     clearMainArea()
     showMyMaps();
   });

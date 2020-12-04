@@ -40,7 +40,7 @@ const showMapDetailForm = () => {
 
   <hr/>
     <div class="form-group d-flex justify-content-center">
-      <button id="setupButton" form="mapSetup" class="btn-save btn btn-primary" data-toggle="collapse" href="#privateCollapse"">Set Map Details</button>
+      <button id="setupButton" form="mapSetup" class="btn-save btn btn-secondary" data-toggle="collapse" href="#privateCollapse"">Set Map Details</button>
     </div>
 
   <form id="authenticUsers">
@@ -54,7 +54,7 @@ const showMapDetailForm = () => {
       <hr/>
 
       <div class="form-group d-flex justify-content-center">
-      <button form="authenticUsers" type="submit" class="btn-save btn btn-primary btn-sm">Save</button>
+      <button form="authenticUsers" type="submit" class="btn-save btn btn-secondary btn-sm">Save</button>
       <input class="form-control" type="text" placeholder="Save your selected Users" readonly>
       </div>
     </div>
@@ -81,8 +81,6 @@ const showMapDetailForm = () => {
 
   $("#mapSetup").find("input, textarea").on("change", (event) => {
     let key = event.target.name
-    console.log(key)
-    console.log(event.target.name, event.target.value)
     mapFormData[key] = event.target.value
   })
 
@@ -92,14 +90,12 @@ const showMapDetailForm = () => {
     $("#generate_map").attr("disabled", false);
     $("#generate_map").css("background-color", "#4d90fe")
     $("#generate_map").css("color", "#fff")
-    console.log("Saved Form Data")
     insertMap(mapFormData)
   })
 
   //Creates map in Database
 
   const insertMap = (mapFormData) => {
-    console.log("this is the data", mapFormData)
     $.ajax({
       method: "POST",
       url: "/api/maps/save",
@@ -120,7 +116,7 @@ const showMapDetailForm = () => {
     for(let key in mapAuthentication) {
     if(mapAuthentication[key] === chosenUser){
       finalUser = key;
-      console.log(finalUser)
+
       }
     }
     authorizeUser(finalUser, chosenUser)
@@ -235,7 +231,6 @@ const displayNewMap = () => {
       clearMainArea();
       showPublicMaps();
     })
-    console.log("sending this obj to DB", markerSQL)
 
   }
 
@@ -258,7 +253,7 @@ const displayNewMap = () => {
         <input type="text" class="form-control" id="pictureAltText" name="img_alt_text" placeholder="Img description here...">
       </div>
       <div class="form-group d-flex justify-content-center">
-      <button type="submit" name="saveFlag" class="saveFlag btn btn-primary">Submit</button>
+      <button type="submit" name="saveFlag" class="saveFlag btn btn-secondary">Submit</button>
       </div>
     </form>
   `
@@ -282,7 +277,6 @@ const displayNewMap = () => {
 
     //Listening event to generate marker on rightclick
     map.addListener("rightclick", (event) => {
-      console.log("map right click!")
       const marker = new google.maps.Marker({
         position: event.latLng,
         map,
@@ -312,13 +306,12 @@ const displayNewMap = () => {
 
       $iwForm.on("submit", (event) => {
         event.preventDefault();
-        console.log("saving form")
         marker.formData.latlng = marker.getPosition();
         infoWindow.close()
       })
 
       //Delete button (needs re-working)
-      // <button type="button" name="deleteFlag" class="deleteFlag btn btn-primary">Delete</button>
+      // <button type="button" name="deleteFlag" class="deleteFlag btn btn-info">Delete</button>
       // $iwForm.find("[type='button']").on("click", (event) => {
       //   console.log(event.target)
       //   event.preventDefault();
@@ -330,15 +323,12 @@ const displayNewMap = () => {
       $iwForm.find("input, textarea").on("change", (event) => {
         let target = event.target
         marker.formData[target.name] = target.value;
-        console.log(target.name, target.value)
       })
 
       marker.addListener("click", (e) => {
-        console.log("Marker click!")
         map.setCenter(e.latLng);
         infoWindow.open(map, marker)
         let markerSpot = marker.getPosition()
-        console.log(markerSpot)
       });
 
       newMarkers.push(marker);

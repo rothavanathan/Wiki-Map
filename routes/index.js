@@ -16,7 +16,6 @@ module.exports = (db) => {
         WHERE maps.isPublic = true`)
         .then(results => {
           templateVars = results.rows
-          console.log(`data on load without cookie is: `, templateVars)
           res.render("index", {templateVars})
         })
         .catch(err => console.log(err))
@@ -31,7 +30,6 @@ module.exports = (db) => {
         .then(results => {
           templateVars = results.rows
           templateVars.userId = req.session.userId
-          console.log(`data on load with cookie is: `, templateVars)
           res.render("index", {templateVars});
         })
         .catch(err => console.log(err))

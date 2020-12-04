@@ -21,8 +21,6 @@ const createLoginSubmitListener = () => {
    })
      //successful login attempt
      .then(res => {
-       console.log(`user is logged in`)
-       console.log(`userinfo[0] is: `, res.userInfo[0])
        loadProfile(res.userInfo[0])
        clearMainArea();
        showPublicMaps();
@@ -62,7 +60,7 @@ const displayLoginForm = () => {
 
   //submit button
   $("#login-form")
-    .append(`<button type="submit" class="btn btn-primary mt-4">Submit</button>`);
+    .append(`<button type="submit" class="btn btn-secondary mt-4">Submit</button>`);
 
   createLoginSubmitListener();
 }
@@ -86,7 +84,6 @@ const createRegistrationSubmitListener = () => {
     })
      //successful registration attempt
       .then(user => {
-        console.log(`new registered user: `, user)
         loadProfile(user)
         clearMainArea();
         showPublicMaps();
@@ -138,7 +135,7 @@ const displayRegistrationForm = () => {
 
   //submit button
   $("#register-form")
-    .append(`<button type="submit" class="btn btn-primary mt-4">Submit</button>`);
+    .append(`<button type="submit" class="btn btn-secondary mt-4">Submit</button>`);
 
   createRegistrationSubmitListener();
 }

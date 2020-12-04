@@ -78,10 +78,8 @@ module.exports = (db) => {
     return getUserWithEmail(email, database)
     .then(rows => {
       if (bcrypt.compareSync(passwordInput, rows[0].password)) {
-        console.log(`inside login(). password matches`)
         return Promise.resolve(rows);
       } else {
-        console.log(`inside login(). password does not match`)
         return Promise.reject(null);
       }
     })
@@ -138,12 +136,10 @@ module.exports = (db) => {
 
     return login(email, password, db)
       .then(userInfo => {
-        console.log(`userInfo returned from login(): `, userInfo )
         if (!userInfo) {
           throw Error;
           return;
         }
-        console.log(`userInfo to pass to cookies:`, userInfo[0])
         req.session.userId = userInfo[0].id;
         req.session.handle = userInfo[0].handle;
         req.session.avatar = userInfo[0].avatar_url;
@@ -155,7 +151,6 @@ module.exports = (db) => {
 
   router.get("/logout", (req, res) => {
     req.session = null;
-    console.log(`logout post route!`);
     res.send(`logout route`)
   })
 

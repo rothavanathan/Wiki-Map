@@ -14,9 +14,7 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     let query = `
     SELECT * FROM maps
-
     `;
-    console.log(query);
     return db.query(query)
       .then(mapD => {
         const maps = mapD.rows;
@@ -214,13 +212,10 @@ module.exports = (db) => {
 
 
   router.post("/save", (req, res) => {
-    // console.log("this happened")
     const owner_id = req.session.userId;
-    // console.log("owner_id", owner_id)
-    // console.log("this is req.body", req.body)
+
     const mapData = req.body;
-    // console.log(mapData)
-    // res.send(mapFormData)
+
     const query = `
     INSERT INTO maps (owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic)
     VALUES ($1, $2, $3, $4, $5, $6)
@@ -230,7 +225,6 @@ module.exports = (db) => {
     db.query(query, params)
     .then(data => {
       req.session.mapId = data.rows[0]
-      console.log("my session map", req.session.mapId.id)
       res.send(data.rows[0])
     })
     .catch(err => {
@@ -242,7 +236,6 @@ module.exports = (db) => {
   router.post("/permissions", (req,res) => {
     const map_id = req.session.mapId.id;
     const user_id = req.body.key;
-    console.log("mapId is", map_id, "user is", user_id, typeof user_id)
     const query = `
     INSERT INTO map_permissions (user_id, map_id, isAuthenticated)
     VALUES ($1, $2, $3)
@@ -258,8 +251,6 @@ module.exports = (db) => {
   })
 
   router.post("/permissions/update", (req,res) => {
-    console.log(`req.body is:`, req.body)
-    console.log(`in permissions update route`, req.body.permissions.isfavorite)
     db.query(`
     UPDATE map_permissions
     SET isFavorite = $1
@@ -287,7 +278,6 @@ module.exports = (db) => {
     })
     Promise.all(queryPromises)
     .then(data => {
-      console.log(data)
       res.json({data})
     })
     .catch(err => {
