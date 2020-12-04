@@ -30,7 +30,7 @@ const createLoginSubmitListener = () => {
     //failed post or login attempt
       .catch(err => {
         $("#login-form")
-          .append(`<div class="alert alert-danger" role="alert">whoops! login failed, try again</div>`);
+          .append(`<div class="alert alert-danger mt-4" role="alert">whoops! login failed, try again</div>`);
         $("#login-form").delegate('input', 'focus', ()=> {
           $('.alert').hide();
         });
@@ -93,7 +93,7 @@ const createRegistrationSubmitListener = () => {
     //failed registration attempt
       .catch(err => {
         $("#register-form")
-          .append(`<div class="alert alert-danger" role="alert">whoops! registration failed, try again</div>`);
+          .append(`<div class="alert alert-danger mt-4" role="alert">whoops! registration failed, try again</div>`);
         $("#register-form").delegate('input', 'focus', ()=> {
           $('.alert').hide();
         });
