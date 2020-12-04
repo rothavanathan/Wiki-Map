@@ -7,6 +7,10 @@ body h1 {
   color: #244751;
 }
 
+body .sidebar-heading {
+  height: 56px;
+}
+
 body .avatar {
   width: 200px;
   height: 200px;

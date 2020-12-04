@@ -36,7 +36,9 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading"><i class="fas fa-globe"></i> WIKI - MAPS </div>
+      <div class="sidebar-heading">
+
+      </div>
       <!-- checks for cookies -->
 
 
@@ -51,12 +53,12 @@
         <% } %>
 
 
-        <a href="#" id="public-map" class="list-group-item list-group-item-action bg-light">PublicMaps</a>
+        <a href="#" id="public-map" class="list-group-item list-group-item-action bg-light text-center">Public Maps</a>
         <!-- checks for cookies -->
         <% if (templateVars.userId) { %>
-          <a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
-          <a href="#" id="contributions-map" class="list-group-item list-group-item-action bg-light profileTabs">MyMaps</a>
-          <a href="#" id="create_new_map" class="list-group-item list-group-item-action bg-light profileTabs">GenerateMap</a>
+          <a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light text-center profileTabs">My Faves</a>
+          <a href="#" id="contributions-map" class="list-group-item list-group-item-action bg-light text-center profileTabs">My Maps</a>
+          <a href="#" id="create_new_map" class="list-group-item list-group-item-action bg-light text-center profileTabs">Map Generator</a>
         <% } %>
       </div>
     </div>
@@ -66,11 +68,7 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-primary" id="menu-toggle">Menu</button>
-
-        <div id="home-icon" class="navbar-text ml-4">
-          Wiki- Maps
-        </div>
+        <button class="btn btn-info" id="menu-toggle"><i class="fas fa-globe"></i> WIKI - MAPS </button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>

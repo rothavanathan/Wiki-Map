@@ -13,9 +13,9 @@ const loadProfile = (userInfo)=> {
 
 
   //shows logged in menu items
-  $('.list-group').append(`<a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
-  <a href="#" id="contributions-map" class="list-group-item list-group-item-action bg-light profileTabs">MyMaps</a>
-  <a href="#" id="create_new_map" class="list-group-item list-group-item-action bg-light profileTabs">MapGenerator</a>`)
+  $('.list-group').append(`<a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light text-center profileTabs">My Faves</a>
+  <a href="#" id="contributions-map" class="list-group-item list-group-item-action bg-light text-center profileTabs">My Maps</a>
+  <a href="#" id="create_new_map" class="list-group-item list-group-item-action bg-light text-center profileTabs"> Map Generator</a>`)
 
 
 
