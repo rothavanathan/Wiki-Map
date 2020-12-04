@@ -67,11 +67,13 @@ const showPublicMaps = () => {
   })
 };
 
+const publicMapListener = () => {
+  $('#public-map').on('click', ()=> {
+    clearMainArea();
+    showPublicMaps();
+  });
+}
 
-$('#public-map').on('click', ()=> {
-  clearMainArea();
-  showPublicMaps();
-});
 
 //gets list of all maps and appends #fave-map-list in main area
 const showFaveMaps = () => {
@@ -100,5 +102,11 @@ const faveMapListener = () =>  {
   $('#fave-map').on('click', ()=> {
     clearMainArea();
     showFaveMaps();
+  });
+}
+
+const myContributionsListener = () =>  {
+  $('#contributions-map').on('click', ()=> {
+    console.log(`clicked the my contribution button`)
   });
 }

@@ -91,13 +91,14 @@ $(document).ready(function() {
   // }).then(data => {
     //where do we get info from?
     // removeProfile()
-  clearMainArea();
-  showPublicMaps();
+
   addMapGenListener();
+  publicMapListener();
+  myContributionsListener();
+  faveMapListener();
   addLoginListener();
   addLogoutListener();
   addRegisterListener();
-  faveMapListener();
   // })
 })
 
