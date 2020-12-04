@@ -105,7 +105,7 @@ module.exports = (db) => {
     let query = `
       SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url FROM maps
       JOIN users ON maps.owner_id = users.id
-      WHERE maps.isPublic = true
+
       `;
     return db.query(query)
       .then(data1 => {

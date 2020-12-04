@@ -38,7 +38,7 @@ body .mapPost {
 }
 
 body .mapPost:hover {
-  box-shadow: 3px 3px 8px 3px rgba(31, 30, 30, 0.073);
+  box-shadow: 3px 3px 8px 3px rgba(31, 30, 30, 0.173);
   opacity: 1;
   transition-duration: 100ms;
 }

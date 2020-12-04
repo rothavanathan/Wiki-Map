@@ -12,23 +12,6 @@ const router  = express.Router();
 
 module.exports = (db) => {
 
-  //display all users from database
-  router.get("/", (req, res) => {
-    const currentUser = req.session.userId;
-    db.query(`SELECT * FROM users;`)
-      .then(data => {
-        const users = data.rows;
-        res.json({ users, currentUser });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
-  });
-
-
-
 
   //function to check if user email is in database
   const isEmailRegistered = (email, database) => {
@@ -85,6 +68,21 @@ module.exports = (db) => {
       });
   };
 
+  //display all users from database
+  router.get("/", (req, res) => {
+    const currentUser = req.session.userId;
+    db.query(`SELECT * FROM users;`)
+      .then(data => {
+        const users = data.rows;
+        res.json({ users, currentUser });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
   //add create/register user route
   router.post('/', (req, res) => {
     const {handle, email, password, avatar} = req.body;
@@ -128,8 +126,6 @@ module.exports = (db) => {
 
 
   });
-
-
 
   //post login request
   router.post("/login", (req, res) => {
