@@ -149,6 +149,7 @@ module.exports = (db) => {
       })
   })
 
+
   router.get("/contributed", (req, res) => {
     //if no user cookie
     if (!req.session.userId) {
