@@ -10,7 +10,7 @@ function load_marker(marker, map, infoWindow) {
     map,
     position: JSON.parse(marker.latlng),
     clickable: true,
-    draggable:true
+    draggable: false
   });
 
   //save passed marker info to newMarker object

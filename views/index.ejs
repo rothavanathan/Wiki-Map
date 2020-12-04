@@ -25,7 +25,7 @@
     <script src="https://kit.fontawesome.com/192259f29d.js" crossorigin="anonymous"></script>
 
     <script
-    src="https://maps.googleapis.com/maps/api/js?key=&callback=initAutocomplete&libraries=places&v=weekly"
+    src="https://maps.googleapis.com/maps/api/js?key=&callback=&libraries=places&v=weekly"
     defer
     ></script>
 
@@ -50,12 +50,12 @@
         <% } %>
 
 
-        <a href="#" id="public-map" class="list-group-item list-group-item-action bg-light">Public Maps</a>
+        <a href="#" id="public-map" class="list-group-item list-group-item-action bg-light">PublicMaps</a>
         <!-- checks for cookies -->
         <% if (templateVars.userId) { %>
           <a href="#" id="fave-map" class="list-group-item list-group-item-action bg-light profileTabs">MyFaves</a>
           <a href="#" id="contributions-map" class="list-group-item list-group-item-action bg-light profileTabs">MyMaps</a>
-          <a href="#" id="create_new_map" class="list-group-item list-group-item-action bg-light profileTabs">Generate Map</a>
+          <a href="#" id="create_new_map" class="list-group-item list-group-item-action bg-light profileTabs">GenerateMap</a>
         <% } %>
       </div>
     </div>

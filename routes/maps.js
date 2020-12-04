@@ -149,6 +149,69 @@ module.exports = (db) => {
       })
   })
 
+  router.get("/contributed", (req, res) => {
+    //if no user cookie
+    if (!req.session.userId) {
+      res.sendStatus(401).send(`401 - Please login for fave maps`);
+    }
+    let query = `
+      SELECT maps.id, owner_id, title, description, thumbnail_photo_url, thumbnail_alt_text, isPublic, users.handle as owner_handle , users.avatar_url FROM maps
+      JOIN users ON maps.owner_id = users.id
+      WHERE maps.isPublic = true
+      `;
+      return db.query(query)
+        .then(data1 => {
+          let query = `
+          SELECT maps.id, map_permissions.user_id, map_permissions.isFavorite, map_permissions.isAuthenticated, map_permissions.isContributor, map_permissions.map_id FROM maps
+          JOIN users ON maps.owner_id = users.id
+          JOIN map_permissions ON map_permissions.map_id = maps.id
+          WHERE (map_permissions.user_id = $1 AND (map_permissions.isAuthenticated = true OR map_permissions.isContributor)) OR maps.owner_id = $1
+          `;
+          db.query(query, [req.session.userId] )
+          .then(data2 => {
+
+
+            const maps = data1.rows;
+            const users_map_permissions = data2.rows;
+
+            const myMaps = [];
+
+            //merge data
+            for (const map of maps) {
+              map.permissions = {
+                isFavorite: false,
+                isAuthenticated: false,
+                isContributor: false
+              }
+              for (const map_permissions of users_map_permissions) {
+                if (map.id === map_permissions.map_id) {
+                  map.permissions = {...map_permissions}
+                  myMaps.push(map);
+                }
+              }
+            }
+
+            const mapIDs = [];
+            const uniqueMaps = [];
+
+            for (const map of myMaps) {
+              if (!mapIDs.includes(map.id)) {
+                mapIDs.push(map.id);
+                uniqueMaps.push(map);
+              }
+            }
+
+            res.json({ uniqueMaps });
+          })
+          .catch(err => {
+            res
+              .status(500)
+              .json({ error: err.message });
+          });
+      })
+  })
+
+
   router.post("/save", (req, res) => {
     // console.log("this happened")
     const owner_id = req.session.userId;
@@ -174,6 +237,7 @@ module.exports = (db) => {
       res.json({err})
     });
   })
+
   router.post("/permissions", (req,res) => {
     const map_id = req.session.mapId.id;
     const user_id = req.body.key;
@@ -191,6 +255,7 @@ module.exports = (db) => {
       res.json({err})
     })
   })
+
   router.post("/markers", (req, res) => {
     const map_id = req.session.mapId.id;
     // const markerInfo = req.body[0];
