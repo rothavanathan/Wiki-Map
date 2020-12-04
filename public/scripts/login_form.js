@@ -62,7 +62,7 @@ const displayLoginForm = () => {
 
   //submit button
   $("#login-form")
-    .append(`<button type="submit" class="btn btn-primary">Submit</button>`);
+    .append(`<button type="submit" class="btn btn-primary mt-4">Submit</button>`);
 
   createLoginSubmitListener();
 }
@@ -138,7 +138,7 @@ const displayRegistrationForm = () => {
 
   //submit button
   $("#register-form")
-    .append(`<button type="submit" class="btn btn-primary">Submit</button>`);
+    .append(`<button type="submit" class="btn btn-primary mt-4">Submit</button>`);
 
   createRegistrationSubmitListener();
 }
