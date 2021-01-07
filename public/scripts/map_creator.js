@@ -1,4 +1,35 @@
+//list all the parts
+
+//show the form for inputting the map details
+//listeners for map detail form
+//event listener for authentication of users on map
+
+//create map in database
+
+//map permission/ authentication functions
+
+//display new Map
+
+//event listener and logic for saving markers that belong to map
+
+
+
+
+
+
+
+
+
+
 const showMapDetailForm = () => {
+  const mapFormData = {
+    title: "",
+    description: "",
+    thumbnail_photo_url: "",
+    thumbnail_alt_text: "",
+    isPublic: true
+  };
+
   $("#main-area")
   //clear main-area of child nodes
     .empty()
@@ -93,22 +124,6 @@ const showMapDetailForm = () => {
     insertMap(mapFormData);
   });
 
-  //Creates map in Database
-
-  const insertMap = (mapFormData) => {
-    $.ajax({
-      method: "POST",
-      url: "/api/maps/save",
-      data: mapFormData
-    });
-  };
-
-  // Map permission functions
-
-  // Containers for storing permission related data
-  const mapAuthentication = {};
-  let chosenUser;
-
   //Sends key and handle of chosen user to Authorize user function
   $("#authenticUsers").on("submit", (event) => {
     let finalUser;
@@ -126,6 +141,24 @@ const showMapDetailForm = () => {
     chosenUser = event.target.value;
   });
 
+  //Creates map in Database
+
+  const insertMap = (mapFormData) => {
+    $.ajax({
+      method: "POST",
+      url: "/api/maps/save",
+      data: mapFormData
+    });
+  };
+
+  // Map permission functions
+
+  // Containers for storing permission related data
+  const mapAuthentication = {};
+  let chosenUser;
+
+
+
   //Inserts User into DB as authorized user for Map
   const authorizeUser = (finalUser, chosenUser) => {
     const user_id = finalUser;
@@ -141,12 +174,13 @@ const showMapDetailForm = () => {
     }
   };
 
-  const mapFormData = {
-    title: "",
-    description: "",
-    thumbnail_photo_url: "",
-    thumbnail_alt_text: "",
-    isPublic: true
+
+  const generateHandleList = (userHandles) => {
+    userHandles.forEach((handle) => {
+      $("#handleList").append(`
+      <option>${handle}</option>
+      `);
+    });
   };
 
   // Retrieves user info and send to generateHandleList
@@ -168,13 +202,6 @@ const showMapDetailForm = () => {
     });
   };
 
-  const generateHandleList = (userHandles) => {
-    userHandles.forEach((handle) => {
-      $("#handleList").append(`
-      <option>${handle}</option>
-      `);
-    });
-  };
 
   //Grabs User and Handles for list population
   fetchUserHandleList();
@@ -234,7 +261,10 @@ const displayNewMap = () => {
 
   };
 
-  const contentString = `
+
+  //New map request function
+  function newMap() {
+    const contentString = `
     <form>
       <div class="form-group">
         <label for="title">Title</label>
@@ -256,9 +286,8 @@ const displayNewMap = () => {
       <button type="submit" name="saveFlag" class="saveFlag btn btn-secondary">Submit</button>
       </div>
     </form>
-  `;
-  //New map request function
-  function newMap() {
+    `;
+
     const map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 43.6532, lng: -79.3832 },
       zoom: 15,
