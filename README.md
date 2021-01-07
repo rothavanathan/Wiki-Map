@@ -1,7 +1,8 @@
 # Wiki-Maps
 A single page web app for generating, storing and sharing maps that mean something to you. Favourite maps made by other users so you can re-visit them without any hassle.
 
-<img src="./Wiki-Map_demo.gif" width="40%">
+<img src="./Wiki-Map_demo.gif">
+<img src="./Wiki-Map_demo_lowres.gif">
 
 ## Stack and Technologies used
 - Google Maps API
